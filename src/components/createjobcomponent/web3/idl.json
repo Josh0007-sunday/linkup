@@ -1,0 +1,86 @@
+{
+    "version": "0.1.0",
+    "name": "job_listing",
+    "instructions": [
+        {
+            "name": "createJobListing",
+            "accounts": [
+                {
+                    "name": "jobListing",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "creator",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "projectName",
+                    "type": "string"
+                },
+                {
+                    "name": "position",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "time",
+                    "type": "i64"
+                },
+                {
+                    "name": "applyUrl",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "accounts": [
+        {
+            "name": "JobListing",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "creator",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "projectName",
+                        "type": "string"
+                    },
+                    {
+                        "name": "position",
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "type": "string"
+                    },
+                    {
+                        "name": "time",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "applyUrl",
+                        "type": "string"
+                    },
+                    {
+                        "name": "status",
+                        "type": "string"
+                    }
+                ]
+            }
+        }
+    ]
+}
