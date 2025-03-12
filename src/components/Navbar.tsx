@@ -139,13 +139,6 @@ const Navbar: React.FC = () => {
             >
               Create Ads
             </Link>
-            <Link
-              to="/odessy"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-              onClick={toggleMenu}
-            >
-              Odessy Season 1
-            </Link>
 
             {/* Mobile Profile and Wallet Section */}
             {user ? (
