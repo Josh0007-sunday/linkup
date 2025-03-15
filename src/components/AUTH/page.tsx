@@ -3,6 +3,9 @@ import axios from "axios";
 
 
 interface User {
+  privatekey: string,
+  tiplinkUrl: string; 
+  publicKey: string;
   img: string;
   portfolio: string;
   github_url: string;

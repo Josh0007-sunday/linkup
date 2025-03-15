@@ -1,14 +1,66 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaBars, FaTimes, FaSignOutAlt, FaUserCircle, FaCog, FaUser } from 'react-icons/fa';
+import { FaBars, FaTimes, FaSignOutAlt, FaUserCircle, FaCog, FaUser, FaWallet, FaHistory, FaExternalLinkAlt, FaMoneyBillWave } from 'react-icons/fa';
 import { useAuth } from './AUTH/page';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import toast from 'react-hot-toast';
+import { Connection, PublicKey } from '@solana/web3.js';
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [isWalletDrawerOpen, setIsWalletDrawerOpen] = useState(false);
+  const [isWalletLoading, setIsWalletLoading] = useState(false);
+  const [usdcBalance, setUsdcBalance] = useState('0.00');
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+
+  // USDC token mint address on Solana (mainnet)
+  const USDC_MINT = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
+
+  useEffect(() => {
+    // Fetch USDC balance when wallet drawer is opened and user has a public key
+    if (isWalletDrawerOpen && user?.publicKey) {
+      fetchUsdcBalance();
+    }
+  }, [isWalletDrawerOpen, user?.publicKey]);
+
+  const fetchUsdcBalance = async () => {
+    if (!user?.publicKey) return;
+
+    try {
+      setIsWalletLoading(true);
+
+      // Connect to Solana
+      const connection = new Connection('https://mainnet.helius-rpc.com/?api-key=4c4a4f43-145d-4406-b89c-36ad977bb738', 'confirmed');
+      const publicKey = new PublicKey(user.publicKey);
+
+      // Find all token accounts owned by this address
+      const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
+        publicKey,
+        { programId: TOKEN_PROGRAM_ID }
+      );
+
+      // Find the USDC token account
+      const usdcAccount = tokenAccounts.value.find(
+        account => account.account.data.parsed.info.mint === USDC_MINT.toString()
+      );
+
+      if (usdcAccount) {
+        // Get the balance
+        const balance = usdcAccount.account.data.parsed.info.tokenAmount.uiAmount;
+        setUsdcBalance(balance.toFixed(2));
+      } else {
+        setUsdcBalance('0.00');
+      }
+    } catch (error) {
+      console.error('Error fetching USDC balance:', error);
+      toast.error('Failed to fetch USDC balance');
+      setUsdcBalance('0.00');
+    } finally {
+      setIsWalletLoading(false);
+    }
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -18,9 +70,31 @@ const Navbar: React.FC = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
 
+  const toggleWalletDrawer = () => {
+    setIsWalletDrawerOpen(!isWalletDrawerOpen);
+  };
+
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  const handleWithdrawFunds = () => {
+    navigate('/send-tokens');
+  };
+
+  const truncateAddress = (address: string) => {
+    if (!address) return '';
+    if (address.length <= 16) return address;
+    return `${address.substring(0, 8)}...${address.substring(address.length - 8)}`;
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success('Copied to clipboard!');
+    }).catch(() => {
+      toast.error('Failed to copy.');
+    });
   };
 
   return (
@@ -31,20 +105,26 @@ const Navbar: React.FC = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-6">
           <Link to="/bounties" className="text-gray-600 hover:text-gray-900 transition-colors">
-            <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">Earn</span>
+            <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Earn</span>
           </Link>
           <Link to="/serviceList" className="text-gray-600 hover:text-gray-900 transition-colors">Services</Link>
           <Link to="/profile" className="text-gray-600 hover:text-gray-900 transition-colors">Profile</Link>
           <Link to="/services" className="text-gray-600 hover:text-gray-900 transition-colors">Create Ads</Link>
-          {/* <Link to="/odessy" className="text-gray-600 hover:text-gray-900 transition-colors">Odessy Season 1</Link> */}
         </div>
 
         {/* Desktop Profile and Wallet Section */}
         <div className="hidden md:flex space-x-4 items-center relative">
           {user ? (
             <>
-              <WalletMultiButton />
+              {/* Wallet Icon */}
+              <button
+                onClick={toggleWalletDrawer}
+                className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+              >
+                <FaWallet className="w-6 h-6" />
+              </button>
 
+              {/* Profile Dropdown */}
               <div className="relative">
                 <button
                   onClick={toggleProfileDropdown}
@@ -116,7 +196,7 @@ const Navbar: React.FC = () => {
               className="text-gray-600 hover:text-gray-900 transition-colors"
               onClick={toggleMenu}
             >
-              <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">Earn</span>
+              <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Earn</span>
             </Link>
             <Link
               to="/serviceList"
@@ -143,7 +223,13 @@ const Navbar: React.FC = () => {
             {/* Mobile Profile and Wallet Section */}
             {user ? (
               <>
-                <WalletMultiButton className="w-full text-center" />
+                <button
+                  onClick={toggleWalletDrawer}
+                  className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                >
+                  <FaWallet className="text-gray-400" />
+                  <span>Wallet</span>
+                </button>
                 <div className="flex flex-col space-y-2">
                   <Link
                     to="/profile"
@@ -188,6 +274,130 @@ const Navbar: React.FC = () => {
                 </Link>
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Wallet Drawer */}
+      {isWalletDrawerOpen && (
+        <div className="fixed inset-0 bg-opacity-40 z-50 transition-all" onClick={toggleWalletDrawer}>
+          <div
+            className="fixed right-0 top-0 h-full w-full sm:w-96 bg-white shadow-xl p-0 transition-all transform"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header with gradient */}
+            <div className="text-gray-700 p-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl text-gray-600 font-bold">My Wallet</h2>
+                <button
+                  onClick={toggleWalletDrawer}
+                  className="text-gray-700 hover:text-gray-700 focus:outline-none transition-transform transform hover:rotate-90"
+                >
+                  <FaTimes className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Balance card */}
+              <div className="mt-6 bg-white bg-opacity-10 rounded-lg p-4">
+                <p className="text-sm text-gray-500">Available Balance</p>
+                <div className="flex items-baseline mt-1">
+                  {isWalletLoading ? (
+                    <p className="text-3xl font-bold">Loading...</p>
+                  ) : (
+                    <p className="text-3xl font-bold">{usdcBalance}</p>
+                  )}
+                  <p className="ml-2 text-sm text-gray-500">USDC</p>
+                  <button
+                    onClick={fetchUsdcBalance}
+                    className="ml-2 text-xs text-gray-500 hover:text-gray-700 underline"
+                    disabled={isWalletLoading}
+                  >
+                    Refresh
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Wallet content */}
+            <div className="p-6 space-y-6">
+              {/* Wallet keys section */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-gray-700">Your Wallet Details</h3>
+
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                  <div className="flex justify-between items-center">
+                    <p className="text-sm font-medium text-gray-600">Public Key</p>
+                    <button
+                      onClick={() => copyToClipboard(user?.publicKey || '')}
+                      className="text-gray-400 hover:text-gray-700"
+                    >
+                      <FaExternalLinkAlt className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="flex items-center mt-1">
+                    <p className="text-sm text-gray-800 mr-2 font-mono">
+                      {user?.publicKey ? truncateAddress(user.publicKey) : 'Not connected'}
+                    </p>
+                    <button
+                      onClick={() => copyToClipboard(user?.publicKey || '')}
+                      className="text-gray-500 hover:text-gray-700 text-xs underline"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                  <div className="flex justify-between items-center">
+                    <p className="text-sm font-medium text-gray-600">Tiplink URL</p>
+                    <button
+                      onClick={() => copyToClipboard(user?.tiplinkUrl || '')}
+                      className="text-gray-400 hover:text-gray-700"
+                    >
+                      <FaExternalLinkAlt className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="flex items-center mt-1">
+                    <p className="text-sm text-gray-800 mr-2 font-mono">
+                      {user?.tiplinkUrl ? truncateAddress(user.tiplinkUrl) : 'Not available'}
+                    </p>
+                    <button
+                      onClick={() => copyToClipboard(user?.tiplinkUrl || '')}
+                      className="text-gray-500 hover:text-gray-700 text-xs underline"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Info card */}
+              <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-gray-700">
+                <p className="text-sm text-gray-600">Payments will be automatically deposited to this wallet when you win bounties.</p>
+              </div>
+
+              {/* Action buttons */}
+              <div className="space-y-3 pt-2">
+                {/* Disabled "View Transaction History" button */}
+                <button
+                  disabled
+                  className="w-full bg-gray-300 text-gray-500 py-3 px-4 rounded-lg cursor-not-allowed flex items-center justify-center"
+                >
+                  <FaHistory className="mr-2" />
+                  View Transaction History
+                </button>
+
+                {/* Disabled "Withdraw Funds" button */}
+                <button
+                  onClick={handleWithdrawFunds}
+                  disabled
+                  className="w-full bg-gray-100 text-gray-400 py-3 px-4 rounded-lg cursor-not-allowed flex items-center justify-center"
+                >
+                  <FaMoneyBillWave className="mr-2" />
+                  Withdraw Funds
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

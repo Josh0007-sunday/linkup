@@ -25,6 +25,7 @@ import BountyList from './pages/bounties';
 import BountyDetails from './pages/viewbounty/page';
 import UserOnboarding from './pages/onboarding/page';
 import VerificationPage from './pages/VerifyEmail';
+// import SendTokens from './components/withdraw';
 
 const App: React.FC = () => {
   axios.defaults.baseURL = import.meta.env.VITE_CONNECTION;
@@ -74,6 +75,7 @@ const AppContent: React.FC = () => {
               </ProtectedRoute>
             }
           >
+            {/* <Route path="/send-tokens" element={<SendTokens />} /> */}
             <Route path="/homepage" element={<Home />} />
             <Route path="/recommendation" element={<Recommendation />} />
             <Route path="/profile" element={<Profile />} />
