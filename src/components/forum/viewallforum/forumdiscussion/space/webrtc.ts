@@ -6,8 +6,8 @@ export interface WebRTCOptions {
   }
   
   export const initializeWebRTC = (
-    userId: string,
-    isCreator: boolean,
+    _userId: string,
+    _isCreator: boolean,
     isSpeaker: boolean,
     localStream: MediaStream | null,
     options: WebRTCOptions

@@ -4,7 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Define the API base URL from environment variables

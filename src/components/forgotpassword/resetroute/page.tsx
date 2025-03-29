@@ -7,7 +7,7 @@ const ResetPassword = () => {
   const { token } = useParams(); // Get the reset token from the URL
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {

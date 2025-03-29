@@ -132,34 +132,71 @@ const SpaceControl = ({
   // Handle signaling messages (simplified example)
   useEffect(() => {
     if (!webRTC.current || !space.isActive) return;
-
-    const handleSignal = async (signal: { from: string; data: any }) => {
-      const pc = webRTC.current?.getPeerConnection(signal.from);
+  
+    // Mock signaling implementation - replace with your actual signaling service
+    const signalingChannel = {
+      subscribe: (callback: (signal: any) => void) => {
+        console.log('Signaling channel subscribed');
+        
+        // Mock signal reception - remove in production
+        const mockSignalInterval = setInterval(() => {
+          // This is just for demonstration - remove in real implementation
+          if (Math.random() > 0.9) {
+            callback({
+              from: 'mock-peer',
+              data: {
+                type: 'offer',
+                sdp: 'mock-sdp'
+              }
+            });
+          }
+        }, 5000);
+  
+        return {
+          unsubscribe: () => {
+            clearInterval(mockSignalInterval);
+            console.log('Signaling channel unsubscribed');
+          }
+        };
+      },
+      sendSignal: (to: string, data: any) => {
+        console.log('Signal sent to', to, data);
+        // Implement actual signal sending here
+      }
+    };
+  
+    const subscription = signalingChannel.subscribe(handleSignal);
+    
+    return () => {
+      subscription.unsubscribe();
+    };
+  
+    async function handleSignal(signal: { from: string; data: any }) {
+      const pc = webRTC.current?.getPeerConnection(signal.from) || 
+                 webRTC.current?.createPeerConnection(signal.from);
+      
       if (!pc) return;
-
+  
       try {
         if (signal.data.type === 'offer') {
           await pc.setRemoteDescription(new RTCSessionDescription(signal.data));
           const answer = await pc.createAnswer();
           await pc.setLocalDescription(answer);
-          // Send answer back through signaling channel
-          // signalingChannel.sendSignal(signal.from, { type: 'answer', answer: pc.localDescription });
-        } else if (signal.data.type === 'answer') {
+          signalingChannel.sendSignal(signal.from, { 
+            type: 'answer', 
+            answer: pc.localDescription 
+          });
+        } 
+        else if (signal.data.type === 'answer') {
           await pc.setRemoteDescription(new RTCSessionDescription(signal.data));
-        } else if (signal.data.type === 'candidate') {
+        } 
+        else if (signal.data.type === 'candidate') {
           await pc.addIceCandidate(new RTCIceCandidate(signal.data.candidate));
         }
       } catch (error) {
         console.error('Error handling signal:', error);
       }
-    };
-
-    // Subscribe to signaling channel
-    // const subscription = signalingChannel.subscribe(handleSignal);
-    
-    return () => {
-      // subscription.unsubscribe();
-    };
+    }
   }, [space.isActive]);
 
   // Set audio elements when remote streams change
