@@ -3,6 +3,7 @@ import axios from "axios";
 
 
 interface User {
+  xpNumber: string,
   privatekey: string,
   tiplinkUrl: string; 
   publicKey: string;

@@ -5,6 +5,7 @@ import { useAuth } from './AUTH/page';
 import toast from 'react-hot-toast';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { IoDiamondOutline } from "react-icons/io5";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -109,13 +110,21 @@ const Navbar: React.FC = () => {
           </Link>
           <Link to="/serviceList" className="text-gray-600 hover:text-gray-900 transition-colors">Services</Link>
           <Link to="/profile" className="text-gray-600 hover:text-gray-900 transition-colors">Profile</Link>
+          <Link to="/view-forum" className="text-gray-600 hover:text-gray-900 transition-colors">View Forum</Link>
           <Link to="/services" className="text-gray-600 hover:text-gray-900 transition-colors">Create Ads</Link>
+          <Link to="/create-forum" className="text-gray-600 hover:text-gray-900 transition-colors">Create Forum</Link>
         </div>
 
         {/* Desktop Profile and Wallet Section */}
         <div className="hidden md:flex space-x-4 items-center relative">
           {user ? (
             <>
+
+              <div className="flex items-center space-x-2 bg-gray-100 px-3 py-1 rounded-full">
+                <IoDiamondOutline className="text-blue-500" /> {/* Diamond icon */}
+                <span className="text-gray-700 font-medium">{user.xpNumber || 0} XP</span> {/* XP number */}
+              </div>
+              
               {/* Wallet Icon */}
               <button
                 onClick={toggleWalletDrawer}

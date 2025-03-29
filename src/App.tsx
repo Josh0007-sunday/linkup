@@ -25,6 +25,11 @@ import BountyList from './pages/bounties';
 import BountyDetails from './pages/viewbounty/page';
 import UserOnboarding from './pages/onboarding/page';
 import VerificationPage from './pages/VerifyEmail';
+import ForgotPassword from './components/forgotpassword/page';
+import ResetPassword from './components/forgotpassword/resetroute/page';
+import CreateForum from './components/forum/page';
+import ViewAllForums from './components/forum/viewallforum/page';
+import ForumDiscussion from './components/forum/viewallforum/forumdiscussion/page';
 // import SendTokens from './components/withdraw';
 
 const App: React.FC = () => {
@@ -46,7 +51,7 @@ const AppContent: React.FC = () => {
 
   // Define routes where the Navbar should NOT be shown
   const noNavbarRoutes = ['/', '/signup', '/onboarding'];
-  const noNavbarPrefixRoutes = ['/verify-email'];
+  const noNavbarPrefixRoutes = ['/verify-email', '/forgot-password', '/reset-password', '/forum'];
 
   // Check if the current route matches any noNavbarRoutes or starts with any noNavbarPrefixRoutes
   const shouldShowNavbar = !(
@@ -66,6 +71,9 @@ const AppContent: React.FC = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/onboarding" element={<UserOnboarding />} />
           <Route path="/verify-email/:token" element={<VerificationPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          
 
           {/* Protected Routes (With Navbar) */}
           <Route
@@ -91,6 +99,9 @@ const AppContent: React.FC = () => {
             <Route path="/main/marketingdetails/:id" element={<MarketingPitchDetail />} />
             <Route path="/bounties" element={<BountyList />} />
             <Route path="/bounties/:id" element={<BountyDetails />} />
+            <Route path="/create-forum" element={<CreateForum />} />
+            <Route path="/view-forum" element={<ViewAllForums />} />
+            <Route path="/:forumId/message" element={<ForumDiscussion/>} />
           </Route>
         </Routes>
       </AuthProvider>
