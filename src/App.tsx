@@ -30,7 +30,13 @@ import ResetPassword from './components/forgotpassword/resetroute/page';
 import CreateForum from './components/forum/page';
 import ViewAllForums from './components/forum/viewallforum/page';
 import ForumDiscussion from './components/forum/viewallforum/forumdiscussion/page';
+import { HuddleClient, HuddleProvider } from '@huddle01/react';
 // import SendTokens from './components/withdraw';
+
+
+const huddleClient = new HuddleClient({
+  projectId: '2dkFPqrEKGMGO9iFR0nvZnlv7kU72R9e',
+});
 
 const App: React.FC = () => {
   axios.defaults.baseURL = import.meta.env.VITE_CONNECTION;
@@ -61,6 +67,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <HuddleProvider client={huddleClient}>
       <AuthProvider>
         {/* Conditionally render the Navbar */}
         {shouldShowNavbar && <Navbar />}
@@ -105,6 +112,7 @@ const AppContent: React.FC = () => {
           </Route>
         </Routes>
       </AuthProvider>
+      </HuddleProvider>
     </div>
   );
 };

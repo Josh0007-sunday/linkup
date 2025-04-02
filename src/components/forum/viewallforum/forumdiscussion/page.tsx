@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import SpaceControl from "./space/page";
+import AudioSpace from "./space/page";
 
 interface Attendee {
   user: string | { _id: string }; // User ID
@@ -75,45 +75,6 @@ const ForumDiscussion = () => {
 
   // Default image URLs
   const DEFAULT_USER_IMAGE = "https://static.vecteezy.com/system/resources/thumbnails/010/260/479/small/default-avatar-profile-icon-of-social-media-user-in-clipart-style-vector.jpg";
-
-  // Fetch forum details
-  // useEffect(() => {
-  //   const fetchForumDetails = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const response = await axios.get(`${API_BASE_URL}/forum/${forumId}`, {
-  //         headers: {
-  //           "x-auth-token": token,
-  //         },
-  //       });
-
-  //       const forumData = response.data;
-  //       setForum(forumData);
-
-  //       // Check if the current user is the creator
-  //       const isCreator = forumData.creator._id.toString() === userId;
-
-  //       // Check if the current user is an attendee
-  //       const isAttendee = forumData.attendees.some((attendee: Attendee) => {
-  //         if (typeof attendee.user === 'object' && attendee.user !== null) {
-  //           return attendee.user._id.toString() === userId;
-  //         } else {
-  //           return attendee.user.toString() === userId;
-  //         }
-  //       });
-
-  //       setIsMember(isCreator || isAttendee);
-  //     } catch (error) {
-  //       console.error("Error fetching forum details:", error);
-  //       setError("Failed to load forum details. Please try again later.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchForumDetails();
-  // }, [forumId, userId, token, API_BASE_URL]);
-
   useEffect(() => {
     const fetchForumDetails = async () => {
       try {
@@ -516,26 +477,15 @@ const ForumDiscussion = () => {
               </div>
             </div>
 
-            {forum && (
-              <SpaceControl
-                forumId={forumId!} // Non-null assertion since we know it exists
+            {/**render the audio here */}
+            {forumId && (
+              <AudioSpace
+                forumId={forumId}
                 isCreator={isCreator}
-                userId={userId}
                 token={token}
-                space={forum.space || {
-                  isActive: false,
-                  currentSpeakers: [],
-                  micRequests: []
-                }}
-                onSpaceUpdate={(updatedSpace) => {
-                  setForum(prev => prev ? {
-                    ...prev,
-                    space: updatedSpace
-                  } : null);
-                }}
-                apiBaseUrl={API_BASE_URL}
               />
             )}
+       
 
               {/* Join button for mobile view */}
               {!isMember && (
