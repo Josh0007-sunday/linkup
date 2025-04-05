@@ -5,7 +5,7 @@ import { Audio } from "@huddle01/react/components";
 import toast from "react-hot-toast";
 
 const huddleClient = new HuddleClient({
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID || "2dkFPqrEKGMGO9iFR0nvZnlv7kU72R9e", // Prefer env variable
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID || "2dkFPqrEKGMGO9iFR0nvZnlv7kU72R9e",
 });
 
 interface AudioSpaceProps {
@@ -19,26 +19,30 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [spaceActive, setSpaceActive] = useState<boolean>(false);
+  const [isManuallyConnected, setIsManuallyConnected] = useState<boolean>(false); // New state
 
   const { joinRoom, leaveRoom, state: roomState } = useRoom({
-    onJoin: () => {
-      console.log('Room joined successfully');
+    onJoin: (data) => {
+      console.log('Room joined successfully, roomState:', roomState, 'data:', data);
       toast.success('Successfully joined audio space');
+      setIsManuallyConnected(true); // Ensure UI updates even if roomState lags
     },
-    onLeave: () => {
-      console.log('Room left successfully');
+    onLeave: (data) => {
+      console.log('Room left successfully, roomState:', roomState, 'data:', data);
       toast.success('Left audio space');
+      setIsManuallyConnected(false);
     },
     onFailed: (data) => {
       console.error('Room error:', data);
       toast.error('Error in audio space');
+      setIsManuallyConnected(false);
     },
   });
 
-  const { stream: localAudioStream, enableAudio, disableAudio, isAudioOn } = useLocalAudio();
+  const { enableAudio, disableAudio, isAudioOn } = useLocalAudio();
   const { peerIds } = usePeerIds();
 
-  // Check if space is active on component mount
+  // Check space status and auto-rejoin if creator
   useEffect(() => {
     const checkSpaceStatus = async () => {
       try {
@@ -61,6 +65,11 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
         if (data.active && data.roomId) {
           setSpaceActive(true);
           setRoomId(data.roomId);
+          
+          if (isCreator && roomState !== 'connected' && !isManuallyConnected) {
+            console.log('Creator auto-rejoining active space:', data.roomId);
+            await handleJoinRoom();
+          }
         }
       } catch (error) {
         console.error('Failed to check space status:', error);
@@ -68,7 +77,12 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
     };
 
     checkSpaceStatus();
-  }, [forumId, token]);
+  }, [forumId, token, isCreator]);
+
+  // Monitor roomState changes
+  useEffect(() => {
+    console.log('Current roomState:', roomState, 'isManuallyConnected:', isManuallyConnected);
+  }, [roomState, isManuallyConnected]);
 
   const createRoom = async () => {
     try {
@@ -143,7 +157,10 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
   };
 
   const handleJoinRoom = async () => {
-    if (roomState === 'connected') return;
+    if (roomState === 'connected' || isManuallyConnected) {
+      console.log('Already connected, skipping join');
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -162,24 +179,25 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
       await joinRoom({
         roomId: currentRoomId,
         token: accessToken,
-      }).catch((sdkError) => {
-        console.error('SDK joinRoom error:', sdkError);
-        throw sdkError;
       });
+      console.log('joinRoom called, awaiting state update');
+      setIsManuallyConnected(true); // Assume success if no error thrown
     } catch (err) {
       console.error('Join error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to join audio space';
       setError(errorMessage);
       toast.error(errorMessage);
+      setIsManuallyConnected(false);
     } finally {
       setLoading(false);
     }
   };
 
   const handleLeaveRoom = () => {
-    if (roomState === 'connected') {
+    if (roomState === 'connected' || isManuallyConnected) {
       console.log('Leaving room');
       leaveRoom();
+      setIsManuallyConnected(false);
     }
   };
 
@@ -219,9 +237,9 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
               {isCreator && !spaceActive && (
                 <button
                   onClick={handleJoinRoom}
-                  disabled={roomState === 'connected' || loading}
+                  disabled={roomState === 'connected' || isManuallyConnected || loading}
                   className={`px-4 py-2 rounded-md transition-colors ${
-                    roomState === 'connected' || loading
+                    roomState === 'connected' || isManuallyConnected || loading
                       ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                       : 'bg-blue-600 text-white hover:bg-blue-700'
                   }`}
@@ -229,8 +247,16 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
                   Start Audio Space
                 </button>
               )}
-              
-              {!isCreator && spaceActive && roomState !== 'connected' && (
+              {isCreator && spaceActive && roomState !== 'connected' && !isManuallyConnected && (
+                <button
+                  onClick={handleJoinRoom}
+                  disabled={loading}
+                  className="px-4 py-2 rounded-md transition-colors bg-blue-600 text-white hover:bg-blue-700"
+                >
+                  Rejoin Audio Space
+                </button>
+              )}
+              {!isCreator && spaceActive && roomState !== 'connected' && !isManuallyConnected && (
                 <button
                   onClick={handleJoinRoom}
                   disabled={loading}
@@ -239,8 +265,7 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
                   Join Audio Space
                 </button>
               )}
-              
-              {roomState === 'connected' && (
+              {(roomState === 'connected' || isManuallyConnected) && (
                 <>
                   <button
                     onClick={handleLeaveRoom}
@@ -248,7 +273,6 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
                   >
                     Leave Space
                   </button>
-                  
                   <button
                     onClick={toggleAudio}
                     className={`px-4 py-2 rounded-md transition-colors ${
@@ -269,15 +293,8 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
               </div>
             )}
 
-            {roomState === 'connected' && (
+            {(roomState === 'connected' || isManuallyConnected) && (
               <div className="space-y-4">
-                {localAudioStream && (
-                  <div className="bg-gray-50 p-3 rounded">
-                    <p className="text-sm font-medium text-gray-700 mb-2">Your Microphone:</p>
-                    <Audio stream={localAudioStream} />
-                  </div>
-                )}
-
                 {peerIds.length > 0 && (
                   <div className="bg-gray-50 p-3 rounded">
                     <p className="text-sm font-medium text-gray-700 mb-2">
@@ -290,7 +307,6 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
                     </div>
                   </div>
                 )}
-
                 {peerIds.length === 0 && (
                   <div className="bg-gray-50 p-3 rounded">
                     <p className="text-sm text-gray-600">No other participants yet.</p>
