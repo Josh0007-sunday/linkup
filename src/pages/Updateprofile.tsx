@@ -2,12 +2,12 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { useAuth } from "../components/AUTH/page";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { FaTwitter, FaFacebook, FaLinkedin, FaGithub, FaGlobe } from "react-icons/fa";
+import { FaTwitter, FaFacebook, FaLinkedin, FaGithub, FaGlobe, FaWallet } from "react-icons/fa";
 
 const UpdateProfile = () => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [imageFile, setImageFile] = useState<File | null>(null); // State to store the uploaded image file
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     status: user?.status || "",
     bio: user?.bio || "",
@@ -16,6 +16,7 @@ const UpdateProfile = () => {
     linkedin_url: user?.linkedin_url || "",
     github_url: user?.github_url || "",
     portfolio: user?.portfolio || "",
+    eth_publickey: user?.eth_publickey || ""
   });
 
   const statusOptions = [
@@ -37,7 +38,7 @@ const UpdateProfile = () => {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0]); // Store the selected image file
+      setImageFile(e.target.files[0]);
     }
   };
 
@@ -54,7 +55,14 @@ const UpdateProfile = () => {
         return;
       }
 
-      // Create a FormData object to handle file uploads
+      // Validate eth_publickey (optional, can be empty)
+      if (formData.eth_publickey && !/^0x[a-fA-F0-9]{40}$/.test(formData.eth_publickey)) {
+        toast.error("Invalid Ethereum address. It should start with 0x followed by 40 hexadecimal characters.");
+        setLoading(false);
+        return;
+      }
+
+      // Create FormData for file and text fields
       const formDataToSend = new FormData();
       formDataToSend.append("status", formData.status);
       formDataToSend.append("bio", formData.bio);
@@ -63,8 +71,9 @@ const UpdateProfile = () => {
       formDataToSend.append("linkedin_url", formData.linkedin_url);
       formDataToSend.append("github_url", formData.github_url);
       formDataToSend.append("portfolio", formData.portfolio);
+      formDataToSend.append("eth_publickey", formData.eth_publickey);
       if (imageFile) {
-        formDataToSend.append("img", imageFile); // Append the image file
+        formDataToSend.append("img", imageFile);
       }
 
       const response = await axios.put(
@@ -72,7 +81,7 @@ const UpdateProfile = () => {
         formDataToSend,
         {
           headers: {
-            'Content-Type': 'multipart/form-data', // Important for file uploads
+            'Content-Type': 'multipart/form-data',
             'x-auth-token': token,
           },
           withCredentials: false,
@@ -161,115 +170,144 @@ const UpdateProfile = () => {
               />
             </div>
 
-            {/* Grid for Two Columns */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column */}
+            {/* Public Wallet Section */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Public Wallet</h2>
               <div className="space-y-6">
-                {/* Twitter URL */}
                 <div>
-                  <label htmlFor="twitter_url" className="block text-sm font-medium text-gray-700 mb-2">
-                    Twitter URL
+                  <label htmlFor="eth_publickey" className="block text-sm font-medium text-gray-700 mb-2">
+                    Ethereum Address
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaTwitter className="text-gray-400" />
+                      <FaWallet className="text-gray-400" />
                     </div>
                     <input
-                      id="twitter_url"
-                      name="twitter_url"
-                      type="url"
-                      value={formData.twitter_url}
+                      id="eth_publickey"
+                      name="eth_publickey"
+                      type="text"
+                      value={formData.eth_publickey}
                       onChange={handleInputChange}
                       className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
-                      placeholder="https://twitter.com/yourusername"
-                    />
-                  </div>
-                </div>
-
-                {/* Facebook URL */}
-                <div>
-                  <label htmlFor="facebook_url" className="block text-sm font-medium text-gray-700 mb-2">
-                    Facebook URL
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaFacebook className="text-gray-400" />
-                    </div>
-                    <input
-                      id="facebook_url"
-                      name="facebook_url"
-                      type="url"
-                      value={formData.facebook_url}
-                      onChange={handleInputChange}
-                      className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
-                      placeholder="https://facebook.com/yourusername"
-                    />
-                  </div>
-                </div>
-
-                {/* LinkedIn URL */}
-                <div>
-                  <label htmlFor="linkedin_url" className="block text-sm font-medium text-gray-700 mb-2">
-                    LinkedIn URL
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaLinkedin className="text-gray-400" />
-                    </div>
-                    <input
-                      id="linkedin_url"
-                      name="linkedin_url"
-                      type="url"
-                      value={formData.linkedin_url}
-                      onChange={handleInputChange}
-                      className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
-                      placeholder="https://linkedin.com/in/yourusername"
+                      placeholder="e.g., 0x1234567890abcdef1234567890abcdef12345678"
                     />
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Right Column */}
-              <div className="space-y-6">
-                {/* GitHub URL */}
-                <div>
-                  <label htmlFor="github_url" className="block text-sm font-medium text-gray-700 mb-2">
-                    GitHub URL
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaGithub className="text-gray-400" />
+            {/* Social Links Section */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Social Links</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Left Column */}
+                <div className="space-y-6">
+                  {/* Twitter URL */}
+                  <div>
+                    <label htmlFor="twitter_url" className="block text-sm font-medium text-gray-700 mb-2">
+                      Twitter URL
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <FaTwitter className="text-gray-400" />
+                      </div>
+                      <input
+                        id="twitter_url"
+                        name="twitter_url"
+                        type="url"
+                        value={formData.twitter_url}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                        placeholder="https://twitter.com/yourusername"
+                      />
                     </div>
-                    <input
-                      id="github_url"
-                      name="github_url"
-                      type="url"
-                      value={formData.github_url}
-                      onChange={handleInputChange}
-                      className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
-                      placeholder="https://github.com/yourusername"
-                    />
+                  </div>
+
+                  {/* Facebook URL */}
+                  <div>
+                    <label htmlFor="facebook_url" className="block text-sm font-medium text-gray-700 mb-2">
+                      Facebook URL
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <FaFacebook className="text-gray-400" />
+                      </div>
+                      <input
+                        id="facebook_url"
+                        name="facebook_url"
+                        type="url"
+                        value={formData.facebook_url}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                        placeholder="https://facebook.com/yourusername"
+                      />
+                    </div>
+                  </div>
+
+                  {/* LinkedIn URL */}
+                  <div>
+                    <label htmlFor="linkedin_url" className="block text-sm font-medium text-gray-700 mb-2">
+                      LinkedIn URL
+                    </label>
+                    <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FaLinkedin className="text-gray-400" />
+                        </div>
+                        <input
+                          id="linkedin_url"
+                          name="linkedin_url"
+                          type="url"
+                          value={formData.linkedin_url}
+                          onChange={handleInputChange}
+                          className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                          placeholder="https://linkedin.com/in/yourusername"
+                        />
+                      </div>
                   </div>
                 </div>
 
-                {/* Portfolio URL */}
-                <div>
-                  <label htmlFor="portfolio" className="block text-sm font-medium text-gray-700 mb-2">
-                    Portfolio URL
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaGlobe className="text-gray-400" />
+                {/* Right Column */}
+                <div className="space-y-6">
+                  {/* GitHub URL */}
+                  <div>
+                    <label htmlFor="github_url" className="block text-sm font-medium text-gray-700 mb-2">
+                      GitHub URL
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <FaGithub className="text-gray-400" />
+                      </div>
+                      <input
+                        id="github_url"
+                        name="github_url"
+                        type="url"
+                        value={formData.github_url}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                        placeholder="https://github.com/yourusername"
+                      />
                     </div>
-                    <input
-                      id="portfolio"
-                      name="portfolio"
-                      type="url"
-                      value={formData.portfolio}
-                      onChange={handleInputChange}
-                      className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
-                      placeholder="https://yourportfolio.com"
-                    />
+                  </div>
+
+                  {/* Portfolio URL */}
+                  <div>
+                    <label htmlFor="portfolio" className="block text-sm font-medium text-gray-700 mb-2">
+                      Portfolio URL
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <FaGlobe className="text-gray-400" />
+                      </div>
+                      <input
+                        id="portfolio"
+                        name="portfolio"
+                        type="url"
+                        value={formData.portfolio}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                        placeholder="https://yourportfolio.com"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

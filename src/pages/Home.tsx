@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../components/AUTH/page"; // Adjust the path as needed
 import { useNavigate } from "react-router-dom";
+import ProfileUpdatePopup from "./addon/ProfileUpdatePopup";
+import LinkUpCarousel from "./addon/LinkupCarousel";
 
 // Define the User type (same as in your AuthContext)
 interface User {
@@ -46,6 +48,7 @@ const Home = () => {
   const [jobs, setJobs] = useState<Job[]>([]); // All jobs fetched from the backend
   const [featuredJobs, setFeaturedJobs] = useState<Job[]>([]); // 3 random jobs to display
   const [marketingPitch, setMarketingPitch] = useState<MarketingPitch | null>(null); // Marketing pitch
+  const [showPopup, setShowPopup] = useState(true);
 
   const API_BASE_URL = import.meta.env.VITE_CONNECTION;
   // Fetch users from the backend
@@ -176,8 +179,15 @@ const Home = () => {
     navigate("/viewpage/marketing-pitches");
   };
 
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8">
+
+      {authUser && showPopup && <ProfileUpdatePopup onClose={handleClosePopup} />}
+
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -235,6 +245,8 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <LinkUpCarousel />
 
       {/* Featured Talent Section */}
       <div className="max-w-6xl mx-auto mb-16">

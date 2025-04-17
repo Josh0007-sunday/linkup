@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import LinkUpCarousel from "./addon/LinkupCarousel";
 
 interface Service {
   _id: string;
@@ -82,6 +83,8 @@ const ServiceList = () => {
           },
         }}
       />
+
+       <LinkUpCarousel />
 
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">All Services</h1>

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { ChevronRight, CheckCircle, Clock, Award, Tag as TagIcon } from 'lucide-react';
+import { ChevronRight, CheckCircle, Clock, Award, Tag as TagIcon } from "lucide-react";
+import BountyCarousel from "./addon/BountyCarousel"; // Import the new carousel component
 
 interface Bounty {
   _id: string;
@@ -52,6 +53,7 @@ const BountyList: React.FC = () => {
       
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <BountyCarousel bounties={bounties} /> {/* Moved carousel above the grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Bounty List */}
           <div className="md:col-span-2">

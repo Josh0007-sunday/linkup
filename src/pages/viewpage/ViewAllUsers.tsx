@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LinkUpCarousel from "../addon/LinkupCarousel";
 
 interface User {
   img: string;
@@ -32,7 +33,7 @@ const ViewAllUsers = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-   const API_BASE_URL = import.meta.env.VITE_CONNECTION;
+  const API_BASE_URL = import.meta.env.VITE_CONNECTION;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -58,22 +59,25 @@ const ViewAllUsers = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8">
+
+      <LinkUpCarousel />
+
       <div className="max-w-6xl mx-auto">
-        <button 
+        <button
           onClick={() => navigate("/homepage")}
           className="mb-6 px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200"
         >
           ← Back
         </button>
-        
+
         <h1 className="text-3xl font-bold text-gray-900 mb-8">All Users</h1>
-        
+
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
             {error}
           </div>
         )}
-        
+
         {loading ? (
           <Spinner />
         ) : (
