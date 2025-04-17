@@ -229,6 +229,12 @@ const Navbar: React.FC = () => {
               Create Ads
             </Link>
 
+            <Link to="/view-forum" className="text-gray-600 hover:text-gray-900 transition-colors">View Forum</Link>
+
+            <Link to="/create-forum" className="text-gray-600 hover:text-gray-900 transition-colors">Create Forum</Link>
+
+
+
             {/* Mobile Profile and Wallet Section */}
             {user ? (
               <>
