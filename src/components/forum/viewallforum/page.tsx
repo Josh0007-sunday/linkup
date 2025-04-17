@@ -79,7 +79,7 @@ const ViewPublicForums = () => {
     const handleJoinForum = async (forumId: string, providedPasscode?: string) => {
         setIsJoining(true);
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${API_BASE_URL}/${forumId}/join`,
                 { passcode: providedPasscode },
                 {
@@ -93,7 +93,8 @@ const ViewPublicForums = () => {
             navigate(`/${forumId}/message`);
         } catch (error: any) {
             console.error("Error joining forum:", error);
-            const errorMessage = error.response?.data?.error ||
+            const errorMessage =
+                error.response?.data?.error ||
                 "An error occurred while joining the forum. Please try again.";
             toast.error(errorMessage);
         } finally {
@@ -103,6 +104,34 @@ const ViewPublicForums = () => {
             setSelectedForum(null);
         }
     };
+
+    // const handleJoinForum = async (forumId: string, providedPasscode?: string) => {
+    //     setIsJoining(true);
+    //     try {
+    //         const response = await axios.post(
+    //             `${API_BASE_URL}/${forumId}/join`,
+    //             { passcode: providedPasscode },
+    //             {
+    //                 headers: {
+    //                     "x-auth-token": token,
+    //                 },
+    //             }
+    //         );
+
+    //         toast.success("You have joined the forum successfully!");
+    //         navigate(`/${forumId}/message`);
+    //     } catch (error: any) {
+    //         console.error("Error joining forum:", error);
+    //         const errorMessage = error.response?.data?.error ||
+    //             "An error occurred while joining the forum. Please try again.";
+    //         toast.error(errorMessage);
+    //     } finally {
+    //         setIsJoining(false);
+    //         setShowPasscodeModal(false);
+    //         setPasscode("");
+    //         setSelectedForum(null);
+    //     }
+    // };
 
     const handleDeleteForum = async (forumId: string) => {
         if (!confirm("Are you sure you want to delete this forum? This action cannot be undone.")) {
@@ -154,7 +183,7 @@ const ViewPublicForums = () => {
     };
 
     const DEFAULT_FORUM_IMAGE = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKTAXELs-l5c7qeTe3jbUgK9S4f-hYQWWi8A&s";
-    const DEFAULT_USER_IMAGE = "https://static.vecteezy.com/system/resources/thumbnails/010/260/479/small/default-avatar-profile-icon-of-social-media-user-in-clipart-style-vector.jpg";
+    // const DEFAULT_USER_IMAGE = "https://static.vecteezy.com/system/resources/thumbnails/010/260/479/small/default-avatar-profile-icon-of-social-media-user-in-clipart-style-vector.jpg";
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-purple-100 p-6 sm:p-8">
