@@ -105,34 +105,6 @@ const ViewPublicForums = () => {
         }
     };
 
-    // const handleJoinForum = async (forumId: string, providedPasscode?: string) => {
-    //     setIsJoining(true);
-    //     try {
-    //         const response = await axios.post(
-    //             `${API_BASE_URL}/${forumId}/join`,
-    //             { passcode: providedPasscode },
-    //             {
-    //                 headers: {
-    //                     "x-auth-token": token,
-    //                 },
-    //             }
-    //         );
-
-    //         toast.success("You have joined the forum successfully!");
-    //         navigate(`/${forumId}/message`);
-    //     } catch (error: any) {
-    //         console.error("Error joining forum:", error);
-    //         const errorMessage = error.response?.data?.error ||
-    //             "An error occurred while joining the forum. Please try again.";
-    //         toast.error(errorMessage);
-    //     } finally {
-    //         setIsJoining(false);
-    //         setShowPasscodeModal(false);
-    //         setPasscode("");
-    //         setSelectedForum(null);
-    //     }
-    // };
-
     const handleDeleteForum = async (forumId: string) => {
         if (!confirm("Are you sure you want to delete this forum? This action cannot be undone.")) {
             return;

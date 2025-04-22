@@ -3,6 +3,7 @@ import axios from "axios";
 
 
 interface User {
+  [x: string]: string;
   eth_publickey: string,
   xpNumber: string,
   privatekey: string,

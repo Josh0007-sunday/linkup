@@ -31,7 +31,7 @@ const LinkUpCarousel: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 3000);
+    });
     return () => clearTimeout(timer);
   }, []);
 

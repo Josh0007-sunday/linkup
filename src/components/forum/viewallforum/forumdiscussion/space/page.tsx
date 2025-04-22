@@ -3,6 +3,7 @@ import { HuddleProvider, HuddleClient } from "@huddle01/react";
 import { useLocalAudio, useRoom, usePeerIds, useRemoteAudio } from "@huddle01/react/hooks";
 import { Audio } from "@huddle01/react/components";
 import toast from "react-hot-toast";
+import io, { Socket } from "socket.io-client";
 
 const huddleClient = new HuddleClient({
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID || "2dkFPqrEKGMGO9iFR0nvZnlv7kU72R9e",
@@ -19,60 +20,86 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [spaceActive, setSpaceActive] = useState<boolean>(false);
-  const [isManuallyConnected, setIsManuallyConnected] = useState<boolean>(false); // New state
+  const [, setSocket] = useState<Socket | null>(null);
 
   const { joinRoom, leaveRoom, state: roomState } = useRoom({
-    onJoin: (data) => {
-      console.log('Room joined successfully, roomState:', roomState, 'data:', data);
-      toast.success('Successfully joined audio space');
-      setIsManuallyConnected(true); // Ensure UI updates even if roomState lags
+    onJoin: () => {
+      console.log("Room joined successfully, roomState:", roomState);
+      toast.success("Successfully joined audio space");
     },
-    onLeave: (data) => {
-      console.log('Room left successfully, roomState:', roomState, 'data:', data);
-      toast.success('Left audio space');
-      setIsManuallyConnected(false);
+    onLeave: () => {
+      console.log("Room left successfully, roomState:", roomState);
+      toast.success("Left audio space");
     },
     onFailed: (data) => {
-      console.error('Room error:', data);
-      toast.error('Error in audio space');
-      setIsManuallyConnected(false);
+      console.error("Room error:", data);
+      toast.error("Error in audio space");
+      setError("Failed to connect to audio space");
     },
   });
 
   const { enableAudio, disableAudio, isAudioOn } = useLocalAudio();
   const { peerIds } = usePeerIds();
 
-  // Check space status and auto-rejoin if creator
+  // Initialize Socket.IO and listen for space status changes
+  useEffect(() => {
+    const socketIo = io(import.meta.env.VITE_CONNECTION, {
+      auth: { token },
+    });
+    setSocket(socketIo);
+
+    socketIo.on("connect", () => {
+      console.log("Connected to Socket.IO server");
+      socketIo.emit("joinForum", forumId); // Join the forum room
+    });
+
+    socketIo.on("spaceStatusChanged", (data: { active: boolean; roomId?: string }) => {
+      console.log("Received spaceStatusChanged:", data);
+      setSpaceActive(data.active);
+      setRoomId(data.active ? data.roomId || null : null);
+
+      // Auto-join for creator when space becomes active
+      if (isCreator && data.active && data.roomId && roomState !== "connected") {
+        console.log("Creator auto-joining room:", data.roomId);
+        handleJoinRoom(data.roomId);
+      }
+    });
+
+    return () => {
+      socketIo.disconnect();
+    };
+  }, [forumId, token, isCreator]);
+
+  // Check initial space status on mount
   useEffect(() => {
     const checkSpaceStatus = async () => {
       try {
-        console.log('Checking space status for forumId:', forumId);
-        const response = await fetch(`${import.meta.env.VITE_CONNECTION}/api/huddle/space-status/${forumId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-        
-        console.log('Space status response status:', response.status);
+        console.log("Checking initial space status for forumId:", forumId);
+        const response = await fetch(
+          `${import.meta.env.VITE_CONNECTION}/api/huddle/space-status/${forumId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
         if (!response.ok) {
-          console.log('Space status fetch failed:', await response.text());
+          console.error("Space status fetch failed:", await response.text());
           return;
         }
 
         const data = await response.json();
-        console.log('Space status response data:', data);
-        
-        if (data.active && data.roomId) {
-          setSpaceActive(true);
-          setRoomId(data.roomId);
-          
-          if (isCreator && roomState !== 'connected' && !isManuallyConnected) {
-            console.log('Creator auto-rejoining active space:', data.roomId);
-            await handleJoinRoom();
-          }
+        console.log("Initial space status:", data);
+
+        setSpaceActive(data.active);
+        setRoomId(data.active ? data.roomId : null);
+
+        // Auto-join for creator if space is already active
+        if (isCreator && data.active && data.roomId && roomState !== "connected") {
+          console.log("Creator auto-joining on mount:", data.roomId);
+          handleJoinRoom(data.roomId);
         }
       } catch (error) {
-        console.error('Failed to check space status:', error);
+        console.error("Failed to check space status:", error);
       }
     };
 
@@ -81,43 +108,40 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
 
   // Monitor roomState changes
   useEffect(() => {
-    console.log('Current roomState:', roomState, 'isManuallyConnected:', isManuallyConnected);
-  }, [roomState, isManuallyConnected]);
+    console.log("Current roomState:", roomState);
+  }, [roomState]);
 
   const createRoom = async () => {
     try {
       setLoading(true);
-      console.log('Creating room with token:', token);
-      console.log('API endpoint:', `${import.meta.env.VITE_CONNECTION}/api/huddle/create-room`);
+      console.log("Creating room with token:", token);
       const response = await fetch(`${import.meta.env.VITE_CONNECTION}/api/huddle/create-room`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ forumId }),
       });
-      
-      console.log('Create room response status:', response.status);
+
       if (!response.ok) {
         const errorText = await response.text();
-        console.log('Create room error response:', errorText);
         throw new Error(`Failed to create room: ${response.status} - ${errorText}`);
       }
 
       const data = await response.json();
-      console.log('Create room response data:', data);
-      
+      console.log("Create room response:", data);
+
       if (!data.success || !data.roomId) {
-        throw new Error(data.error || 'Invalid room ID received');
+        throw new Error(data.error || "Invalid room ID received");
       }
 
       setRoomId(data.roomId);
       setSpaceActive(true);
       return data.roomId;
     } catch (error) {
-      console.error('Room creation error:', error);
-      throw new Error('Failed to create audio room');
+      console.error("Room creation error:", error);
+      throw new Error("Failed to create audio room");
     } finally {
       setLoading(false);
     }
@@ -125,100 +149,117 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
 
   const getAccessToken = async (roomId: string) => {
     try {
-      console.log('Fetching access token for roomId:', roomId);
+      console.log("Fetching access token for roomId:", roomId);
       const response = await fetch(
         `${import.meta.env.VITE_CONNECTION}/api/huddle/get-token?roomId=${roomId}`,
         {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-      
-      console.log('Get token response status:', response.status);
+
       if (!response.ok) {
         const errorText = await response.text();
-        console.log('Get token error response:', errorText);
         throw new Error(`Failed to get token: ${response.status} - ${errorText}`);
       }
 
       const data = await response.json();
-      console.log('Get token response data:', data);
-      
+      console.log("Get token response:", data);
+
       if (!data.success || !data.token) {
-        throw new Error(data.error || 'Invalid token received');
+        throw new Error(data.error || "Invalid token received");
       }
 
       return data.token;
     } catch (error) {
-      console.error('Token error:', error);
-      throw new Error('Failed to get access token');
+      console.error("Token error:", error);
+      throw new Error("Failed to get access token");
     }
   };
 
-  const handleJoinRoom = async () => {
-    if (roomState === 'connected' || isManuallyConnected) {
-      console.log('Already connected, skipping join');
+  const handleJoinRoom = async (overrideRoomId?: string) => {
+    if (roomState === "connected") {
+      console.log("Already connected, skipping join");
       return;
     }
 
     setLoading(true);
     setError(null);
-    
+
     try {
-      console.log('Starting join room process - isCreator:', isCreator, 'roomId:', roomId);
-      const currentRoomId = roomId || (isCreator ? await createRoom() : null);
-      
+      console.log("Starting join room process - isCreator:", isCreator, "roomId:", overrideRoomId || roomId);
+      const currentRoomId = overrideRoomId || roomId || (isCreator ? await createRoom() : null);
+
       if (!currentRoomId) {
-        throw new Error('No active audio space to join');
+        throw new Error("No active audio space to join");
       }
-      
+
       const accessToken = await getAccessToken(currentRoomId);
-      console.log('Joining room with:', { roomId: currentRoomId, token: accessToken });
-      
+      console.log("Joining room with:", { roomId: currentRoomId, token: accessToken });
+
       await joinRoom({
         roomId: currentRoomId,
         token: accessToken,
       });
-      console.log('joinRoom called, awaiting state update');
-      setIsManuallyConnected(true); // Assume success if no error thrown
     } catch (err) {
-      console.error('Join error:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Failed to join audio space';
+      console.error("Join error:", err);
+      const errorMessage = err instanceof Error ? err.message : "Failed to join audio space";
       setError(errorMessage);
       toast.error(errorMessage);
-      setIsManuallyConnected(false);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleLeaveRoom = () => {
-    if (roomState === 'connected' || isManuallyConnected) {
-      console.log('Leaving room');
+  const handleLeaveRoom = async () => {
+    if (roomState === "connected") {
+      console.log("Leaving room");
       leaveRoom();
-      setIsManuallyConnected(false);
+
+      // If creator, notify backend to end the space
+      if (isCreator) {
+        try {
+          await fetch(`${import.meta.env.VITE_CONNECTION}/api/huddle/end-space/${forumId}`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log("Notified backend to end space");
+        } catch (error) {
+          console.error("Failed to end space:", error);
+          toast.error("Failed to end audio space");
+        }
+      }
     }
   };
 
   const toggleAudio = () => {
     if (isAudioOn) {
-      console.log('Disabling audio');
+      console.log("Disabling audio");
       disableAudio();
-      toast.success('Muted');
+      toast.success("Muted");
     } else {
-      console.log('Enabling audio');
+      console.log("Enabling audio");
       enableAudio();
-      toast.success('Unmuted');
+      toast.success("Unmuted");
     }
   };
 
   return (
     <HuddleProvider client={huddleClient}>
-      <div className="p-4 bg-white rounded-lg shadow">
+      <div className="p-4 bg-white rounded-lg shadow-md">
         <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 text-blue-500"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"
+              clipRule="evenodd"
+            />
           </svg>
           Audio Space
         </h3>
@@ -228,60 +269,49 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
           </div>
         ) : error ? (
-          <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
-            {error}
-          </div>
+          <div className="p-3 bg-red-50 text-red-600 rounded mb-4">{error}</div>
         ) : (
           <div className="space-y-4">
             <div className="flex flex-wrap gap-2">
               {isCreator && !spaceActive && (
                 <button
-                  onClick={handleJoinRoom}
-                  disabled={roomState === 'connected' || isManuallyConnected || loading}
+                  onClick={() => handleJoinRoom()}
+                  disabled={roomState === "connected" || loading}
                   className={`px-4 py-2 rounded-md transition-colors ${
-                    roomState === 'connected' || isManuallyConnected || loading
-                      ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                    roomState === "connected" || loading
+                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "bg-blue-600 text-white hover:bg-blue-700"
                   }`}
                 >
                   Start Audio Space
                 </button>
               )}
-              {isCreator && spaceActive && roomState !== 'connected' && !isManuallyConnected && (
+              {!isCreator && spaceActive && roomState !== "connected" && (
                 <button
-                  onClick={handleJoinRoom}
-                  disabled={loading}
-                  className="px-4 py-2 rounded-md transition-colors bg-blue-600 text-white hover:bg-blue-700"
-                >
-                  Rejoin Audio Space
-                </button>
-              )}
-              {!isCreator && spaceActive && roomState !== 'connected' && !isManuallyConnected && (
-                <button
-                  onClick={handleJoinRoom}
+                  onClick={() => handleJoinRoom()}
                   disabled={loading}
                   className="px-4 py-2 rounded-md transition-colors bg-blue-600 text-white hover:bg-blue-700"
                 >
                   Join Audio Space
                 </button>
               )}
-              {(roomState === 'connected' || isManuallyConnected) && (
+              {roomState === "connected" && (
                 <>
                   <button
                     onClick={handleLeaveRoom}
                     className="px-4 py-2 rounded-md transition-colors bg-red-600 text-white hover:bg-red-700"
                   >
-                    Leave Space
+                    {isCreator ? "End Space" : "Leave Space"}
                   </button>
                   <button
                     onClick={toggleAudio}
                     className={`px-4 py-2 rounded-md transition-colors ${
                       isAudioOn
-                        ? 'bg-yellow-500 text-white hover:bg-yellow-600'
-                        : 'bg-green-600 text-white hover:bg-green-700'
+                        ? "bg-yellow-500 text-white hover:bg-yellow-600"
+                        : "bg-green-600 text-white hover:bg-green-700"
                     }`}
                   >
-                    {isAudioOn ? 'Mute Mic' : 'Unmute Mic'}
+                    {isAudioOn ? "Mute Mic" : "Unmute Mic"}
                   </button>
                 </>
               )}
@@ -293,7 +323,7 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
               </div>
             )}
 
-            {(roomState === 'connected' || isManuallyConnected) && (
+            {roomState === "connected" && (
               <div className="space-y-4">
                 {peerIds.length > 0 && (
                   <div className="bg-gray-50 p-3 rounded">
@@ -323,12 +353,21 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
 
 const RemotePeerAudio = ({ peerId }: { peerId: string }) => {
   const { stream: remoteAudioStream } = useRemoteAudio({ peerId });
-  
+
   return remoteAudioStream ? (
     <div className="flex items-center gap-3 bg-white p-2 rounded border">
       <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 text-blue-600"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+            clipRule="evenodd"
+          />
         </svg>
       </div>
       <div className="flex-1">
