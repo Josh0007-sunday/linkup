@@ -1,7 +1,8 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import backdropSvg from "../assets/backdrop.svg"; // Import the same SVG backdrop
 
 interface SignupData {
   name: string;
@@ -97,7 +98,16 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* SVG Backdrop - same as login page */}
+      <div className="absolute inset-0 z-0 opacity-30">
+        <img 
+          src={backdropSvg} 
+          alt="Decorative backdrop" 
+          className="w-full h-full object-cover"
+        />
+      </div>
+
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -134,7 +144,7 @@ const SignUp = () => {
         }}
       />
 
-      <div className="max-w-md w-full">
+      <div className="max-w-md w-full z-10">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
           <p className="text-gray-600 mt-2">Join our community today</p>
@@ -234,9 +244,9 @@ const SignUp = () => {
             <div className="text-center mt-6">
               <p className="text-gray-600 text-sm">
                 Already have an account?{' '}
-                <a href="/" className="text-blue-600 hover:text-blue-700 font-medium">
+                <Link to="/" className="text-blue-600 hover:text-blue-700 font-medium">
                   Sign in
-                </a>
+                </Link>
               </p>
             </div>
           </form>

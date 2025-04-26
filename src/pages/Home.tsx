@@ -285,11 +285,11 @@ const Home = () => {
           </h2>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <p className="text-3xl font-bold text-gray-700">2.4k+</p>
+              <p className="text-3xl font-bold text-gray-700">0</p>
               <p className="text-sm text-gray-600 mt-1">Active Positions</p>
             </div>
             <div>
-              <p className="text-3xl font-bold text-gray-700">92%</p>
+              <p className="text-3xl font-bold text-gray-700">0%</p>
               <p className="text-sm text-gray-600 mt-1">Success Rate</p>
             </div>
             <div>
@@ -297,7 +297,7 @@ const Home = () => {
               <p className="text-sm text-gray-600 mt-1">Avg. Response Time</p>
             </div>
             <div>
-              <p className="text-3xl font-bold text-gray-700">850+</p>
+              <p className="text-3xl font-bold text-gray-700">4+</p>
               <p className="text-sm text-gray-600 mt-1">Partner Companies</p>
             </div>
           </div>
@@ -421,7 +421,7 @@ const Home = () => {
             </p>
           </div>
           <div
-            className="text-gray-700 font-medium cursor-pointer hover:text-gray-800"
+            className="text-indigo-600 font-medium cursor-pointer hover:text-indigo-700 transition-colors"
             onClick={handleViewJobsClick}
           >
             View all jobs →
@@ -491,7 +491,7 @@ const Home = () => {
           </div>
 
           <div
-            className="text-gray-700 font-medium cursor-pointer hover:text-gray-800"
+           className="text-indigo-600 font-medium cursor-pointer hover:text-indigo-700 transition-colors"
             onClick={handleMarketingClick}
           >
             View all talent →

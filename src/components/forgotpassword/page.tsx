@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
+import backdropSvg from "../../assets/backdrop.svg"; // Import the same SVG backdrop
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -17,16 +19,55 @@ const ForgotPassword = () => {
     try {
       const res = await axios.post(`${API_BASE_URL}/forgot-password`, { email });
       setMessage(res.data.message);
-      toast.success(res.data.message);
+      toast.success(res.data.message, {
+        style: {
+          background: '#E8F5E9',
+          color: '#2E7D32',
+          border: '1px solid #C8E6C9',
+          padding: '16px',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        },
+        iconTheme: {
+          primary: '#2E7D32',
+          secondary: '#E8F5E9',
+        },
+      });
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         // Handle Axios-specific errors
         setMessage(err.response?.data?.error || "An error occurred");
-        toast.error(err.response?.data?.error || "An error occurred");
+        toast.error(err.response?.data?.error || "An error occurred", {
+          style: {
+            background: '#FFEBEE',
+            color: '#D32F2F',
+            border: '1px solid #FFCDD2',
+            padding: '16px',
+            borderRadius: '8px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          },
+          iconTheme: {
+            primary: '#D32F2F',
+            secondary: '#FFEBEE',
+          },
+        });
       } else {
         // Handle other errors
         setMessage("An unexpected error occurred");
-        toast.error("An unexpected error occurred");
+        toast.error("An unexpected error occurred", {
+          style: {
+            background: '#FFEBEE',
+            color: '#D32F2F',
+            border: '1px solid #FFCDD2',
+            padding: '16px',
+            borderRadius: '8px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          },
+          iconTheme: {
+            primary: '#D32F2F',
+            secondary: '#FFEBEE',
+          },
+        });
       }
     } finally {
       setLoading(false);
@@ -34,9 +75,53 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4">
-      <Toaster position="top-center" />
-      <div className="max-w-md w-full">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* SVG Backdrop - same as login and signup pages */}
+      <div className="absolute inset-0 z-0 opacity-30">
+        <img 
+          src={backdropSvg} 
+          alt="Decorative backdrop" 
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          success: {
+            style: {
+              background: '#E8F5E9',
+              color: '#2E7D32',
+              border: '1px solid #C8E6C9',
+              padding: '16px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            },
+            iconTheme: {
+              primary: '#2E7D32',
+              secondary: '#E8F5E9',
+            },
+          },
+          error: {
+            style: {
+              background: '#FFEBEE',
+              color: '#D32F2F',
+              border: '1px solid #FFCDD2',
+              padding: '16px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            },
+            iconTheme: {
+              primary: '#D32F2F',
+              secondary: '#FFEBEE',
+            },
+          },
+        }}
+      />
+
+      <div className="max-w-md w-full z-10">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Forgot Password</h1>
           <p className="text-gray-600 mt-2">
@@ -108,12 +193,12 @@ const ForgotPassword = () => {
             <div className="text-center mt-6">
               <p className="text-gray-600 text-sm">
                 Remember your password?{" "}
-                <a
-                  href="/"
+                <Link
+                  to="/"
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
                   Login
-                </a>
+                </Link>
               </p>
             </div>
           </form>

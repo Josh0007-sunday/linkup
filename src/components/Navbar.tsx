@@ -109,10 +109,7 @@ const Navbar: React.FC = () => {
             <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Earn</span>
           </Link>
           <Link to="/serviceList" className="text-gray-600 hover:text-gray-900 transition-colors">Services</Link>
-          <Link to="/profile" className="text-gray-600 hover:text-gray-900 transition-colors">Profile</Link>
           <Link to="/view-forum" className="text-gray-600 hover:text-gray-900 transition-colors">View Forum</Link>
-          <Link to="/services" className="text-gray-600 hover:text-gray-900 transition-colors">Create Ads</Link>
-          <Link to="/create-forum" className="text-gray-600 hover:text-gray-900 transition-colors">Create Forum</Link>
         </div>
 
         {/* Desktop Profile and Wallet Section */}
@@ -214,27 +211,10 @@ const Navbar: React.FC = () => {
             >
               Services
             </Link>
-            <Link
-              to="/profile"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-              onClick={toggleMenu}
-            >
-              Profile
-            </Link>
-            <Link
-              to="/services"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-              onClick={toggleMenu}
-            >
-              Create Ads
-            </Link>
 
             <Link to="/view-forum" className="text-gray-600 hover:text-gray-900 transition-colors">View Forum</Link>
 
-            <Link to="/create-forum" className="text-gray-600 hover:text-gray-900 transition-colors">Create Forum</Link>
-
-
-
+  
             {/* Mobile Profile and Wallet Section */}
             {user ? (
               <>

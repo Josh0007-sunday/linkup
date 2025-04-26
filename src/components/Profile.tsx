@@ -3,6 +3,7 @@ import { useAuth } from '../components/AUTH/page';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const Profile: React.FC = () => {
   const { user, setUser } = useAuth();
@@ -68,12 +69,26 @@ const Profile: React.FC = () => {
             <h2 className="text-2xl font-bold text-gray-800">{user?.name}</h2>
             <p className="text-gray-600">{user?.email}</p>
             <p className="text-gray-600">{user?.status || "No status set."}</p>
-            <a
-              href="/update-profile"
-              className="bg-gray-700 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition duration-200"
-            >
-              Update Profile
-            </a>
+            <div className="flex space-x-4"> {/* Added this container div */}
+              <Link
+                to="/update-profile"
+                className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition duration-200"
+              >
+                Update Profile
+              </Link>
+              <Link
+                to="/create-forum"
+                className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition duration-200"
+              >
+                Create Forum
+              </Link>
+              <Link
+                to="/services"
+                className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition duration-200"
+              >
+                Create Ads
+              </Link>
+            </div>
           </div>
 
           {/* Bio Section */}

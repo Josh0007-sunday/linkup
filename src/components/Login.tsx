@@ -1,8 +1,9 @@
 import { useState, FormEvent, ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "../components/AUTH/page";
+import backdropSvg from "../assets/backdrop.svg"; // Make sure this path is correct
 
 interface LoginData {
   email: string;
@@ -33,19 +34,18 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("/", { email, password }); // Ensure the correct endpoint
+      const response = await axios.post("/", { email, password });
 
       const responseData = response.data;
 
       if (responseData.error) {
         toast.error(responseData.error);
       } else {
-        // Store token and user details
         localStorage.setItem("auth-token", responseData.token);
         localStorage.setItem("user", JSON.stringify(responseData.user));
 
-        setUser(responseData.user); // Update AuthContext
-        setIsAuthenticated(true); // Set isAuthenticated to true
+        setUser(responseData.user);
+        setIsAuthenticated(true);
 
         setData({ email: "", password: "" });
         toast.success("Login Successful! Welcome back!");
@@ -60,9 +60,18 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* SVG Backdrop */}
+      <div className="absolute inset-0 z-0 opacity-30">
+        <img 
+          src={backdropSvg} 
+          alt="Decorative backdrop" 
+          className="w-full h-full object-cover"
+        />
+      </div>
+      
       <Toaster position="top-center" />
-      <div className="max-w-md w-full">
+      <div className="max-w-md w-full z-10">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
           <p className="text-gray-600 mt-2">Login to your account</p>
@@ -144,15 +153,15 @@ const Login = () => {
             <div className="text-center mt-6">
               <p className="text-gray-600 text-sm">
                 Don't have an account?{" "}
-                <a href="/signup" className="text-blue-600 hover:text-blue-700 font-medium">
+                <Link to="/signup" className="text-blue-600 hover:text-blue-700 font-medium">
                   Sign up
-                </a>
+                </Link>
               </p>
               <p className="text-gray-600 text-sm">
                 Cant remember your password?{" "} 
-                <a href="/forgot-password" className="text-blue-600 hover:text-blue-700 font-medium">
+                <Link to="/forgot-password" className="text-blue-600 hover:text-blue-700 font-medium">
                   Forget Password
-                </a>
+                </Link>
               </p>
             </div>
           </form>
