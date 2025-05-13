@@ -18,7 +18,7 @@ interface User {
   averageRating?: number;
   reviewCount?: number;
 }
-
+// @ts-ignore
 const Spinner = () => {
   return (
     <div className="flex justify-center items-center h-64">

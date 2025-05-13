@@ -88,6 +88,7 @@ const Home = () => {
   const [featuredJobs, setFeaturedJobs] = useState<Job[]>([]); // 3 random jobs to display
   const [marketingPitch, setMarketingPitch] = useState<MarketingPitch | null>(null); // Marketing pitch
   const [showPopup, setShowPopup] = useState(true);
+  // @ts-ignore
   const [articles, setArticles] = useState<Article[]>([]);
   const [featuredArticles, setFeaturedArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState({

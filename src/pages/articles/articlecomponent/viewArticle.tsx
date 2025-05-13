@@ -70,6 +70,7 @@ const ArticleView = () => {
 
     const handleLike = async () => {
         try {
+            // @ts-ignore
             const response = await axios.post(
                 `${API_BASE_URL}/articles/${id}/like`,
                 {},

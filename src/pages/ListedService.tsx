@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import LinkUpCarousel from "./addon/LinkupCarousel";
-import LoadingSkeleton from "../components/LoadingSkeleton"; // Import your skeleton component
 
 interface Service {
   _id: string;

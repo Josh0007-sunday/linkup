@@ -61,7 +61,7 @@ import { useRemoteVideo } from '@huddle01/react/hooks';
 
 const VideoCall = () => {
   const [roomId, setRoomId] = useState<string | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [, setAccessToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showControls, setShowControls] = useState(true);
   const [isJoined, setIsJoined] = useState(false);
@@ -88,6 +88,7 @@ const VideoCall = () => {
   });
 
   const { stream: videoStream, enableVideo, disableVideo, isVideoOn } = useLocalVideo();
+  // @ts-ignore
   const { stream: audioStream, enableAudio, disableAudio, isAudioOn } = useLocalAudio();
   const { startScreenShare, stopScreenShare, shareStream } = useLocalScreenShare();
   const { peerIds } = usePeerIds();
@@ -247,8 +248,8 @@ const VideoCall = () => {
                   onClick={handleJoinRoom}
                   disabled={!inputRoomId}
                   className={`w-full px-4 py-3.5 rounded-lg transition flex items-center justify-center gap-2 font-medium shadow-md hover:shadow-lg ${inputRoomId
-                      ? 'bg-green-600 hover:bg-green-700 text-white'
-                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                     }`}
                 >
                   <LogIn size={18} />
@@ -275,8 +276,8 @@ const VideoCall = () => {
       <div className="flex-1 relative overflow-hidden flex items-center justify-center">
         {shareStream ? (
           <div className={`relative h-[75vh] w-[60vw] rounded-2xl overflow-hidden border-2 ${isAudioOn
-              ? 'border-green-400 shadow-[0_0_15px_rgba(74,222,128,0.7)]'
-              : 'border-gray-200 shadow-lg'
+            ? 'border-green-400 shadow-[0_0_15px_rgba(74,222,128,0.7)]'
+            : 'border-gray-200 shadow-lg'
             } transition-all duration-300`}>
             <video
               autoPlay
@@ -286,8 +287,8 @@ const VideoCall = () => {
             />
             {videoStream && (
               <div className={`absolute bottom-4 right-4 w-48 h-36 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg overflow-hidden shadow border-2 ${isAudioOn
-                  ? 'border-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]'
-                  : 'border-gray-200'
+                ? 'border-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]'
+                : 'border-gray-200'
                 } transition-all duration-300`}>
                 <video
                   autoPlay
@@ -306,14 +307,14 @@ const VideoCall = () => {
             muted
             ref={videoRef}
             className={`h-[70vh] w-auto max-w-[60vw] rounded-2xl border-2 ${isAudioOn
-                ? 'border-green-400 shadow-[0_0_15px_rgba(74,222,128,0.7)]'
-                : 'border-gray-200 shadow-lg'
+              ? 'border-green-400 shadow-[0_0_15px_rgba(74,222,128,0.7)]'
+              : 'border-gray-200 shadow-lg'
               } transition-all duration-300`}
           />
         ) : isJoined ? (
           <div className={`h-[70vh] w-[60vw] rounded-2xl border-2 ${isAudioOn
-              ? 'border-green-400 shadow-[0_0_15px_rgba(74,222,128,0.5)]'
-              : 'border-gray-200 shadow-lg'
+            ? 'border-green-400 shadow-[0_0_15px_rgba(74,222,128,0.5)]'
+            : 'border-gray-200 shadow-lg'
             } transition-all duration-300 bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center`}>
             <div className="bg-white/50 p-6 rounded-full mb-4">
               <Users size={64} className="text-gray-400" />
