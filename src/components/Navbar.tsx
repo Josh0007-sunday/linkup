@@ -19,6 +19,15 @@ const Navbar: React.FC = () => {
   // USDC token mint address on Solana (mainnet)
   const USDC_MINT = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
 
+  const API_BASE_URL = import.meta.env.VITE_CONNECTION;
+
+  const getImageUrl = (imgPath: string | undefined | null): string | undefined => {
+    if (!imgPath) return undefined;
+    if (typeof imgPath !== 'string') return undefined;
+    if (imgPath.startsWith('http')) return imgPath;
+    return `${API_BASE_URL}${imgPath.startsWith('/') ? '' : '/'}${imgPath}`;
+  };
+
   useEffect(() => {
     // Fetch USDC balance when wallet drawer is opened and user has a public key
     if (isWalletDrawerOpen && user?.publicKey) {
@@ -121,7 +130,7 @@ const Navbar: React.FC = () => {
                 <IoDiamondOutline className="text-blue-500" /> {/* Diamond icon */}
                 <span className="text-gray-700 font-medium">{user.xpNumber || 0} XP</span> {/* XP number */}
               </div>
-              
+
               {/* Wallet Icon */}
               <button
                 onClick={toggleWalletDrawer}
@@ -144,14 +153,29 @@ const Navbar: React.FC = () => {
                 {isProfileDropdownOpen && (
                   <div className="absolute right-0 top-full mt-3 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
                     <div className="px-4 py-3 border-b border-gray-100 flex items-center space-x-3">
-                      <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
-                        <FaUserCircle className="text-gray-500 w-10 h-10" />
+                      <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                        {user.profileImage ? (
+                          <img
+                            src={getImageUrl(user.profileImage) || undefined}
+                            alt={user.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`;
+                            }}
+                          />
+                        ) : (
+                          <span className="text-2xl font-bold text-blue-600">
+                            {user.name.charAt(0).toUpperCase()}
+                          </span>
+                        )}
                       </div>
                       <div>
                         <div className="font-semibold text-gray-800">{user.name}</div>
                         <div className="text-sm text-gray-500">{user.email}</div>
                       </div>
                     </div>
+
                     <div className="py-1">
                       <Link
                         to="/profile"
@@ -214,7 +238,7 @@ const Navbar: React.FC = () => {
 
             <Link to="/view-forum" className="text-gray-600 hover:text-gray-900 transition-colors">View Forum</Link>
 
-  
+
             {/* Mobile Profile and Wallet Section */}
             {user ? (
               <>

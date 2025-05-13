@@ -88,6 +88,18 @@ const Profile: React.FC = () => {
               >
                 Create Ads
               </Link>
+              <Link
+                to="/meeting"
+                className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition duration-200"
+              >
+                Create Meetings
+              </Link>
+              <Link
+                to="/write"
+                className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition duration-200"
+              >
+                Write
+              </Link>
             </div>
           </div>
 

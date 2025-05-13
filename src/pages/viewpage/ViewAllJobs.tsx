@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LoadingSkeleton from "../../components/LoadingSkeleton";
 
 interface Job {
   _id: string;
@@ -11,17 +12,6 @@ interface Job {
   method: string;
   stack: string[];
 }
-
-const Spinner = () => {
-  return (
-    <div className="flex justify-center items-center h-64">
-      <div className="relative">
-        <div className="w-12 h-12 rounded-full absolute border-4 border-solid border-gray-100"></div>
-        <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-solid border-gray-400 border-t-transparent"></div>
-      </div>
-    </div>
-  );
-};
 
 const ViewAllJobs = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -72,7 +62,43 @@ const ViewAllJobs = () => {
         )}
         
         {loading ? (
-          <Spinner />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((index) => (
+              <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                {/* Job Image Skeleton */}
+                <div className="mb-6">
+                  <LoadingSkeleton type="image" className="w-full h-32 rounded-lg" />
+                </div>
+
+                {/* Title Skeleton */}
+                <div className="mb-2">
+                  <LoadingSkeleton type="text" className="w-3/4" />
+                </div>
+
+                {/* Project Name Skeleton */}
+                <div className="mb-4">
+                  <LoadingSkeleton type="text" className="w-1/2" />
+                </div>
+
+                {/* Price Range Skeleton */}
+                <div className="mb-4">
+                  <LoadingSkeleton type="text" className="w-32" />
+                </div>
+
+                {/* Method Skeleton */}
+                <div className="mb-4">
+                  <LoadingSkeleton type="text" className="w-24" />
+                </div>
+
+                {/* Tech Stack Skeleton */}
+                <div className="flex flex-wrap gap-2">
+                  {[1, 2, 3].map((techIndex) => (
+                    <LoadingSkeleton key={techIndex} type="text" className="w-20" />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {jobs.length > 0 ? (

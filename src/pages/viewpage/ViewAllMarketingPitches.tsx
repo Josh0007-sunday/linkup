@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LoadingSkeleton from "../../components/LoadingSkeleton";
 
 interface MarketingPitch {
   _id: string;
@@ -9,19 +10,8 @@ interface MarketingPitch {
   briefBio: string;
 }
 
-const Spinner = () => {
-  return (
-    <div className="flex justify-center items-center h-64">
-      <div className="relative">
-        <div className="w-12 h-12 rounded-full absolute border-4 border-solid border-gray-100"></div>
-        <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-solid border-gray-400 border-t-transparent"></div>
-      </div>
-    </div>
-  );
-};
-
 const ViewAllMarketingPitches = () => {
-  const [pitch, setPitch] = useState<MarketingPitch | null>(null); // Store a single pitch
+  const [pitch, setPitch] = useState<MarketingPitch | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -37,8 +27,8 @@ const ViewAllMarketingPitches = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("Backend response:", data); // Log the response
-        setPitch(data.pitch); // Set the single pitch
+        console.log("Backend response:", data);
+        setPitch(data.pitch);
         setError(null);
       } catch (error) {
         console.error("Error fetching marketing pitch:", error);
@@ -70,7 +60,28 @@ const ViewAllMarketingPitches = () => {
         )}
         
         {loading ? (
-          <Spinner />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((index) => (
+              <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <div className="mb-6">
+                  <LoadingSkeleton type="image" className="w-full h-48 rounded-lg" />
+                </div>
+
+                <div className="flex items-center mb-6">
+                  <LoadingSkeleton type="profile" className="w-12 h-12" />
+                  <div className="ml-4 flex-1">
+                    <LoadingSkeleton type="text" className="w-32" />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <LoadingSkeleton type="text" className="w-full" />
+                  <LoadingSkeleton type="text" className="w-5/6" />
+                  <LoadingSkeleton type="text" className="w-4/6" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : pitch ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div

@@ -31,11 +31,21 @@ import CreateForum from './components/forum/page';
 import ViewAllForums from './components/forum/viewallforum/page';
 import ForumDiscussion from './components/forum/viewallforum/forumdiscussion/page';
 import { HuddleClient, HuddleProvider } from '@huddle01/react';
+import VideoCall from './components/videocall/page';
+import CreateArticle from './pages/articles/createArticle';
+import ArticleView from './pages/articles/articlecomponent/viewArticle';
+import ViewAllArticles from './pages/viewpage/viewAllArticles';
+import ArticleDetail from './pages/viewpage/main/articleDetail';
 // import SendTokens from './components/withdraw';
 
 
 const huddleClient = new HuddleClient({
   projectId: '2dkFPqrEKGMGO9iFR0nvZnlv7kU72R9e',
+  options: {
+    activeSpeakers: {
+      size: 12,
+    },
+  },
 });
 
 const App: React.FC = () => {
@@ -80,6 +90,7 @@ const AppContent: React.FC = () => {
           <Route path="/verify-email/:token" element={<VerificationPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/meeting" element={<VideoCall />} />
           
 
           {/* Protected Routes (With Navbar) */}
@@ -109,6 +120,11 @@ const AppContent: React.FC = () => {
             <Route path="/create-forum" element={<CreateForum />} />
             <Route path="/view-forum" element={<ViewAllForums />} />
             <Route path="/:forumId/message" element={<ForumDiscussion/>} />
+            <Route path="/write" element={<CreateArticle/>} />
+            <Route path="/article/:id" element={<ArticleView />} />
+            <Route path="/articles" element={<ViewAllArticles />} />
+            <Route path="/articles/:id" element={<ArticleDetail />} />
+            {/* <Route path="/meeting" element={<VideoCall />} /> */}
           </Route>
         </Routes>
       </AuthProvider>

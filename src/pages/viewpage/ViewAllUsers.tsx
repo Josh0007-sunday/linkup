@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LinkUpCarousel from "../addon/LinkupCarousel";
+import LoadingSkeleton from "../../components/LoadingSkeleton";
 
 interface User {
   img: string;
@@ -270,7 +271,24 @@ const ViewAllUsers = () => {
         )}
 
         {loading ? (
-          <Spinner />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((index) => (
+              <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <div className="flex items-center mb-4">
+                  <LoadingSkeleton type="profile" className="w-16 h-16" />
+                  <div className="ml-4 flex-1">
+                    <LoadingSkeleton type="text" className="w-32 mb-2" />
+                    <LoadingSkeleton type="text" className="w-24" />
+                  </div>
+                </div>
+                <LoadingSkeleton type="text" className="w-full mb-3" />
+                <div className="flex gap-2">
+                  <LoadingSkeleton type="text" className="w-20" />
+                  <LoadingSkeleton type="text" className="w-20" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredUsers.length > 0 ? (
