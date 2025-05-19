@@ -445,9 +445,12 @@ const ArticleDetail = () => {
         </header>
 
         {/* Article Content */}
-        <article className="prose prose-lg max-w-4xl mx-auto mb-12 prose-headings:text-transparent prose-headings:bg-clip-text prose-headings:bg-gradient-to-r prose-headings:from-purple-400 prose-headings:to-pink-600 prose-p:text-white prose-strong:text-white prose-a:text-purple-400 prose-a:no-underline hover:prose-a:text-purple-300 prose-blockquote:text-white prose-blockquote:border-purple-500/20 prose-code:text-purple-400 prose-pre:bg-black/40 prose-pre:border prose-pre:border-purple-500/20 prose-li:text-white prose-ul:text-white prose-ol:text-white">
+        <article className="prose prose-lg max-w-4xl mx-auto mb-12">
           {renderedContent && (
-            <div dangerouslySetInnerHTML={renderedContent} />
+            <div 
+              className="text-white prose-headings:text-transparent prose-headings:bg-clip-text prose-headings:bg-gradient-to-r prose-headings:from-purple-400 prose-headings:to-pink-600 prose-p:text-white prose-strong:text-white prose-a:text-purple-400 prose-a:no-underline hover:prose-a:text-purple-300 prose-blockquote:text-white prose-blockquote:border-purple-500/20 prose-code:text-purple-400 prose-pre:bg-black/40 prose-pre:border prose-pre:border-purple-500/20 prose-li:text-white prose-ul:text-white prose-ol:text-white prose-h1:text-white prose-h2:text-white prose-h3:text-white prose-h4:text-white prose-h5:text-white prose-h6:text-white prose-em:text-white prose-del:text-white prose-table:text-white prose-th:text-white prose-td:text-white [&>*]:text-white"
+              dangerouslySetInnerHTML={renderedContent} 
+            />
           )}
         </article>
 
