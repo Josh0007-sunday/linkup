@@ -100,12 +100,12 @@ const CreateArticle = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 py-4 px-6 sticky top-0 z-10">
+    <div className="min-h-screen bg-black text-white">
+      <header className="bg-black/50 backdrop-blur-sm border-b border-purple-500/30 py-4 px-6 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto flex justify-between items-center">
           <button
             onClick={() => navigate('/homepage')}
-            className="text-gray-600 hover:text-gray-900 font-medium flex items-center"
+            className="text-purple-300 hover:text-purple-400 font-medium flex items-center transition-colors"
             type="button"
           >
             <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,10 +117,11 @@ const CreateArticle = () => {
             <button
               onClick={saveDraft}
               disabled={loading}
-              className={`px-4 py-2 rounded-md font-medium text-sm ${loading
-                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+              className={`px-4 py-2 rounded-md font-medium text-sm transition-colors ${
+                loading
+                  ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
+                  : 'bg-purple-500/20 text-purple-300 hover:bg-purple-500/30'
+              }`}
               type="button"
             >
               {loading ? 'Saving...' : 'Save Draft'}
@@ -128,10 +129,11 @@ const CreateArticle = () => {
             <button
               onClick={publishArticle}
               disabled={publishing || !data.title || !data.content}
-              className={`px-4 py-2 rounded-md font-medium text-sm text-white ${publishing || !data.title || !data.content
-                  ? 'bg-green-300 cursor-not-allowed'
-                  : 'bg-green-600 hover:bg-green-700'
-                }`}
+              className={`px-4 py-2 rounded-md font-medium text-sm text-white transition-colors ${
+                publishing || !data.title || !data.content
+                  ? 'bg-purple-500/30 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
+              }`}
               type="button"
             >
               {publishing ? 'Publishing...' : 'Publish'}
@@ -142,7 +144,7 @@ const CreateArticle = () => {
 
       <main className="max-w-4xl mx-auto py-8 px-4">
         {data.coverImage && (
-          <div className="mb-8 relative group rounded-lg overflow-hidden">
+          <div className="mb-8 relative group rounded-lg overflow-hidden border border-purple-500/30">
             <img
               src={data.coverImage}
               alt="Cover"
@@ -150,7 +152,7 @@ const CreateArticle = () => {
             />
             <button
               onClick={() => setData(prev => ({ ...prev, coverImage: undefined }))}
-              className="absolute top-3 right-3 bg-black bg-opacity-60 text-white p-1.5 rounded-full hover:bg-opacity-80 transition-opacity"
+              className="absolute top-3 right-3 bg-black/60 text-white p-1.5 rounded-full hover:bg-black/80 transition-opacity"
               type="button"
               aria-label="Remove cover image"
             >
@@ -167,38 +169,38 @@ const CreateArticle = () => {
           value={data.title}
           onChange={handleInputChange}
           placeholder="Article Title"
-          className="w-full text-4xl font-bold mb-6 outline-none placeholder-gray-400 leading-tight"
+          className="w-full text-4xl font-bold mb-6 outline-none bg-transparent text-white placeholder-gray-500 leading-tight"
         />
 
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div className="backdrop-blur-sm bg-black/50 rounded-lg border border-purple-500/30 p-6 mb-8">
           <Editor
             value={data.content}
             onTextChange={handleContentChange}
             style={{ height: '400px' }}
             placeholder="Write your article content here..."
-            className="border-none"
+            className="border-none bg-transparent text-white"
           />
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h3 className="text-xl font-semibold mb-6 text-gray-800">Article Settings</h3>
+        <div className="backdrop-blur-sm bg-black/50 rounded-lg border border-purple-500/30 p-6">
+          <h3 className="text-xl font-semibold mb-6 text-purple-300">Article Settings</h3>
 
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Cover Image URL</label>
+            <label className="block text-sm font-medium text-purple-300 mb-2">Cover Image URL</label>
             {!data.coverImage ? (
               <ImageUploadButton
                 onUpload={(url) => setData(prev => ({ ...prev, coverImage: url }))}
-                className="block w-full border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors cursor-pointer bg-gray-50"
+                className="block w-full border-2 border-dashed border-purple-500/30 rounded-lg p-6 text-center hover:border-purple-500/50 transition-colors cursor-pointer bg-black/30"
               >
                 <div className="flex flex-col items-center justify-center">
-                  <svg className="w-10 h-10 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-10 h-10 text-purple-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <span className="text-gray-500">Add cover image URL</span>
+                  <span className="text-purple-300">Add cover image URL</span>
                 </div>
               </ImageUploadButton>
             ) : (
-              <div className="relative group rounded-lg overflow-hidden">
+              <div className="relative group rounded-lg overflow-hidden border border-purple-500/30">
                 <img
                   src={data.coverImage}
                   alt="Cover preview"
@@ -206,7 +208,7 @@ const CreateArticle = () => {
                 />
                 <button
                   onClick={() => setData(prev => ({ ...prev, coverImage: undefined }))}
-                  className="absolute top-3 right-3 bg-black bg-opacity-60 text-white p-1.5 rounded-full hover:bg-opacity-80 transition-opacity"
+                  className="absolute top-3 right-3 bg-black/60 text-white p-1.5 rounded-full hover:bg-black/80 transition-opacity"
                   type="button"
                   aria-label="Remove cover image"
                 >
@@ -219,7 +221,7 @@ const CreateArticle = () => {
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+            <label className="block text-sm font-medium text-purple-300 mb-2">Tags</label>
             <div className="flex">
               <input
                 type="text"
@@ -227,11 +229,11 @@ const CreateArticle = () => {
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddTag()}
                 placeholder="Add tags..."
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:ring-blue-500 focus:border-blue-500 text-sm"
+                className="flex-1 px-4 py-2 bg-black/30 border border-purple-500/30 rounded-l-md focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-500 text-sm"
               />
               <button
                 onClick={handleAddTag}
-                className="px-4 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700 text-sm font-medium"
+                className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-r-md hover:from-purple-600 hover:to-pink-600 text-sm font-medium transition-colors"
                 type="button"
               >
                 Add
@@ -241,12 +243,12 @@ const CreateArticle = () => {
               {data.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center bg-gray-100 px-3 py-1 rounded-full text-sm font-medium text-gray-700"
+                  className="inline-flex items-center bg-purple-500/20 px-3 py-1 rounded-full text-sm font-medium text-purple-300"
                 >
                   {tag}
                   <button
                     onClick={() => handleRemoveTag(tag)}
-                    className="ml-1.5 text-gray-500 hover:text-gray-700"
+                    className="ml-1.5 text-purple-400 hover:text-purple-300"
                     type="button"
                     aria-label={`Remove tag ${tag}`}
                   >
@@ -258,7 +260,7 @@ const CreateArticle = () => {
           </div>
 
           <div className="mb-6">
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="category" className="block text-sm font-medium text-purple-300 mb-2">
               Category
             </label>
             <select
@@ -266,7 +268,7 @@ const CreateArticle = () => {
               name="category"
               value={data.category}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm"
+              className="w-full px-4 py-2 bg-black/30 border border-purple-500/30 rounded-md focus:ring-purple-500 focus:border-purple-500 text-white text-sm"
             >
               <option value="Technology">Technology</option>
               <option value="Business">Business</option>

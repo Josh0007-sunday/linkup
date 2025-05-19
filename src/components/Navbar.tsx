@@ -330,7 +330,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Dropdown Menu */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-black/40 backdrop-blur-xl border-b border-purple-500/20 shadow-lg z-50">
+        <div className="md:hidden absolute top-full left-0 w-full bg-black  border-b border-purple-500/20 shadow-lg z-50">
           <div className="flex flex-col space-y-4 p-4">
             <Link
               to="/bounties"

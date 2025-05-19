@@ -113,38 +113,38 @@ const ArticleView = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="min-h-screen bg-black flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
             </div>
         );
     }
 
     if (error || !article) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <p className="text-red-500">{error}</p>
+            <div className="min-h-screen bg-black flex items-center justify-center">
+                <p className="text-red-400">{error}</p>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-black text-white">
             <div className="max-w-4xl mx-auto py-12 px-4">
                 {/* Article Header */}
-                <div className="mb-8">
-                    <h1 className="text-4xl font-bold mb-4">{article.title}</h1>
+                <div className="backdrop-blur-sm bg-black/50 rounded-lg border border-purple-500/30 p-8 mb-8">
+                    <h1 className="text-4xl font-bold mb-4 text-white">{article.title}</h1>
 
                     <div className="flex items-center mb-4">
                         {article.author.profilePicture && (
                             <img
                                 src={article.author.profilePicture}
                                 alt={article.author.username}
-                                className="w-10 h-10 rounded-full mr-3"
+                                className="w-10 h-10 rounded-full mr-3 border border-purple-500/30"
                             />
                         )}
                         <div>
-                            <p className="font-medium">{article.author.username}</p>
-                            <p className="text-sm text-gray-500">
+                            <p className="font-medium text-purple-300">{article.author.username}</p>
+                            <p className="text-sm text-gray-400">
                                 {format(new Date(article.createdAt), 'MMMM d, yyyy')}
                             </p>
                         </div>
@@ -154,7 +154,7 @@ const ArticleView = () => {
                         <img
                             src={article.coverImage.url}
                             alt={`Cover for ${article.title}`}
-                            className="w-full h-auto max-h-96 object-cover rounded-lg mb-6"
+                            className="w-full h-auto max-h-96 object-cover rounded-lg mb-6 border border-purple-500/30"
                             onError={(e) => {
                                 e.currentTarget.onerror = null;
                                 e.currentTarget.src = '/default-cover.jpg';
@@ -166,12 +166,12 @@ const ArticleView = () => {
                         {article.tags.map(tag => (
                             <span
                                 key={tag}
-                                className="bg-gray-200 px-3 py-1 rounded-full text-sm"
+                                className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-sm"
                             >
                                 {tag}
                             </span>
                         ))}
-                        <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                        <span className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 px-3 py-1 rounded-full text-sm">
                             {article.category}
                         </span>
                     </div>
@@ -179,16 +179,18 @@ const ArticleView = () => {
 
                 {/* Article Content */}
                 <div
-                    className="prose prose-lg max-w-none mb-12"
+                    className="prose prose-lg max-w-none mb-12 backdrop-blur-sm bg-black/50 rounded-lg border border-purple-500/30 p-8 text-white prose-headings:text-white prose-p:text-white prose-a:text-purple-400 prose-strong:text-purple-300 prose-code:text-purple-300 prose-pre:bg-black/50 prose-pre:border-purple-500/30 prose-li:text-white prose-blockquote:text-white prose-blockquote:border-purple-500/30"
                     dangerouslySetInnerHTML={{ __html: article.content }}
                 />
 
                 {/* Like and Comment Section */}
-                <div className="border-t border-gray-200 pt-8">
+                <div className="backdrop-blur-sm bg-black/50 rounded-lg border border-purple-500/30 p-8">
                     <div className="flex items-center mb-8">
                         <button
                             onClick={handleLike}
-                            className={`flex items-center mr-6 ${isLiked ? 'text-red-500' : 'text-gray-500'}`}
+                            className={`flex items-center mr-6 transition-colors ${
+                                isLiked ? 'text-pink-500' : 'text-purple-300 hover:text-pink-500'
+                            }`}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +208,7 @@ const ArticleView = () => {
                             </svg>
                             <span>{likeCount} Likes</span>
                         </button>
-                        <div className="text-gray-500">
+                        <div className="text-purple-300">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-6 w-6 inline mr-1"
@@ -232,12 +234,12 @@ const ArticleView = () => {
                                 value={commentContent}
                                 onChange={(e) => setCommentContent(e.target.value)}
                                 placeholder="Write a comment..."
-                                className="flex-1 border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="flex-1 bg-black/30 border border-purple-500/30 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-500"
                                 rows={3}
                             />
                             <button
                                 type="submit"
-                                className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                className="ml-4 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-colors"
                             >
                                 Post
                             </button>
@@ -252,18 +254,18 @@ const ArticleView = () => {
                                     <img
                                         src={comment.author.profilePicture}
                                         alt={comment.author.username}
-                                        className="w-10 h-10 rounded-full mr-3"
+                                        className="w-10 h-10 rounded-full mr-3 border border-purple-500/30"
                                     />
                                 )}
                                 <div className="flex-1">
-                                    <div className="bg-gray-100 rounded-lg p-4">
+                                    <div className="backdrop-blur-sm bg-black/30 rounded-lg p-4 border border-purple-500/30">
                                         <div className="flex items-center mb-2">
-                                            <p className="font-medium mr-2">{comment.author.username}</p>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="font-medium mr-2 text-purple-300">{comment.author.username}</p>
+                                            <p className="text-sm text-gray-400">
                                                 {format(new Date(comment.createdAt), 'MMM d, yyyy')}
                                             </p>
                                         </div>
-                                        <p>{comment.content}</p>
+                                        <p className="text-gray-300">{comment.content}</p>
                                     </div>
                                 </div>
                             </div>

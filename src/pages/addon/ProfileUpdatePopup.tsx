@@ -31,24 +31,24 @@ const ProfileUpdatePopup = ({ onClose }: ProfileUpdatePopupProps) => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-xl p-8 max-w-md w-full mx-4 transform transition-all duration-500 scale-100 hover:scale-105">
+    <div className="fixed inset-0 backdrop-blur-sm bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-black/80 backdrop-blur-xl rounded-2xl border border-purple-500/20 p-8 max-w-md w-full mx-4 transform transition-all duration-500 scale-100 hover:scale-105">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-extrabold text-indigo-600 animate-pulse">
-            Spruce Up Your Profile! 🎉
+          <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 animate-pulse">
+            Level Up Your Profile! 🚀
           </h2>
           <button
             onClick={handleClose}
-            className="text-indigo-400 hover:text-indigo-600 focus:outline-none transition-colors duration-200"
+            className="text-purple-400 hover:text-purple-300 focus:outline-none transition-colors duration-200"
           >
             <span className="text-3xl font-bold">×</span>
           </button>
         </div>
         <div className="space-y-6">
-          <p className="text-indigo-700 font-medium">
+          <p className="text-white font-medium">
             <span className="inline-block mr-3 transform hover:rotate-12 transition-transform duration-200">
               <svg
-                className="w-6 h-6 text-pink-500"
+                className="w-6 h-6 text-purple-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -62,12 +62,12 @@ const ProfileUpdatePopup = ({ onClose }: ProfileUpdatePopupProps) => {
                 ></path>
               </svg>
             </span>
-            Stand out with a fresh profile to snag awesome opportunities!
+            Stand out in the web3 space with a fresh profile to unlock amazing opportunities!
           </p>
-          <p className="text-indigo-700 font-medium">
+          <p className="text-white font-medium">
             <span className="inline-block mr-3 transform hover:rotate-12 transition-transform duration-200">
               <svg
-                className="w-6 h-6 text-yellow-500"
+                className="w-6 h-6 text-purple-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -81,13 +81,13 @@ const ProfileUpdatePopup = ({ onClose }: ProfileUpdatePopupProps) => {
                 ></path>
               </svg>
             </span>
-            Flaunt your latest skills and projects to the world! 🚀
+            Showcase your latest web3 skills and projects to the community! 🌟
           </p>
         </div>
         <div className="mt-8 flex justify-end">
           <Link
             to="/update-profile"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-purple-500/20 border border-purple-500/20"
           >
             Update Now! ✨
           </Link>
