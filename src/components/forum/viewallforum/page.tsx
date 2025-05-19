@@ -31,8 +31,8 @@ const Spinner = () => {
     return (
         <div className="flex justify-center items-center h-64">
             <div className="relative">
-                <div className="w-12 h-12 rounded-full absolute border-4 border-solid border-gray-100"></div>
-                <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-solid border-indigo-500 border-t-transparent"></div>
+                <div className="w-12 h-12 rounded-full absolute border-4 border-solid border-purple-500/20"></div>
+                <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-solid border-purple-500 border-t-transparent"></div>
             </div>
         </div>
     );
@@ -158,22 +158,21 @@ const ViewPublicForums = () => {
     // const DEFAULT_USER_IMAGE = "https://static.vecteezy.com/system/resources/thumbnails/010/260/479/small/default-avatar-profile-icon-of-social-media-user-in-clipart-style-vector.jpg";
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-purple-100 p-6 sm:p-8">
-
+        <div className="min-h-screen bg-black bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black p-6 sm:p-8">
             <LinkUpCarousel />
 
             <div className="max-w-7xl mx-auto">
                 <button
                     onClick={() => navigate("/homepage")}
-                    className="mb-6 flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-lg shadow-sm hover:bg-gray-50 transition-colors"
+                    className="mb-6 flex items-center px-4 py-2 text-sm font-medium text-purple-300 bg-gray-900/30 backdrop-blur-xl rounded-lg border border-purple-500/20 hover:bg-purple-500/10 transition-colors"
                 >
                     <span className="mr-2">←</span> Back
                 </button>
 
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Public Forums</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 bg-clip-text text-transparent animate-gradient-x mb-8">Public Forums</h1>
 
                 {error && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+                    <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6">
                         {error}
                     </div>
                 )}
@@ -192,13 +191,13 @@ const ViewPublicForums = () => {
                                 return (
                                     <div
                                         key={forum._id}
-                                        className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
+                                        className="bg-gray-900/30 backdrop-blur-xl p-6 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300"
                                     >
                                         <div className="mb-4">
                                             <img
                                                 src={getImageUrl(forum.imageUri, DEFAULT_FORUM_IMAGE)}
                                                 alt={forum.name}
-                                                className="w-full h-40 object-cover rounded-lg"
+                                                className="w-full h-40 object-cover rounded-lg border border-purple-500/20"
                                                 onError={(e) => {
                                                     const target = e.target as HTMLImageElement;
                                                     target.src = DEFAULT_FORUM_IMAGE;
@@ -207,24 +206,24 @@ const ViewPublicForums = () => {
                                         </div>
 
                                         <div className="mb-4">
-                                            <h3 className="text-lg font-semibold text-gray-900 truncate">
+                                            <h3 className="text-lg font-semibold text-purple-300 truncate">
                                                 {forum.name}
                                             </h3>
-                                            <p className="text-sm text-gray-500 mt-1">
+                                            <p className="text-sm text-purple-400/70 mt-1">
                                                 Created by: {forum.creatorName}
                                             </p>
                                         </div>
 
                                         <div className="space-y-4">
-                                            <p className="text-sm text-gray-600 line-clamp-3">
+                                            <p className="text-sm text-purple-300/80 line-clamp-3">
                                                 {forum.description}
                                             </p>
 
                                             <div className="flex items-center justify-between">
-                                                <div className="flex items-center text-sm text-gray-500">
+                                                <div className="flex items-center text-sm text-purple-400/70">
                                                     <span>{forum.attendees.length} attendees</span>
                                                     {forum.passcode && (
-                                                        <span className="ml-2 flex items-center text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">
+                                                        <span className="ml-2 flex items-center text-xs bg-purple-500/10 text-purple-300 px-2 py-1 rounded-full border border-purple-500/20">
                                                             <FaLock className="mr-1" /> Protected
                                                         </span>
                                                     )}
@@ -234,7 +233,7 @@ const ViewPublicForums = () => {
                                                     {isJoined ? (
                                                         <button
                                                             onClick={() => navigate(`/${forum._id}/message`)}
-                                                            className="flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-indigo-400 disabled:cursor-not-allowed"
+                                                            className="flex items-center px-3 py-2 text-sm font-medium text-white bg-purple-500 rounded-lg hover:bg-purple-600 transition-colors disabled:bg-purple-500/50 disabled:cursor-not-allowed"
                                                         >
                                                             <FaEye className="mr-2" /> View
                                                         </button>
@@ -242,7 +241,7 @@ const ViewPublicForums = () => {
                                                         <button
                                                             onClick={() => handleJoinClick(forum)}
                                                             disabled={isJoining}
-                                                            className="flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-indigo-400 disabled:cursor-not-allowed"
+                                                            className="flex items-center px-3 py-2 text-sm font-medium text-white bg-purple-500 rounded-lg hover:bg-purple-600 transition-colors disabled:bg-purple-500/50 disabled:cursor-not-allowed"
                                                         >
                                                             {isJoining ? (
                                                                 "Joining..."
@@ -257,7 +256,7 @@ const ViewPublicForums = () => {
                                                         <button
                                                             onClick={() => handleDeleteForum(forum._id)}
                                                             disabled={isDeleting === forum._id}
-                                                            className="flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors disabled:bg-red-400 disabled:cursor-not-allowed"
+                                                            className="flex items-center px-3 py-2 text-sm font-medium text-white bg-red-500/80 rounded-lg hover:bg-red-500 transition-colors disabled:bg-red-500/50 disabled:cursor-not-allowed"
                                                         >
                                                             {isDeleting === forum._id ? (
                                                                 "Deleting..."
@@ -275,7 +274,7 @@ const ViewPublicForums = () => {
                                 );
                             })
                         ) : (
-                            <div className="col-span-3 text-center py-8 text-gray-500">
+                            <div className="col-span-3 text-center py-8 text-purple-300/70">
                                 No public forums found. Check back later.
                             </div>
                         )}
@@ -283,10 +282,10 @@ const ViewPublicForums = () => {
                 )}
 
                 {showPasscodeModal && selectedForum && (
-                    <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white p-6 rounded-xl shadow-2xl max-w-md w-full">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">Enter Passcode</h3>
-                            <p className="text-sm text-gray-600 mb-4">
+                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                        <div className="bg-gray-900/30 backdrop-blur-xl p-6 rounded-xl border border-purple-500/20 shadow-2xl max-w-md w-full">
+                            <h3 className="text-lg font-semibold text-purple-300 mb-2">Enter Passcode</h3>
+                            <p className="text-sm text-purple-400/70 mb-4">
                                 This forum requires a passcode to join.
                             </p>
                             <form onSubmit={handlePasscodeSubmit}>
@@ -294,7 +293,7 @@ const ViewPublicForums = () => {
                                     type="text"
                                     value={passcode}
                                     onChange={(e) => setPasscode(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4"
+                                    className="w-full px-4 py-2 bg-gray-800/50 border border-purple-500/20 rounded-lg text-purple-300 placeholder-purple-400/50 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 mb-4"
                                     placeholder="Enter passcode"
                                     autoFocus
                                     required
@@ -307,14 +306,14 @@ const ViewPublicForums = () => {
                                             setPasscode("");
                                             setSelectedForum(null);
                                         }}
-                                        className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
+                                        className="px-4 py-2 text-sm font-medium text-purple-300 bg-gray-800/50 rounded-lg border border-purple-500/20 hover:bg-purple-500/10 transition-colors disabled:bg-gray-800/50 disabled:cursor-not-allowed"
                                         disabled={isJoining}
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-indigo-400 disabled:cursor-not-allowed"
+                                        className="px-4 py-2 text-sm font-medium text-white bg-purple-500 rounded-lg hover:bg-purple-600 transition-colors disabled:bg-purple-500/50 disabled:cursor-not-allowed"
                                         disabled={isJoining}
                                     >
                                         {isJoining ? "Joining..." : "Join Forum"}
@@ -325,7 +324,17 @@ const ViewPublicForums = () => {
                     </div>
                 )}
 
-                <Toaster position="top-center" />
+                <Toaster 
+                    position="bottom-right"
+                    toastOptions={{
+                        style: {
+                            background: '#1a1a1a',
+                            color: '#fff',
+                            border: '1px solid rgba(168, 85, 247, 0.2)',
+                            backdropFilter: 'blur(8px)',
+                        },
+                    }}
+                />
             </div>
         </div>
     );

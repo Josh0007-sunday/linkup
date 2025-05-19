@@ -176,11 +176,11 @@ const UserDetail = () => {
   const profileImageUrl = getImageUrl(user?.img || '');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4 md:p-8">
+    <div className="min-h-screen bg-black p-4 sm:p-8">
       <div className="max-w-4xl mx-auto">
         <button 
           onClick={() => navigate(-1)}
-          className="mb-6 px-4 py-2 text-sm text-gray-600 bg-white rounded-lg hover:bg-gray-50 shadow-sm border border-gray-200 flex items-center transition-colors"
+          className="mb-6 px-4 py-2 text-sm text-purple-400 bg-black/40 backdrop-blur-xl rounded-lg hover:bg-purple-500/20 border border-purple-500/20 flex items-center transition-all duration-300"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -189,7 +189,7 @@ const UserDetail = () => {
         </button>
         
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+          <div className="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg mb-6">
             {error}
           </div>
         )}
@@ -197,16 +197,16 @@ const UserDetail = () => {
         {loading ? (
           <Spinner />
         ) : user ? (
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-black/40 backdrop-blur-xl rounded-xl border border-purple-500/20 overflow-hidden">
             {/* Header with gradient background */}
-            <div className="h-48 bg-gradient-to-r from-indigo-500 to-purple-600 relative">
+            <div className="h-32 bg-gradient-to-r from-purple-500/20 to-pink-500/20 relative">
               {profileImageUrl && (
-                <div className="absolute -bottom-16 left-6">
-                  <div className="w-32 h-32 bg-white p-1 rounded-full shadow-xl">
+                <div className="absolute -bottom-12 left-6">
+                  <div className="w-24 h-24 bg-black/40 backdrop-blur-xl p-1 rounded-full border border-purple-500/20">
                     <img 
                       src={profileImageUrl} 
                       alt={user.name} 
-                      className="w-full h-full rounded-full object-cover border-4 border-white"
+                      className="w-full h-full rounded-full object-cover"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&size=128`;
@@ -218,26 +218,26 @@ const UserDetail = () => {
             </div>
             
             {/* Profile content */}
-            <div className="pt-20 px-6 pb-6">
+            <div className="pt-16 px-6 pb-6">
               {/* Name and basic info */}
               <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-6">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900">{user.name}</h1>
-                  <p className="text-lg text-gray-600 mt-1">{user.status || "Professional"}</p>
+                  <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">{user.name}</h1>
+                  <p className="text-sm text-gray-400 mt-1">{user.status || "Professional"}</p>
                   <div className="flex items-center mt-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    <span className="text-gray-500">{user.email}</span>
+                    <span className="text-sm text-gray-400">{user.email}</span>
                   </div>
                 </div>
                 
                 {/* Rating display */}
                 {averageRating !== null && (
-                  <div className="mt-4 md:mt-0 bg-indigo-50 rounded-lg p-4 text-center">
-                    <div className="text-2xl font-bold text-indigo-700">{averageRating.toFixed(1)}</div>
+                  <div className="mt-4 md:mt-0 bg-black/40 backdrop-blur-xl rounded-lg p-3 text-center border border-purple-500/20">
+                    <div className="text-xl font-bold text-purple-400">{averageRating.toFixed(1)}</div>
                     <StarRating rating={Math.round(averageRating)} />
-                    <div className="text-sm text-gray-600 mt-1">
+                    <div className="text-xs text-gray-400 mt-1">
                       {reviewCount} {reviewCount === 1 ? 'review' : 'reviews'}
                     </div>
                   </div>
@@ -245,25 +245,25 @@ const UserDetail = () => {
               </div>
               
               {/* Bio section */}
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-900 mb-3 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="mb-6">
+                <h2 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                   About
                 </h2>
-                <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-                  <p className="text-gray-700 leading-relaxed">
+                <div className="bg-black/40 backdrop-blur-xl rounded-lg p-4 border border-purple-500/20">
+                  <p className="text-sm text-gray-400 leading-relaxed">
                     {user.bio || "This user hasn't added a bio yet."}
                   </p>
                 </div>
               </div>
               
               {/* Reviews section */}
-              <div className="mb-8">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold text-gray-900 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-3">
+                  <h2 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
                     Reviews
@@ -271,9 +271,9 @@ const UserDetail = () => {
                   {isAuthenticated && currentUser?._id !== id && !hasReviewed && (
                     <button
                       onClick={() => setShowReviewForm(!showReviewForm)}
-                      className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center shadow-sm"
+                      className="px-3 py-1.5 bg-purple-500/20 text-purple-400 rounded-lg hover:bg-purple-500/30 border border-purple-500/20 transition-all duration-300 flex items-center text-sm"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                       </svg>
                       {showReviewForm ? 'Cancel' : 'Add Review'}
@@ -283,21 +283,21 @@ const UserDetail = () => {
 
                 {/* Review form */}
                 {showReviewForm && (
-                  <form onSubmit={handleReviewSubmit} className="mb-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="mb-4">
-                      <label className="block text-gray-700 mb-2 font-medium">Your Rating</label>
+                  <form onSubmit={handleReviewSubmit} className="mb-4 bg-black/40 backdrop-blur-xl p-4 rounded-lg border border-purple-500/20">
+                    <div className="mb-3">
+                      <label className="block text-sm text-gray-400 mb-1 font-medium">Your Rating</label>
                       <StarRating 
                         rating={reviewForm.rating} 
                         setRating={(rating) => setReviewForm({...reviewForm, rating})} 
                       />
                     </div>
-                    <div className="mb-4">
-                      <label className="block text-gray-700 mb-2 font-medium">Your Review</label>
+                    <div className="mb-3">
+                      <label className="block text-sm text-gray-400 mb-1 font-medium">Your Review</label>
                       <textarea
                         value={reviewForm.content}
                         onChange={(e) => setReviewForm({...reviewForm, content: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        rows={4}
+                        className="w-full px-3 py-2 bg-black/40 border border-purple-500/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 text-gray-400 text-sm"
+                        rows={3}
                         placeholder="Share your experience working with this person..."
                         required
                       />
@@ -305,11 +305,11 @@ const UserDetail = () => {
                     <button
                       type="submit"
                       disabled={reviewLoading}
-                      className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors flex items-center justify-center w-full sm:w-auto"
+                      className="w-full px-4 py-2 bg-purple-500/20 text-purple-400 rounded-lg hover:bg-purple-500/30 disabled:opacity-50 transition-all duration-300 flex items-center justify-center text-sm border border-purple-500/20"
                     >
                       {reviewLoading ? (
                         <>
-                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>
@@ -324,17 +324,17 @@ const UserDetail = () => {
 
                 {/* Reviews list */}
                 {user.reviews && user.reviews.length > 0 ? (
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {user.reviews.map((review, index) => (
-                      <div key={index} className="border border-gray-100 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+                      <div key={index} className="bg-black/40 backdrop-blur-xl rounded-lg p-4 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
                         <div className="flex justify-between items-start">
                           <div>
-                            <h3 className="font-medium text-gray-900">{review.reviewerName}</h3>
+                            <h3 className="text-sm font-medium text-white">{review.reviewerName}</h3>
                             <div className="mt-1">
                               <StarRating rating={review.rating} />
                             </div>
                           </div>
-                          <span className="text-sm text-gray-500">
+                          <span className="text-xs text-gray-500">
                             {new Date(review.createdAt).toLocaleDateString('en-US', {
                               year: 'numeric',
                               month: 'short',
@@ -342,36 +342,36 @@ const UserDetail = () => {
                             })}
                           </span>
                         </div>
-                        <p className="mt-3 text-gray-600">{review.content}</p>
+                        <p className="mt-2 text-sm text-gray-400">{review.content}</p>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="bg-gray-50 rounded-lg p-8 text-center border border-gray-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="bg-black/40 backdrop-blur-xl rounded-lg p-6 text-center border border-purple-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
-                    <h3 className="mt-2 text-lg font-medium text-gray-900">No reviews yet</h3>
-                    <p className="mt-1 text-gray-500">Be the first to share your experience!</p>
+                    <h3 className="mt-2 text-sm font-medium text-white">No reviews yet</h3>
+                    <p className="mt-1 text-xs text-gray-400">Be the first to share your experience!</p>
                   </div>
                 )}
               </div>
               
               {/* Social links */}
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <h2 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-3 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                   Connect
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
-                    { url: user.portfolio, icon: '🔗', label: 'Portfolio', color: 'bg-blue-100 text-blue-600' },
-                    { url: user.github_url, icon: 'GH', label: 'GitHub', color: 'bg-gray-800 text-white' },
-                    { url: user.linkedin_url, icon: 'in', label: 'LinkedIn', color: 'bg-blue-600 text-white' },
-                    { url: user.twitter_url, icon: 'X', label: 'Twitter', color: 'bg-blue-400 text-white' },
-                    { url: user.facebook_url, icon: 'f', label: 'Facebook', color: 'bg-blue-800 text-white' },
+                    { url: user.portfolio, icon: '🔗', label: 'Portfolio', color: 'bg-purple-500/20 text-purple-400' },
+                    { url: user.github_url, icon: 'GH', label: 'GitHub', color: 'bg-purple-500/20 text-purple-400' },
+                    { url: user.linkedin_url, icon: 'in', label: 'LinkedIn', color: 'bg-purple-500/20 text-purple-400' },
+                    { url: user.twitter_url, icon: 'X', label: 'Twitter', color: 'bg-purple-500/20 text-purple-400' },
+                    { url: user.facebook_url, icon: 'f', label: 'Facebook', color: 'bg-purple-500/20 text-purple-400' },
                   ].map((link, index) => (
                     link.url && (
                       <a 
@@ -379,13 +379,13 @@ const UserDetail = () => {
                         href={link.url} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="flex items-center p-3 rounded-lg transition-all hover:shadow-md border border-gray-100 hover:border-gray-200"
+                        className="flex items-center p-2 rounded-lg transition-all hover:bg-purple-500/10 border border-purple-500/20 hover:border-purple-500/40"
                       >
-                        <span className={`w-10 h-10 flex items-center justify-center rounded-full ${link.color} font-medium`}>
+                        <span className={`w-8 h-8 flex items-center justify-center rounded-full ${link.color} text-sm font-medium`}>
                           {link.icon}
                         </span>
-                        <span className="ml-3 font-medium text-gray-700">{link.label}</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <span className="ml-2 text-sm font-medium text-gray-400">{link.label}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-auto text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </a>
@@ -396,12 +396,12 @@ const UserDetail = () => {
             </div>
           </div>
         ) : (
-          <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="bg-black/40 backdrop-blur-xl p-6 rounded-xl border border-purple-500/20 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <h3 className="mt-2 text-lg font-medium text-gray-900">User not found</h3>
-            <p className="mt-1 text-gray-500">The user you're looking for doesn't exist or may have been removed.</p>
+            <h3 className="mt-2 text-sm font-medium text-white">User not found</h3>
+            <p className="mt-1 text-xs text-gray-400">The user you're looking for doesn't exist or may have been removed.</p>
           </div>
         )}
       </div>

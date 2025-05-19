@@ -234,108 +234,62 @@ const ArticleDetail = () => {
 
   if (loading) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-12">
-        {/* Back Button Skeleton */}
-        <div className="mb-8">
-          <LoadingSkeleton type="text" className="w-32" />
-        </div>
-
-        {/* Article Header Skeleton */}
-        <header className="mb-12">
-          {/* Cover Image Skeleton */}
-          <div className="mb-8 rounded-lg overflow-hidden aspect-[3/1] max-h-[400px]">
-            <LoadingSkeleton type="image" />
+      <div className="min-h-screen bg-black p-4 sm:p-8">
+        <div className="max-w-5xl mx-auto">
+          {/* Back Button Skeleton */}
+          <div className="mb-8">
+            <LoadingSkeleton type="text" className="w-32" />
           </div>
 
-          {/* Title Skeleton */}
-          <div className="mb-6">
-            <LoadingSkeleton type="text" className="w-3/4 h-12" />
-          </div>
-
-          {/* Author and Actions Skeleton */}
-          <div className="flex items-center justify-between mb-8 max-w-4xl">
-            <div className="flex items-center space-x-4">
-              <LoadingSkeleton type="profile" />
+          {/* Article Header */}
+          <header className="mb-12">
+            {/* Cover Image */}
+            <div className="mb-8">
+              <LoadingSkeleton type="image" className="h-64" />
             </div>
-            <div className="flex items-center space-x-4">
-              <LoadingSkeleton type="text" className="w-20" />
-              <LoadingSkeleton type="text" className="w-20" />
+
+            {/* Title */}
+            <div className="mb-8">
+              <LoadingSkeleton type="text" className="w-3/4 h-12 mb-4" />
+              <LoadingSkeleton type="text" className="w-1/2 h-8" />
             </div>
-          </div>
 
-          {/* Tags Skeleton */}
-          <div className="flex flex-wrap gap-2 mb-8 max-w-4xl">
-            {[1, 2, 3].map((index) => (
-              <LoadingSkeleton key={index} type="text" className="w-24" />
-            ))}
-          </div>
-        </header>
+            {/* Author Info */}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center space-x-4">
+                <LoadingSkeleton type="circle" className="w-12 h-12" />
+                <div className="space-y-2">
+                  <LoadingSkeleton type="text" className="w-32" />
+                  <LoadingSkeleton type="text" className="w-24" />
+                </div>
+              </div>
+              <div className="flex space-x-4">
+                <LoadingSkeleton type="text" className="w-20" />
+                <LoadingSkeleton type="text" className="w-20" />
+              </div>
+            </div>
+          </header>
 
-        {/* Article Content Skeleton */}
-        <article className="prose prose-lg max-w-4xl mx-auto mb-12">
-          <div className="space-y-4">
+          {/* Article Content */}
+          <article className="space-y-4 mb-12">
             <LoadingSkeleton type="text" className="w-full" />
             <LoadingSkeleton type="text" className="w-5/6" />
             <LoadingSkeleton type="text" className="w-4/6" />
             <LoadingSkeleton type="text" className="w-full" />
-            <LoadingSkeleton type="text" className="w-3/4" />
-            <LoadingSkeleton type="text" className="w-5/6" />
-          </div>
-        </article>
+          </article>
 
-        {/* Article Footer Skeleton */}
-        <footer className="max-w-4xl mx-auto mb-12 border-t border-gray-200 pt-8">
-          {/* Actions Skeleton */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-4">
-              <LoadingSkeleton type="text" className="w-32" />
-              <LoadingSkeleton type="text" className="w-32" />
-            </div>
-            <div className="flex items-center space-x-4">
-              <LoadingSkeleton type="text" className="w-8" />
-              <LoadingSkeleton type="text" className="w-8" />
-            </div>
-          </div>
-
-          {/* Author Bio Skeleton */}
-          <div className="bg-gray-50 p-8 rounded-xl">
-            <div className="flex items-start">
-              <LoadingSkeleton type="profile" className="w-20 h-20" />
-              <div className="ml-6 flex-1">
-                <LoadingSkeleton type="text" className="w-48 mb-2" />
-                <LoadingSkeleton type="text" className="w-full mb-2" />
+          {/* Author Bio */}
+          <div className="bg-black/40 backdrop-blur-xl p-8 rounded-xl border border-purple-500/20 mb-12">
+            <div className="flex items-start space-x-6">
+              <LoadingSkeleton type="circle" className="w-20 h-20" />
+              <div className="flex-1 space-y-4">
+                <LoadingSkeleton type="text" className="w-48" />
+                <LoadingSkeleton type="text" className="w-full" />
                 <LoadingSkeleton type="text" className="w-24" />
               </div>
             </div>
           </div>
-        </footer>
-
-        {/* Comments Section Skeleton */}
-        <section className="max-w-4xl mx-auto mb-12">
-          <LoadingSkeleton type="text" className="w-48 mb-8" />
-
-          {/* Comment Form Skeleton */}
-          <div className="mb-8">
-            <LoadingSkeleton type="text" className="w-full h-32 mb-4" />
-            <LoadingSkeleton type="text" className="w-32" />
-          </div>
-
-          {/* Comments List Skeleton */}
-          <div className="space-y-8">
-            {[1, 2].map((index) => (
-              <div key={index} className="border-b border-gray-200 pb-8 last:border-0">
-                <div className="flex items-start mb-4">
-                  <LoadingSkeleton type="profile" className="w-12 h-12" />
-                  <div className="ml-4">
-                    <LoadingSkeleton type="text" className="w-32 mb-2" />
-                    <LoadingSkeleton type="text" className="w-24" />
-                  </div>
-                </div>
-                <LoadingSkeleton type="text" className="w-full ml-16" />
-              </div>
-            ))}
-          </div>
-        </section>
+        </div>
       </div>
     );
   }
@@ -378,248 +332,250 @@ const ArticleDetail = () => {
   const readingTime = Math.ceil((article.content?.split(/\s+/) || []).length / 200);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
-      {/* Back Button */}
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-8 flex items-center text-gray-600 hover:text-indigo-600 transition-colors"
-      >
-        <svg
-          className="w-5 h-5 mr-2"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+    <div className="min-h-screen bg-black p-4 sm:p-8">
+      <div className="max-w-5xl mx-auto">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="mb-8 flex items-center text-purple-400 hover:text-purple-300 transition-colors"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-          />
-        </svg>
-        Back to Articles
-      </button>
-
-      {/* Article Header */}
-      <header className="mb-12">
-        {/* Cover Image */}
-        {coverImageUrl && (
-          <div className="mb-8 rounded-lg overflow-hidden aspect-[3/1] max-h-[400px]">
-            <img
-              src={coverImageUrl}
-              alt={`Cover for ${article.title}`}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = '/default-cover.jpg';
-              }}
+          <svg
+            className="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
             />
+          </svg>
+          Back to Articles
+        </button>
+
+        {/* Article Header */}
+        <header className="mb-12">
+          {/* Cover Image */}
+          {coverImageUrl && (
+            <div className="mb-8 rounded-lg overflow-hidden aspect-[3/1] max-h-[400px]">
+              <img
+                src={coverImageUrl}
+                alt={`Cover for ${article.title}`}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/default-cover.jpg';
+                }}
+              />
+            </div>
+          )}
+
+          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-6 leading-tight max-w-4xl">
+            {article.title}
+          </h1>
+
+          <div className="flex items-center justify-between mb-8 max-w-4xl">
+            <div className="flex items-center space-x-4">
+              {/* Author Info */}
+              <div className="flex items-center">
+                {authorImageUrl ? (
+                  <img
+                    src={authorImageUrl}
+                    alt={article.author.name}
+                    className="w-12 h-12 rounded-full object-cover mr-4 border border-purple-500/20"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(article.author.name)}&background=random`;
+                    }}
+                  />
+                ) : (
+                  <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mr-4 border border-purple-500/20">
+                    <span className="text-xl font-medium text-purple-400">
+                      {article.author.name.charAt(0)}
+                    </span>
+                  </div>
+                )}
+                <div>
+                  <p className="font-medium text-white text-lg">{article.author.name}</p>
+                  <p className="text-sm text-gray-400">
+                    {format(new Date(article.publishedAt), 'MMM d, yyyy')} · {readingTime} min read
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Social Share and Actions */}
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={handleLike}
+                className={`flex items-center space-x-1 ${isLiked ? 'text-purple-400' : 'text-gray-400 hover:text-purple-400'}`}
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                </svg>
+                <span className="text-lg">{article.likesCount}</span>
+              </button>
+
+              <button
+                onClick={handleBookmark}
+                className={`${isBookmarked ? 'text-purple-400' : 'text-gray-400 hover:text-purple-400'}`}
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                </svg>
+              </button>
+            </div>
           </div>
-        )}
 
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight max-w-4xl">
-          {article.title}
-        </h1>
+          {/* Tags */}
+          {article.tags && article.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-8 max-w-4xl">
+              {article.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm border border-purple-500/20 hover:bg-purple-500/30 transition-all duration-300"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
 
-        <div className="flex items-center justify-between mb-8 max-w-4xl">
-          <div className="flex items-center space-x-4">
-            {/* Author Info */}
-            <div className="flex items-center">
+        {/* Article Content */}
+        <article className="prose prose-lg max-w-4xl mx-auto mb-12 prose-headings:text-transparent prose-headings:bg-clip-text prose-headings:bg-gradient-to-r prose-headings:from-purple-400 prose-headings:to-pink-600 prose-p:text-gray-400 prose-strong:text-white prose-a:text-purple-400 prose-a:no-underline hover:prose-a:text-purple-300 prose-blockquote:text-gray-400 prose-blockquote:border-purple-500/20 prose-code:text-purple-400 prose-pre:bg-black/40 prose-pre:border prose-pre:border-purple-500/20">
+          {renderedContent && (
+            <div dangerouslySetInnerHTML={renderedContent} />
+          )}
+        </article>
+
+        {/* Article Footer */}
+        <footer className="max-w-4xl mx-auto mb-12 border-t border-purple-500/20 pt-8">
+          <div className="flex items-center justify-between mb-8">
+            {/* Like and Bookmark Actions */}
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={handleLike}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-full ${isLiked ? 'bg-purple-500/20 text-purple-400' : 'bg-black/40 text-gray-400 hover:bg-purple-500/20 hover:text-purple-400'} border border-purple-500/20 transition-all duration-300`}
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                </svg>
+                <span className="text-lg">{isLiked ? 'Liked' : 'Like'} · {article.likesCount}</span>
+              </button>
+
+              <button
+                onClick={handleBookmark}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-full ${isBookmarked ? 'bg-purple-500/20 text-purple-400' : 'bg-black/40 text-gray-400 hover:bg-purple-500/20 hover:text-purple-400'} border border-purple-500/20 transition-all duration-300`}
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                </svg>
+                <span className="text-lg">{isBookmarked ? 'Saved' : 'Save'}</span>
+              </button>
+            </div>
+
+            {/* Social Share */}
+            <div className="flex items-center space-x-4">
+              <button className="text-gray-400 hover:text-purple-400 transition-colors">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                </svg>
+              </button>
+              <button className="text-gray-400 hover:text-purple-400 transition-colors">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Author Bio */}
+          <div className="bg-black/40 backdrop-blur-xl p-8 rounded-xl border border-purple-500/20">
+            <div className="flex items-start">
               {authorImageUrl ? (
                 <img
                   src={authorImageUrl}
                   alt={article.author.name}
-                  className="w-12 h-12 rounded-full object-cover mr-4"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(article.author.name)}&background=random`;
-                  }}
+                  className="w-20 h-20 rounded-full object-cover mr-6 border border-purple-500/20"
                 />
               ) : (
-                <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
-                  <span className="text-xl font-medium">
+                <div className="w-20 h-20 rounded-full bg-purple-500/20 flex items-center justify-center mr-6 border border-purple-500/20">
+                  <span className="text-2xl font-medium text-purple-400">
                     {article.author.name.charAt(0)}
                   </span>
                 </div>
               )}
               <div>
-                <p className="font-medium text-gray-900 text-lg">{article.author.name}</p>
-                <p className="text-sm text-gray-500">
-                  {format(new Date(article.publishedAt), 'MMM d, yyyy')} · {readingTime} min read
+                <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-xl mb-2">
+                  Written by {article.author.name}
+                </h3>
+                <p className="text-gray-400 text-lg mb-4">
+                  {article.author.bio || 'No bio available'}
                 </p>
+                <button className="text-sm text-purple-400 hover:text-purple-300 font-medium transition-colors">
+                  Follow
+                </button>
               </div>
             </div>
           </div>
+        </footer>
 
-          {/* Social Share and Actions */}
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={handleLike}
-              className={`flex items-center space-x-1 ${isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500'}`}
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-              </svg>
-              <span className="text-lg">{article.likesCount}</span>
-            </button>
+        {/* Comments Section */}
+        <section className="max-w-4xl mx-auto mb-12">
+          <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-8">Comments ({comments.length})</h2>
 
+          {/* Add Comment Form */}
+          <div className="mb-8">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Add a comment..."
+              className="w-full px-6 py-4 bg-black/40 border border-purple-500/20 rounded-xl focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 mb-4 text-lg text-gray-400 placeholder-gray-500"
+              rows={3}
+            />
             <button
-              onClick={handleBookmark}
-              className={`${isBookmarked ? 'text-indigo-600' : 'text-gray-500 hover:text-indigo-600'}`}
+              onClick={handleAddComment}
+              disabled={!newComment.trim()}
+              className="px-6 py-3 bg-purple-500/20 text-purple-400 rounded-full hover:bg-purple-500/30 disabled:opacity-50 text-lg font-medium border border-purple-500/20 transition-all duration-300"
             >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
-              </svg>
+              Post Comment
             </button>
           </div>
-        </div>
 
-        {/* Tags */}
-        {article.tags && article.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-8 max-w-4xl">
-            {article.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors"
-              >
-                #{tag}
-              </span>
+          {/* Comments List */}
+          <div className="space-y-8">
+            {comments.map((comment) => (
+              <div key={comment._id} className="border-b border-purple-500/20 pb-8 last:border-0">
+                <div className="flex items-start mb-4">
+                  {comment.user.img ? (
+                    <img
+                      src={getImageUrl(comment.user.img) || ''}
+                      alt={comment.user.name}
+                      className="w-12 h-12 rounded-full object-cover mr-4 border border-purple-500/20"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mr-4 border border-purple-500/20">
+                      <span className="text-xl font-medium text-purple-400">
+                        {comment.user.name.charAt(0)}
+                      </span>
+                    </div>
+                  )}
+                  <div>
+                    <h4 className="font-medium text-white text-lg">{comment.user.name}</h4>
+                    <p className="text-sm text-gray-400">
+                      {format(new Date(comment.createdAt), 'MMM d, yyyy')}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-gray-400 text-lg pl-16">{comment.content}</p>
+              </div>
             ))}
           </div>
-        )}
-      </header>
-
-      {/* Article Content */}
-      <article className="prose prose-lg max-w-4xl mx-auto mb-12">
-        {renderedContent && (
-          <div dangerouslySetInnerHTML={renderedContent} />
-        )}
-      </article>
-
-      {/* Article Footer */}
-      <footer className="max-w-4xl mx-auto mb-12 border-t border-gray-200 pt-8">
-        <div className="flex items-center justify-between mb-8">
-          {/* Like and Bookmark Actions */}
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={handleLike}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-full ${isLiked ? 'bg-red-50 text-red-600' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-              </svg>
-              <span className="text-lg">{isLiked ? 'Liked' : 'Like'} · {article.likesCount}</span>
-            </button>
-
-            <button
-              onClick={handleBookmark}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-full ${isBookmarked ? 'bg-indigo-50 text-indigo-600' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
-              </svg>
-              <span className="text-lg">{isBookmarked ? 'Saved' : 'Save'}</span>
-            </button>
-          </div>
-
-          {/* Social Share */}
-          <div className="flex items-center space-x-4">
-            <button className="text-gray-500 hover:text-blue-600">
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
-              </svg>
-            </button>
-            <button className="text-gray-500 hover:text-blue-800">
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Author Bio */}
-        <div className="bg-gray-50 p-8 rounded-xl">
-          <div className="flex items-start">
-            {authorImageUrl ? (
-              <img
-                src={authorImageUrl}
-                alt={article.author.name}
-                className="w-20 h-20 rounded-full object-cover mr-6"
-              />
-            ) : (
-              <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center mr-6">
-                <span className="text-2xl font-medium">
-                  {article.author.name.charAt(0)}
-                </span>
-              </div>
-            )}
-            <div>
-              <h3 className="font-bold text-gray-900 text-xl mb-2">
-                Written by {article.author.name}
-              </h3>
-              <p className="text-gray-600 text-lg mb-4">
-                {article.author.bio || 'No bio available'}
-              </p>
-              <button className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
-                Follow
-              </button>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* Comments Section */}
-      <section className="max-w-4xl mx-auto mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8">Comments ({comments.length})</h2>
-
-        {/* Add Comment Form */}
-        <div className="mb-8">
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment..."
-            className="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 mb-4 text-lg"
-            rows={3}
-          />
-          <button
-            onClick={handleAddComment}
-            disabled={!newComment.trim()}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 disabled:opacity-50 text-lg font-medium"
-          >
-            Post Comment
-          </button>
-        </div>
-
-        {/* Comments List */}
-        <div className="space-y-8">
-          {comments.map((comment) => (
-            <div key={comment._id} className="border-b border-gray-200 pb-8 last:border-0">
-              <div className="flex items-start mb-4">
-                {comment.user.img ? (
-                  <img
-                    src={getImageUrl(comment.user.img) || ''}
-                    alt={comment.user.name}
-                    className="w-12 h-12 rounded-full object-cover mr-4"
-                  />
-                ) : (
-                  <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
-                    <span className="text-xl font-medium">
-                      {comment.user.name.charAt(0)}
-                    </span>
-                  </div>
-                )}
-                <div>
-                  <h4 className="font-medium text-gray-900 text-lg">{comment.user.name}</h4>
-                  <p className="text-sm text-gray-500">
-                    {format(new Date(comment.createdAt), 'MMM d, yyyy')}
-                  </p>
-                </div>
-              </div>
-              <p className="text-gray-700 text-lg pl-16">{comment.content}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 };

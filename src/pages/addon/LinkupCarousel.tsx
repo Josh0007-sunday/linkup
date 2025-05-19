@@ -14,8 +14,8 @@ const LinkUpCarousel: React.FC = () => {
         "Join our community and shine! Update your profile to unlock opportunities.",
       buttonText: "Update Profile",
       buttonLink: "/update-profile",
-      icon: <User className="text-pink-500" size={32} />,
-      bgGradient: "from-indigo-200 via-purple-100 to-pink-100",
+      icon: <User className="text-purple-400" size={24} />,
+      bgGradient: "from-purple-900/50 via-purple-800/50 to-pink-900/50",
     },
     {
       title: "Earn Rewards on LinkUp! 🚀",
@@ -23,8 +23,8 @@ const LinkUpCarousel: React.FC = () => {
         "Complete your profile for personalized recommendations and rewards!",
       buttonText: "Explore Now",
       buttonLink: "/bounties",
-      icon: <Award className="text-yellow-500" size={32} />,
-      bgGradient: "from-yellow-100 via-pink-100 to-indigo-200",
+      icon: <Award className="text-purple-400" size={24} />,
+      bgGradient: "from-purple-900/50 via-pink-800/50 to-purple-900/50",
     },
     {
       title: "POWERED BY MOVEMENT LABS",
@@ -33,27 +33,27 @@ const LinkUpCarousel: React.FC = () => {
       buttonText: "Learn More",
       buttonLink: "https://movementlabs.xyz",
       icon: null,
-      bgGradient: "from-yellow-400 via-yellow-300 to-yellow-200",
-      customStyle: "text-left pl-8",
+      bgGradient: "from-purple-900/50 via-purple-800/50 to-pink-900/50",
+      customStyle: "text-left pl-6",
     },
   ];
 
-  // Delay appearance by 3 seconds
+  // Delay appearance by 1 second
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
-    },);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Auto-slide every 7 seconds
+  // Auto-slide every 5 seconds
   useEffect(() => {
     if (isVisible) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) =>
           prevIndex === slides.length - 1 ? 0 : prevIndex + 1
         );
-      }, 2000);
+      }, 5000);
       return () => clearInterval(interval);
     }
   }, [isVisible, slides.length]);
@@ -61,8 +61,8 @@ const LinkUpCarousel: React.FC = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="relative w-full mb-8">
-      <div className="overflow-hidden rounded-xl shadow-lg">
+    <div className="relative max-w-4xl mx-auto mb-6">
+      <div className="overflow-hidden rounded-xl backdrop-blur-sm border border-purple-500/30">
         <div
           className="flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -70,35 +70,35 @@ const LinkUpCarousel: React.FC = () => {
           {slides.map((slide, index) => (
             <div
               key={index}
-              className={`min-w-full bg-gradient-to-r ${slide.bgGradient} rounded-xl p-6 flex items-center transform transition-all duration-300 hover:scale-102 ${slide.customStyle || ''}`}
+              className={`min-w-full bg-gradient-to-r ${slide.bgGradient} rounded-xl p-4 flex items-center transform transition-all duration-300 hover:scale-[1.02] ${slide.customStyle || ''}`}
             >
               {index === slides.length - 1 ? (
                 // Special layout for Movement Labs slide
-                <div className="flex items-center gap-8 w-full">
+                <div className="flex items-center gap-4 w-full">
                   <div className="relative flex-shrink-0">
                     <img 
                       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2Ri8Ig7GxGfptoghWNev6UQYMqgTZOWsqWw&s" 
                       alt="Movement Labs" 
-                      className="w-24 h-24 object-contain" // Increased from w-16 h-16
+                      className="w-16 h-16 object-contain"
                     />
                     <img 
                       src={usdc} 
                       alt="USDC" 
-                      className="absolute -top-2 -right-2 w-8 h-8 object-contain animate-spin-slow"
+                      className="absolute -top-1 -right-1 w-6 h-6 object-contain animate-spin-slow"
                       style={{ animationDuration: '8s' }}
                     />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-black text-gray-900 mb-3 uppercase tracking-tight">
+                    <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2 uppercase tracking-tight">
                       {slide.title}
                     </h3>
-                    <p className="text-lg text-gray-800 mb-4 font-medium max-w-md"> {/* Increased text size */}
+                    <p className="text-sm text-gray-300 mb-3 max-w-md">
                       {slide.description}
                     </p>
                     <Link
                       to={slide.buttonLink}
                       target={slide.buttonLink.startsWith('http') ? '_blank' : '_self'}
-                      className="inline-block bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-8 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-lg" // Increased button size
+                      className="inline-block bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 font-medium py-2 px-4 rounded-lg transition-all duration-200 text-sm border border-purple-500/30"
                     >
                       {slide.buttonText} →
                     </Link>
@@ -106,22 +106,22 @@ const LinkUpCarousel: React.FC = () => {
                 </div>
               ) : (
                 // Standard layout for other slides
-                <div className={`max-w-lg mx-auto ${slide.customStyle ? 'text-left' : 'text-center'}`}>
-                  <div className="inline-block bg-white p-3 rounded-full shadow-md animate-bounce mb-4">
+                <div className={`max-w-md mx-auto ${slide.customStyle ? 'text-left' : 'text-center'}`}>
+                  <div className="inline-block bg-purple-500/20 p-2 rounded-full mb-3">
                     {slide.icon}
                   </div>
-                  <h3 className="text-xl font-extrabold text-gray-900 mb-3 animate-pulse">
+                  <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">
                     {slide.title}
                   </h3>
-                  <p className="text-base text-gray-800 mb-4 font-medium">
+                  <p className="text-sm text-gray-300 mb-3">
                     {slide.description}
                   </p>
                   <Link
                     to={slide.buttonLink}
                     target={slide.buttonLink.startsWith('http') ? '_blank' : '_self'}
-                    className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-200"
+                    className="inline-block bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 font-medium py-2 px-4 rounded-lg transition-all duration-200 text-sm border border-purple-500/30"
                   >
-                    {slide.buttonText} ✨
+                    {slide.buttonText} →
                   </Link>
                 </div>
               )}
@@ -129,12 +129,12 @@ const LinkUpCarousel: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className="flex justify-center mt-4 space-x-2">
+      <div className="flex justify-center mt-3 space-x-1.5">
         {slides.map((_, index) => (
           <div
             key={index}
-            className={`h-2 w-2 rounded-full ${
-              index === currentIndex ? "bg-pink-500" : "bg-indigo-300"
+            className={`h-1.5 w-1.5 rounded-full ${
+              index === currentIndex ? "bg-purple-400" : "bg-purple-500/30"
             } transition-colors duration-200`}
           ></div>
         ))}

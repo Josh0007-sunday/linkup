@@ -2,7 +2,7 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { useAuth } from "../components/AUTH/page";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { FaTwitter, FaFacebook, FaLinkedin, FaGithub, FaGlobe, FaWallet } from "react-icons/fa";
+import { FaTwitter, FaFacebook, FaLinkedin, FaGithub, FaGlobe, FaWallet, FaUpload } from "react-icons/fa";
 
 const UpdateProfile = () => {
   const { user } = useAuth();
@@ -55,14 +55,12 @@ const UpdateProfile = () => {
         return;
       }
 
-      // Validate eth_publickey (optional, can be empty)
       if (formData.eth_publickey && !/^0x[a-fA-F0-9]{40}$/.test(formData.eth_publickey)) {
         toast.error("Invalid Ethereum address. It should start with 0x followed by 40 hexadecimal characters.");
         setLoading(false);
         return;
       }
 
-      // Create FormData for file and text fields
       const formDataToSend = new FormData();
       formDataToSend.append("status", formData.status);
       formDataToSend.append("bio", formData.bio);
@@ -107,46 +105,64 @@ const UpdateProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
-      <Toaster position="top-center" />
-      <div className="max-w-4xl w-full">
+    <div className="min-h-screen bg-black bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black p-4 md:p-8">
+      <Toaster 
+        position="bottom-right"
+        toastOptions={{
+          style: {
+            background: '#1a1a1a',
+            color: '#fff',
+            border: '1px solid rgba(168, 85, 247, 0.2)',
+            backdropFilter: 'blur(8px)',
+          },
+        }}
+      />
+      <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Update Profile</h1>
-          <p className="text-gray-600 mt-2">Keep your profile up to date</p>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 bg-clip-text text-transparent animate-gradient-x">
+            Update Profile
+          </h1>
+          <p className="text-gray-400 mt-2 text-lg">Keep your profile up to date</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="bg-gray-900/30 backdrop-blur-xl shadow-2xl rounded-2xl border border-purple-500/20 p-6 md:p-8 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),rgba(255,255,255,0))] pointer-events-none" />
+          <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(168,85,247,0.05)_50%,transparent_75%)] bg-[length:250%_250%] animate-shimmer pointer-events-none" />
+          <form onSubmit={handleSubmit} className="space-y-8 relative">
             {/* Image Upload */}
-            <div>
-              <label htmlFor="img" className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="group">
+              <label htmlFor="img" className="block text-sm font-medium text-purple-400 mb-2 group-hover:text-purple-300 transition-colors duration-200">
                 Profile Image
               </label>
-              <input
-                id="img"
-                name="img"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
-              />
+              <div className="relative">
+                <input
+                  id="img"
+                  name="img"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="w-full px-4 py-3 rounded-xl bg-gray-800/30 border border-purple-500/20 text-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 hover:border-purple-500/40 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+                />
+                <FaUpload className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-400 group-hover:text-purple-300 transition-colors duration-200" />
+              </div>
             </div>
 
             {/* Status */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-purple-400 mb-3">
                 Status
               </label>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 {statusOptions.map((status) => (
                   <button
                     key={status}
                     type="button"
                     onClick={() => handleStatusChange(status)}
-                    className={`px-4 py-2 rounded-full border ${
+                    className={`px-4 py-2 rounded-xl border backdrop-blur-sm transition-all duration-200 hover:scale-105 ${
                       formData.status === status
-                        ? "border-blue-500 bg-blue-50 text-blue-700"
-                        : "border-gray-200 text-gray-700 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700"
-                    } transition-colors duration-200`}
+                        ? "border-purple-500 bg-purple-500/20 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.5)]"
+                        : "border-purple-500/20 text-gray-300 hover:border-purple-500 hover:bg-purple-500/10 hover:shadow-[0_0_10px_rgba(168,85,247,0.2)]"
+                    }`}
                   >
                     {status}
                   </button>
@@ -155,8 +171,8 @@ const UpdateProfile = () => {
             </div>
 
             {/* Bio */}
-            <div>
-              <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="group">
+              <label htmlFor="bio" className="block text-sm font-medium text-purple-400 mb-2 group-hover:text-purple-300 transition-colors duration-200">
                 Bio
               </label>
               <textarea
@@ -164,23 +180,23 @@ const UpdateProfile = () => {
                 name="bio"
                 value={formData.bio}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-xl bg-gray-800/30 border border-purple-500/20 text-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 hover:border-purple-500/40 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
                 placeholder="Tell us about yourself"
                 rows={4}
               />
             </div>
 
             {/* Public Wallet Section */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Public Wallet</h2>
+            <div className="group">
+              <h2 className="text-lg font-semibold text-purple-400 mb-4 group-hover:text-purple-300 transition-colors duration-200">Public Wallet</h2>
               <div className="space-y-6">
                 <div>
-                  <label htmlFor="eth_publickey" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="eth_publickey" className="block text-sm font-medium text-purple-400 mb-2 group-hover:text-purple-300 transition-colors duration-200">
                     Ethereum Address
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaWallet className="text-gray-400" />
+                      <FaWallet className="text-purple-400 group-hover:text-purple-300 transition-colors duration-200" />
                     </div>
                     <input
                       id="eth_publickey"
@@ -188,7 +204,7 @@ const UpdateProfile = () => {
                       type="text"
                       value={formData.eth_publickey}
                       onChange={handleInputChange}
-                      className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                      className="w-full pl-10 px-4 py-3 rounded-xl bg-gray-800/30 border border-purple-500/20 text-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 hover:border-purple-500/40 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
                       placeholder="e.g., 0x1234567890abcdef1234567890abcdef12345678"
                     />
                   </div>
@@ -197,19 +213,19 @@ const UpdateProfile = () => {
             </div>
 
             {/* Social Links Section */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Social Links</h2>
+            <div className="group">
+              <h2 className="text-lg font-semibold text-purple-400 mb-4 group-hover:text-purple-300 transition-colors duration-200">Social Links</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Left Column */}
                 <div className="space-y-6">
                   {/* Twitter URL */}
-                  <div>
-                    <label htmlFor="twitter_url" className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="group/item">
+                    <label htmlFor="twitter_url" className="block text-sm font-medium text-purple-400 mb-2 group-hover/item:text-purple-300 transition-colors duration-200">
                       Twitter URL
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FaTwitter className="text-gray-400" />
+                        <FaTwitter className="text-purple-400 group-hover/item:text-purple-300 transition-colors duration-200" />
                       </div>
                       <input
                         id="twitter_url"
@@ -217,20 +233,20 @@ const UpdateProfile = () => {
                         type="url"
                         value={formData.twitter_url}
                         onChange={handleInputChange}
-                        className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                        className="w-full pl-10 px-4 py-3 rounded-xl bg-gray-800/30 border border-purple-500/20 text-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 hover:border-purple-500/40 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
                         placeholder="https://twitter.com/yourusername"
                       />
                     </div>
                   </div>
 
                   {/* Facebook URL */}
-                  <div>
-                    <label htmlFor="facebook_url" className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="group/item">
+                    <label htmlFor="facebook_url" className="block text-sm font-medium text-purple-400 mb-2 group-hover/item:text-purple-300 transition-colors duration-200">
                       Facebook URL
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FaFacebook className="text-gray-400" />
+                        <FaFacebook className="text-purple-400 group-hover/item:text-purple-300 transition-colors duration-200" />
                       </div>
                       <input
                         id="facebook_url"
@@ -238,44 +254,44 @@ const UpdateProfile = () => {
                         type="url"
                         value={formData.facebook_url}
                         onChange={handleInputChange}
-                        className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                        className="w-full pl-10 px-4 py-3 rounded-xl bg-gray-800/30 border border-purple-500/20 text-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 hover:border-purple-500/40 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
                         placeholder="https://facebook.com/yourusername"
                       />
                     </div>
                   </div>
 
                   {/* LinkedIn URL */}
-                  <div>
-                    <label htmlFor="linkedin_url" className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="group/item">
+                    <label htmlFor="linkedin_url" className="block text-sm font-medium text-purple-400 mb-2 group-hover/item:text-purple-300 transition-colors duration-200">
                       LinkedIn URL
                     </label>
                     <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <FaLinkedin className="text-gray-400" />
-                        </div>
-                        <input
-                          id="linkedin_url"
-                          name="linkedin_url"
-                          type="url"
-                          value={formData.linkedin_url}
-                          onChange={handleInputChange}
-                          className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
-                          placeholder="https://linkedin.com/in/yourusername"
-                        />
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <FaLinkedin className="text-purple-400 group-hover/item:text-purple-300 transition-colors duration-200" />
                       </div>
+                      <input
+                        id="linkedin_url"
+                        name="linkedin_url"
+                        type="url"
+                        value={formData.linkedin_url}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 px-4 py-3 rounded-xl bg-gray-800/30 border border-purple-500/20 text-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 hover:border-purple-500/40 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+                        placeholder="https://linkedin.com/in/yourusername"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 {/* Right Column */}
                 <div className="space-y-6">
                   {/* GitHub URL */}
-                  <div>
-                    <label htmlFor="github_url" className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="group/item">
+                    <label htmlFor="github_url" className="block text-sm font-medium text-purple-400 mb-2 group-hover/item:text-purple-300 transition-colors duration-200">
                       GitHub URL
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FaGithub className="text-gray-400" />
+                        <FaGithub className="text-purple-400 group-hover/item:text-purple-300 transition-colors duration-200" />
                       </div>
                       <input
                         id="github_url"
@@ -283,20 +299,20 @@ const UpdateProfile = () => {
                         type="url"
                         value={formData.github_url}
                         onChange={handleInputChange}
-                        className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                        className="w-full pl-10 px-4 py-3 rounded-xl bg-gray-800/30 border border-purple-500/20 text-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 hover:border-purple-500/40 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
                         placeholder="https://github.com/yourusername"
                       />
                     </div>
                   </div>
 
                   {/* Portfolio URL */}
-                  <div>
-                    <label htmlFor="portfolio" className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="group/item">
+                    <label htmlFor="portfolio" className="block text-sm font-medium text-purple-400 mb-2 group-hover/item:text-purple-300 transition-colors duration-200">
                       Portfolio URL
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FaGlobe className="text-gray-400" />
+                        <FaGlobe className="text-purple-400 group-hover/item:text-purple-300 transition-colors duration-200" />
                       </div>
                       <input
                         id="portfolio"
@@ -304,7 +320,7 @@ const UpdateProfile = () => {
                         type="url"
                         value={formData.portfolio}
                         onChange={handleInputChange}
-                        className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                        className="w-full pl-10 px-4 py-3 rounded-xl bg-gray-800/30 border border-purple-500/20 text-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 hover:border-purple-500/40 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
                         placeholder="https://yourportfolio.com"
                       />
                     </div>
@@ -317,15 +333,16 @@ const UpdateProfile = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 px-4 rounded-lg text-white font-medium
+              className={`w-full py-4 px-6 rounded-xl font-medium backdrop-blur-sm transition-all duration-200 relative overflow-hidden group
                 ${loading
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-gray-700 hover:bg-gray-800 active:bg-gray-800'} 
-                transition-colors duration-200`}
+                  ? 'bg-gray-800/50 text-gray-500 cursor-not-allowed'
+                  : 'bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 border border-purple-500/20 hover:border-purple-500/40 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)]'} 
+              `}
             >
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-purple-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               {loading ? (
                 <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>

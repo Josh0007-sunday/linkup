@@ -652,421 +652,431 @@ const ForumDiscussion = () => {
   };
 
   return (
-<div className="min-h-screen bg-gradient-to-b from-indigo-50 to-blue-50 text-gray-800 flex flex-col">
-  {/* Header - Enhanced with modern styling */}
-  <div className="bg-white p-4 flex items-center justify-between border-b border-gray-100 shadow-sm backdrop-blur-lg bg-white/90 sticky top-0 z-40">
-    <div className="flex items-center space-x-4">
-      <button
-        onClick={() => navigate("/view-forum")}
-        className="text-gray-600 hover:text-indigo-600 transition-colors p-2 rounded-full hover:bg-indigo-50"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-        </svg>
-      </button>
-      <div className="flex items-center">
-        {forum?.imageUri && (
-          <div className="relative">
-            <img
-              src={getImageUrl(forum.imageUri, DEFAULT_USER_IMAGE)}
-              alt={forum.name}
-              className="w-10 h-10 rounded-full object-cover mr-3 border-2 border-indigo-100 shadow-sm"
-            />
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
-          </div>
-        )}
-        <h1 className="text-xl font-semibold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">{forum?.name}</h1>
-        {isCreator && (
-          <span className="ml-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs px-3 py-1 rounded-full shadow-sm">
-            Creator
-          </span>
-        )}
-      </div>
-    </div>
-  </div>
-
-  {isLoadingSilently && (
-    <div className="fixed bottom-20 left-4 text-xs font-medium text-indigo-600 bg-white px-3 py-2 rounded-full shadow-md flex items-center">
-      <div className="animate-pulse mr-2 h-2 w-2 bg-indigo-500 rounded-full"></div>
-      Updating messages...
-    </div>
-  )}
-
-  {/* Main Content - Enhanced with card styling */}
-  <div className="flex-1 overflow-y-auto p-4 md:p-8">
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* Left Column - Forum content with enhanced styling */}
-      <div className="lg:col-span-1 space-y-6">
-        {/* Forum Image - Enhanced with sleek styling */}
-        {forum?.imageUri && (
-          <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full transform transition hover:shadow-lg">
-            <div className="relative h-48 w-full">
-              <img
-                src={getImageUrl(forum.imageUri, DEFAULT_USER_IMAGE)}
-                alt={forum.name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-              <div className="absolute bottom-4 left-4">
-                <h2 className="text-white text-xl font-bold">{forum.name}</h2>
-                <div className="flex items-center mt-1">
-                  <span className={`inline-block w-2 h-2 rounded-full ${forum.isPublic ? 'bg-green-400' : 'bg-amber-400'} mr-2`}></span>
-                  <p className="text-white/90 text-sm">{forum.isPublic ? 'Public' : 'Private'} Forum</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Forum Description - Enhanced with sleek styling */}
-        <div className="bg-white p-6 rounded-2xl shadow-md w-full hover:shadow-lg transition-shadow">
-          <h3 className="text-sm uppercase tracking-wider font-semibold text-indigo-600 mb-3 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+    <div className="min-h-screen bg-black bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black flex flex-col">
+      {/* Header */}
+      <div className="bg-gray-900/30 backdrop-blur-xl p-4 flex items-center justify-between border-b border-purple-500/20 sticky top-0 z-40">
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => navigate("/view-forum")}
+            className="text-purple-300 hover:text-purple-400 transition-colors p-2 rounded-full hover:bg-purple-500/10"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
-            About
-          </h3>
-          <p className="text-gray-700 text-sm leading-relaxed">{forum?.description || "No description available."}</p>
-        </div>
-
-        {/* Forum Creator - Enhanced with sleek styling */}
-        <div className="bg-white p-6 rounded-2xl shadow-md w-full hover:shadow-lg transition-shadow">
-          <h3 className="text-sm uppercase tracking-wider font-semibold text-indigo-600 mb-4 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
-            </svg>
-            Creator
-          </h3>
-          {forum && (
-            <div className="flex items-center p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl border border-indigo-100">
+          </button>
+          <div className="flex items-center">
+            {forum?.imageUri && (
               <div className="relative">
                 <img
-                  src={getImageUrl(forum.creatorImg, DEFAULT_USER_IMAGE)}
-                  alt={forum.creatorName}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-indigo-200 shadow-sm"
+                  src={getImageUrl(forum.imageUri, DEFAULT_USER_IMAGE)}
+                  alt={forum.name}
+                  className="w-10 h-10 rounded-full object-cover mr-3 border-2 border-purple-500/20"
                 />
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
-              </div>
-              <div className="ml-4">
-                <p className="font-semibold text-gray-800">{forum.creatorName}</p>
-                <div className="flex items-center mt-1">
-                  <div className="flex items-center text-xs text-gray-500">
-                    <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2"></span>
-                    {forum.creatorStatus || "Online"}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Right Column - Members and Audio Space with enhanced styling */}
-      <div className="lg:col-span-2 space-y-6">
-        {/* Members List - Full width with enhanced styling */}
-        <div className="bg-white p-6 rounded-2xl shadow-md w-full hover:shadow-lg transition-shadow">
-          <h3 className="text-base uppercase tracking-wider font-semibold text-indigo-600 mb-6 flex items-center">
-            <svg className="h-6 w-6 mr-2" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-            </svg>
-            Members ({forum?.attendees.length || 0})
-          </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {forum?.attendees.map((attendee, index) => (
-              <div key={index} className="flex flex-col items-center p-4 bg-gradient-to-br from-gray-50 to-indigo-50 rounded-xl border border-indigo-100 hover:shadow-md transition-all transform hover:-translate-y-1">
-                <div className="relative mb-3">
-                  <img
-                    src={getImageUrl(attendee.img, DEFAULT_USER_IMAGE)}
-                    alt={attendee.name}
-                    className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
-                  />
-                  <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${
-                    attendee.status === "online" ? "bg-green-400" :
-                    attendee.status === "away" ? "bg-amber-400" : "bg-gray-300"
-                  }`}></div>
-                </div>
-                <p className="font-medium text-gray-800 text-sm text-center truncate w-full">{attendee.name}</p>
-                <p className="text-xs text-gray-500 capitalize">{attendee.status || "offline"}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Audio Space - Full width with enhanced styling */}
-        {forumId && (
-          <div className="bg-white p-6 rounded-2xl shadow-md w-full hover:shadow-lg transition-shadow">
-            <h3 className="text-base uppercase tracking-wider font-semibold text-indigo-600 mb-6 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-              </svg>
-              Audio Space
-            </h3>
-            <div>
-              <AudioSpace
-                forumId={forumId}
-                isCreator={isCreator}
-                token={token}
-              />
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  </div>
-
-  {/* Chat Popup - Enhanced with sleek styling */}
-  {showChat && isMember && (
-    <div className="fixed bottom-0 right-0 w-full pr-4 md:w-96 h-[70vh] md:h-[80vh] bg-white rounded-t-2xl md:rounded-2xl shadow-2xl z-50 flex flex-col">
-      <div className="flex justify-between items-center p-4 border-b border-gray-100 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-t-2xl">
-        <h3 className="text-lg font-semibold flex items-center">
-          <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-          Forum Chat
-        </h3>
-        <button
-          onClick={() => setShowChat(false)}
-          className="p-2 text-white/80 hover:text-white transition-colors rounded-full hover:bg-indigo-600"
-        >
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-gray-50 to-indigo-50">
-        {error ? (
-          <div className="text-center p-4 bg-red-50 rounded-xl text-red-500 border border-red-100 shadow-sm">
-            <div className="flex items-center justify-center mb-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
-            </div>
-            {error}
-          </div>
-        ) : (
-          <>
-            {forum?.messages.length === 0 && messageBuffer.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-indigo-600">
-                <div className="bg-white p-6 rounded-full shadow-md mb-4">
-                  <svg className="h-12 w-12 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                </div>
-                <p className="font-medium text-lg">No messages yet</p>
-                <p className="text-sm mt-1 text-indigo-500">Be the first to start the conversation!</p>
-              </div>
-            ) : (
-              <div className="space-y-6">
-                {(forum?.messages.length ? groupedMessages : []).map((group, groupIdx) => (
-                  <div key={groupIdx} className="mb-6">
-                    <div className="flex justify-center mb-4">
-                      <div className="px-4 py-1 bg-indigo-100 rounded-full text-xs font-medium text-indigo-600 shadow-sm">
-                        {new Date(group.date).toLocaleDateString(undefined, {
-                          weekday: 'long',
-                          month: 'short',
-                          day: 'numeric'
-                        })}
-                      </div>
-                    </div>
-                    <div className="space-y-4">
-                      {group.messages.map((msg, index) => {
-                        const userIsSender = isCurrentUser(msg.sender);
-                        return (
-                          <div
-                            key={msg._id || index}
-                            className={`flex ${userIsSender ? 'justify-end' : 'justify-start'}`}
-                          >
-                            <div className={`flex max-w-xs md:max-w-sm ${userIsSender ? 'flex-row-reverse' : 'flex-row'}`}>
-                              {!userIsSender && (
-                                <div className="flex-shrink-0 mr-3">
-                                  <div className="relative">
-                                    <img
-                                      src={getImageUrl(msg.senderImg, DEFAULT_USER_IMAGE)}
-                                      alt={msg.senderName}
-                                      className="w-8 h-8 rounded-full object-cover border border-gray-200"
-                                    />
-                                    <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border border-white"></div>
-                                  </div>
-                                </div>
-                              )}
-                              <div className="flex flex-col">
-                                {!userIsSender && (
-                                  <span className="text-xs text-gray-500 mb-1 font-medium">{msg.senderName}</span>
-                                )}
-                                <div className="flex items-end">
-                                  <div
-                                    className={`py-3 px-4 rounded-2xl ${userIsSender
-                                      ? 'bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-tr-none'
-                                      : 'bg-white text-gray-800 border border-gray-100 rounded-tl-none shadow-sm'
-                                      }`}
-                                  >
-                                    <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>
-                                  </div>
-                                  <span className={`text-xs text-gray-500 mx-2 mb-1 whitespace-nowrap ${userIsSender ? 'mr-0' : 'ml-0'}`}>
-                                    {formatTime(msg.timestamp)}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-                {typingUsers.length > 0 && (
-                  <div className="flex items-center space-x-2 pl-4 bg-white/70 p-2 rounded-xl">
-                    <div className="flex space-x-1">
-                      {typingUsers.slice(0, 3).map((user, index) => (
-                        <div key={user.id} className="w-2 h-2 rounded-full bg-indigo-500 animate-bounce"
-                          style={{ animationDelay: `${index * 0.1}s` }} />
-                      ))}
-                    </div>
-                    <span className="text-xs text-indigo-600 font-medium">
-                      {typingUsers.length > 1
-                        ? `${typingUsers.length} people are typing...`
-                        : `${typingUsers[0].name} is typing...`}
-                    </span>
-                  </div>
-                )}
-                <div ref={messagesEndRef} />
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-black"></div>
               </div>
             )}
-          </>
-        )}
+            <h1 className="text-xl font-semibold bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 bg-clip-text text-transparent">{forum?.name}</h1>
+            {isCreator && (
+              <span className="ml-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs px-3 py-1 rounded-full">
+                Creator
+              </span>
+            )}
+          </div>
+        </div>
       </div>
-      {isMember && (
-        <div className="p-4 border-t border-gray-200 bg-white">
-          <div className="relative flex items-center">
-            <textarea
-              placeholder="Type a message..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={handleKeyPress}
-              className="w-full bg-gray-100 text-gray-800 px-4 py-3 pr-12 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent min-h-10 max-h-32"
-              rows={1}
-            />
+
+      {isLoadingSilently && (
+        <div className="fixed bottom-20 left-4 text-xs font-medium text-purple-400 bg-gray-900/30 backdrop-blur-xl px-3 py-2 rounded-full border border-purple-500/20 flex items-center">
+          <div className="animate-pulse mr-2 h-2 w-2 bg-purple-500 rounded-full"></div>
+          Updating messages...
+        </div>
+      )}
+
+      {/* Main Content */}
+      <div className="flex-1 overflow-y-auto p-4 md:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Forum Image */}
+            {forum?.imageUri && (
+              <div className="bg-gray-900/30 backdrop-blur-xl rounded-2xl border border-purple-500/20 overflow-hidden w-full transform transition hover:border-purple-500/40">
+                <div className="relative h-48 w-full">
+                  <img
+                    src={getImageUrl(forum.imageUri, DEFAULT_USER_IMAGE)}
+                    alt={forum.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4">
+                    <h2 className="text-white text-xl font-bold">{forum.name}</h2>
+                    <div className="flex items-center mt-1">
+                      <span className={`inline-block w-2 h-2 rounded-full ${forum.isPublic ? 'bg-green-400' : 'bg-amber-400'} mr-2`}></span>
+                      <p className="text-white/90 text-sm">{forum.isPublic ? 'Public' : 'Private'} Forum</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Forum Description */}
+            <div className="bg-gray-900/30 backdrop-blur-xl p-6 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+              <h3 className="text-sm uppercase tracking-wider font-semibold text-purple-400 mb-3 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                </svg>
+                About
+              </h3>
+              <p className="text-purple-300/80 text-sm leading-relaxed">{forum?.description || "No description available."}</p>
+            </div>
+
+            {/* Forum Creator */}
+            <div className="bg-gray-900/30 backdrop-blur-xl p-6 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+              <h3 className="text-sm uppercase tracking-wider font-semibold text-purple-400 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
+                </svg>
+                Creator
+              </h3>
+              {forum && (
+                <div className="flex items-center p-4 bg-gray-800/50 rounded-xl border border-purple-500/20">
+                  <div className="relative">
+                    <img
+                      src={getImageUrl(forum.creatorImg, DEFAULT_USER_IMAGE)}
+                      alt={forum.creatorName}
+                      className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/20"
+                    />
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-black"></div>
+                  </div>
+                  <div className="ml-4">
+                    <p className="font-semibold text-purple-300">{forum.creatorName}</p>
+                    <div className="flex items-center mt-1">
+                      <div className="flex items-center text-xs text-purple-400/70">
+                        <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2"></span>
+                        {forum.creatorStatus || "Online"}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Members List */}
+            <div className="bg-gray-900/30 backdrop-blur-xl p-6 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+              <h3 className="text-base uppercase tracking-wider font-semibold text-purple-400 mb-6 flex items-center">
+                <svg className="h-6 w-6 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                </svg>
+                Members ({forum?.attendees.length || 0})
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {forum?.attendees.map((attendee, index) => (
+                  <div key={index} className="flex flex-col items-center p-4 bg-gray-800/50 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all transform hover:-translate-y-1">
+                    <div className="relative mb-3">
+                      <img
+                        src={getImageUrl(attendee.img, DEFAULT_USER_IMAGE)}
+                        alt={attendee.name}
+                        className="w-16 h-16 rounded-full object-cover border-2 border-purple-500/20"
+                      />
+                      <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-black ${
+                        attendee.status === "online" ? "bg-green-400" :
+                        attendee.status === "away" ? "bg-amber-400" : "bg-gray-500"
+                      }`}></div>
+                    </div>
+                    <p className="font-medium text-purple-300 text-sm text-center truncate w-full">{attendee.name}</p>
+                    <p className="text-xs text-purple-400/70 capitalize">{attendee.status || "offline"}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Audio Space */}
+            {forumId && (
+              <div className="bg-gray-900/30 backdrop-blur-xl p-6 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                <h3 className="text-base uppercase tracking-wider font-semibold text-purple-400 mb-6 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                  Audio Space
+                </h3>
+                <div>
+                  <AudioSpace
+                    forumId={forumId}
+                    isCreator={isCreator}
+                    token={token}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Chat Popup */}
+      {showChat && isMember && (
+        <div className="fixed bottom-0 right-0 w-full pr-4 md:w-96 h-[70vh] md:h-[80vh] bg-gray-900/30 backdrop-blur-xl rounded-t-2xl md:rounded-2xl border border-purple-500/20 shadow-2xl z-50 flex flex-col">
+          <div className="flex justify-between items-center p-4 border-b border-purple-500/20 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-t-2xl">
+            <h3 className="text-lg font-semibold flex items-center">
+              <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+              Forum Chat
+            </h3>
             <button
-              onClick={handleSendMessage}
-              disabled={!message.trim()}
-              className={`absolute right-2 p-2 rounded-full ${message.trim()
-                ? 'bg-gradient-to-r from-indigo-500 to-blue-500 text-white hover:from-indigo-600 hover:to-blue-600'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                } transition-colors`}
+              onClick={() => setShowChat(false)}
+              className="p-2 text-white/80 hover:text-white transition-colors rounded-full hover:bg-purple-600"
             >
-              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
+          <div className="flex-1 overflow-y-auto p-4 bg-gray-800/50">
+            {error ? (
+              <div className="text-center p-4 bg-red-500/10 rounded-xl text-red-400 border border-red-500/20">
+                <div className="flex items-center justify-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                {error}
+              </div>
+            ) : (
+              <>
+                {forum?.messages.length === 0 && messageBuffer.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-full text-purple-400">
+                    <div className="bg-gray-900/30 p-6 rounded-full border border-purple-500/20 mb-4">
+                      <svg className="h-12 w-12 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                      </svg>
+                    </div>
+                    <p className="font-medium text-lg">No messages yet</p>
+                    <p className="text-sm mt-1 text-purple-400/70">Be the first to start the conversation!</p>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {(forum?.messages.length ? groupedMessages : []).map((group, groupIdx) => (
+                      <div key={groupIdx} className="mb-6">
+                        <div className="flex justify-center mb-4">
+                          <div className="px-4 py-1 bg-purple-500/10 rounded-full text-xs font-medium text-purple-400 border border-purple-500/20">
+                            {new Date(group.date).toLocaleDateString(undefined, {
+                              weekday: 'long',
+                              month: 'short',
+                              day: 'numeric'
+                            })}
+                          </div>
+                        </div>
+                        <div className="space-y-4">
+                          {group.messages.map((msg, index) => {
+                            const userIsSender = isCurrentUser(msg.sender);
+                            return (
+                              <div
+                                key={msg._id || index}
+                                className={`flex ${userIsSender ? 'justify-end' : 'justify-start'}`}
+                              >
+                                <div className={`flex max-w-xs md:max-w-sm ${userIsSender ? 'flex-row-reverse' : 'flex-row'}`}>
+                                  {!userIsSender && (
+                                    <div className="flex-shrink-0 mr-3">
+                                      <div className="relative">
+                                        <img
+                                          src={getImageUrl(msg.senderImg, DEFAULT_USER_IMAGE)}
+                                          alt={msg.senderName}
+                                          className="w-8 h-8 rounded-full object-cover border border-purple-500/20"
+                                        />
+                                        <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border border-black"></div>
+                                      </div>
+                                    </div>
+                                  )}
+                                  <div className="flex flex-col">
+                                    {!userIsSender && (
+                                      <span className="text-xs text-purple-400/70 mb-1 font-medium">{msg.senderName}</span>
+                                    )}
+                                    <div className="flex items-end">
+                                      <div
+                                        className={`py-3 px-4 rounded-2xl ${userIsSender
+                                          ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-tr-none'
+                                          : 'bg-gray-800/50 text-purple-300 border border-purple-500/20 rounded-tl-none'
+                                          }`}
+                                      >
+                                        <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>
+                                      </div>
+                                      <span className={`text-xs text-purple-400/70 mx-2 mb-1 whitespace-nowrap ${userIsSender ? 'mr-0' : 'ml-0'}`}>
+                                        {formatTime(msg.timestamp)}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                    {typingUsers.length > 0 && (
+                      <div className="flex items-center space-x-2 pl-4 bg-gray-800/50 p-2 rounded-xl border border-purple-500/20">
+                        <div className="flex space-x-1">
+                          {typingUsers.slice(0, 3).map((user, index) => (
+                            <div key={user.id} className="w-2 h-2 rounded-full bg-purple-500 animate-bounce"
+                              style={{ animationDelay: `${index * 0.1}s` }} />
+                          ))}
+                        </div>
+                        <span className="text-xs text-purple-400 font-medium">
+                          {typingUsers.length > 1
+                            ? `${typingUsers.length} people are typing...`
+                            : `${typingUsers[0].name} is typing...`}
+                        </span>
+                      </div>
+                    )}
+                    <div ref={messagesEndRef} />
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+          {isMember && (
+            <div className="p-4 border-t border-purple-500/20 bg-gray-900/30">
+              <div className="relative flex items-center">
+                <textarea
+                  placeholder="Type a message..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  className="w-full bg-gray-800/50 text-purple-300 placeholder-purple-400/50 px-4 py-3 pr-12 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500/40 min-h-10 max-h-32 border border-purple-500/20"
+                  rows={1}
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={!message.trim()}
+                  className={`absolute right-2 p-2 rounded-full ${message.trim()
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
+                    : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                    } transition-colors`}
+                >
+                  <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
-    </div>
-  )}
 
-  {/* Fixed Bottom Card with Buttons - Enhanced with sleek styling */}
-  <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-30">
-  {/* Desktop View (always visible) */}
-  <div className="hidden md:block">
-    <div className="bg-white rounded-full shadow-xl p-2 flex items-center space-x-3">
-      {isMember ? (
-        <>
-          <button
-            onClick={() => setShowChat(true)}
-            className="flex items-center px-5 py-3 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-full hover:from-indigo-600 hover:to-blue-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1"
-          >
-            <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-            Chat
-          </button>
-          <button
-            onClick={handleDemoButton}
-            className="flex items-center px-5 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:from-purple-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1"
-          >
-            <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Canvas
-          </button>
-        </>
-      ) : (
-        <button
-          onClick={handleJoinForum}
-          className="px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-green-500 to-emerald-500 rounded-full hover:from-green-600 hover:to-emerald-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1"
-        >
-          Join Forum
-        </button>
-      )}
-    </div>
-  </div>
-
-  {/* Mobile View (expandable) */}
-  <div className="md:hidden fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4">
-    {!isExpanded ? (
-      <div className="flex justify-center mb-2">
-        <button 
-          onClick={() => setIsExpanded(true)}
-          className="bg-white p-2 rounded-full shadow-lg"
-        >
-          <svg className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-          </svg>
-        </button>
-      </div>
-    ) : (
-      <div className=" p-4 flex flex-col">
-        <div className="flex justify-end mb-2">
-          <button 
-            onClick={() => setIsExpanded(false)}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
+      {/* Fixed Bottom Card with Buttons */}
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-30">
+        {/* Desktop View */}
+        <div className="hidden md:block">
+          <div className="bg-gray-900/30 backdrop-blur-xl rounded-full border border-purple-500/20 p-2 flex items-center space-x-3">
+            {isMember ? (
+              <>
+                <button
+                  onClick={() => setShowChat(true)}
+                  className="flex items-center px-5 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:from-purple-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1"
+                >
+                  <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  Chat
+                </button>
+                <button
+                  onClick={handleDemoButton}
+                  className="flex items-center px-5 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:from-purple-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1"
+                >
+                  <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Canvas
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={handleJoinForum}
+                className="px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 rounded-full hover:from-purple-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1"
+              >
+                Join Forum
+              </button>
+            )}
+          </div>
         </div>
-        <div className="flex justify-center space-x-3">
-          {isMember ? (
-            <>
-              <button
-                onClick={() => setShowChat(true)}
-                className="flex items-center px-5 py-3 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-full hover:from-indigo-600 hover:to-blue-600 transition-all shadow-md hover:shadow-lg"
+
+        {/* Mobile View */}
+        <div className="md:hidden fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4">
+          {!isExpanded ? (
+            <div className="flex justify-center mb-2">
+              <button 
+                onClick={() => setIsExpanded(true)}
+                className="bg-gray-900/30 backdrop-blur-xl p-2 rounded-full border border-purple-500/20"
               >
-                <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                <svg className="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                 </svg>
-                Chat
               </button>
-              <button
-                onClick={handleDemoButton}
-                className="flex items-center px-5 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:from-purple-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg"
-              >
-                <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Canvas
-              </button>
-            </>
+            </div>
           ) : (
-            <button
-              onClick={handleJoinForum}
-              className="px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-green-500 to-emerald-500 rounded-full hover:from-green-600 hover:to-emerald-600 transition-all shadow-md hover:shadow-lg"
-            >
-              Join Forum
-            </button>
+            <div className="bg-gray-900/30 backdrop-blur-xl p-4 rounded-t-2xl border border-purple-500/20 flex flex-col">
+              <div className="flex justify-end mb-2">
+                <button 
+                  onClick={() => setIsExpanded(false)}
+                  className="text-purple-400 hover:text-purple-300"
+                >
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
+              <div className="flex justify-center space-x-3">
+                {isMember ? (
+                  <>
+                    <button
+                      onClick={() => setShowChat(true)}
+                      className="flex items-center px-5 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:from-purple-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg"
+                    >
+                      <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                      </svg>
+                      Chat
+                    </button>
+                    <button
+                      onClick={handleDemoButton}
+                      className="flex items-center px-5 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:from-purple-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg"
+                    >
+                      <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Canvas
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={handleJoinForum}
+                    className="px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 rounded-full hover:from-purple-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg"
+                  >
+                    Join Forum
+                  </button>
+                )}
+              </div>
+            </div>
           )}
         </div>
       </div>
-    )}
-  </div>
-</div>
 
-  <Toaster position="top-center" />
-  {renderConnectionStatus()}
-</div>
+      <Toaster 
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: '#1a1a1a',
+            color: '#fff',
+            border: '1px solid rgba(168, 85, 247, 0.2)',
+            backdropFilter: 'blur(8px)',
+          },
+        }}
+      />
+      {renderConnectionStatus()}
+    </div>
   );
 };
 

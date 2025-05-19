@@ -77,7 +77,7 @@ const CreateJob = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4">
-      <Toaster position="top-center" />
+      <Toaster position="bottom-right" />
       <div className="max-w-4xl w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Create a New Job</h1>

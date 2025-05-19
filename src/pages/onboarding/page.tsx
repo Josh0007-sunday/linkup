@@ -166,7 +166,7 @@ const UserOnboarding = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
-      <Toaster position="top-center" />
+      <Toaster position="bottom-right" />
       <div className="max-w-4xl w-full">
         <div className="text-center mb-8 transform transition-all duration-500 ease-out">
           <p className="text-gray-600 mt-3">Let's showcase your professional identity</p>

@@ -108,35 +108,146 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-white shadow-subtle border-b border-gray-100 p-4 relative">
+    <nav className="bg-black backdrop-blur-xl border-b border-purple-500/20 p-4 relative z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/homepage" className="text-xl font-bold text-gray-800">LinkUp</Link>
+        <Link to="/homepage" className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-['Share_Tech']">LinkUp</Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-6">
-          <Link to="/bounties" className="text-gray-600 hover:text-gray-900 transition-colors">
-            <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Earn</span>
+          <Link to="/bounties" className="text-gray-300 hover:text-purple-400 transition-colors">
+            <span className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full border border-purple-500/30">Earn</span>
           </Link>
-          <Link to="/serviceList" className="text-gray-600 hover:text-gray-900 transition-colors">Services</Link>
-          <Link to="/view-forum" className="text-gray-600 hover:text-gray-900 transition-colors">View Forum</Link>
+          <Link to="/serviceList" className="text-gray-300 hover:text-purple-400 transition-colors">Services</Link>
+          <Link to="/view-forum" className="text-gray-300 hover:text-purple-400 transition-colors">View Forum</Link>
         </div>
 
         {/* Desktop Profile and Wallet Section */}
         <div className="hidden md:flex space-x-4 items-center relative">
           {user ? (
             <>
-
-              <div className="flex items-center space-x-2 bg-gray-100 px-3 py-1 rounded-full">
-                <IoDiamondOutline className="text-blue-500" /> {/* Diamond icon */}
-                <span className="text-gray-700 font-medium">{user.xpNumber || 0} XP</span> {/* XP number */}
+              <div className="flex items-center space-x-2 bg-purple-500/20 px-3 py-1 rounded-full border border-purple-500/30">
+                <IoDiamondOutline className="text-purple-400" />
+                <span className="text-purple-300 font-medium">{user.xpNumber || 0} XP</span>
               </div>
 
               {/* Wallet Icon */}
               <button
                 onClick={toggleWalletDrawer}
-                className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+                className="p-2 text-gray-300 hover:text-purple-400 focus:outline-none transition-colors relative"
               >
                 <FaWallet className="w-6 h-6" />
+                {isWalletDrawerOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-black backdrop-blur-xl border border-purple-500/20 rounded-lg shadow-xl z-[101] overflow-hidden">
+                    {/* Header */}
+                    <div className="p-4 border-b border-purple-500/20">
+                      <div className="flex justify-between items-center">
+                        <h2 className="text-lg text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-bold">My Wallet</h2>
+                        <button
+                          onClick={toggleWalletDrawer}
+                          className="text-gray-300 hover:text-purple-400 focus:outline-none transition-colors"
+                        >
+                          <FaTimes className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Balance card */}
+                    <div className="p-4 border-b border-purple-500/20">
+                      <p className="text-sm text-gray-400">Available Balance</p>
+                      <div className="flex items-baseline mt-1">
+                        {isWalletLoading ? (
+                          <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Loading...</p>
+                        ) : (
+                          <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">{usdcBalance}</p>
+                        )}
+                        <p className="ml-2 text-sm text-gray-400">USDC</p>
+                        <button
+                          onClick={fetchUsdcBalance}
+                          className="ml-2 text-xs text-purple-400 hover:text-purple-300 underline transition-colors"
+                          disabled={isWalletLoading}
+                        >
+                          Refresh
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Wallet Details */}
+                    <div className="p-4 space-y-4">
+                      <div className="space-y-3">
+                        <div className="bg-black/40 backdrop-blur-xl rounded-lg p-3 border border-purple-500/20">
+                          <div className="flex justify-between items-center">
+                            <p className="text-sm font-medium text-gray-300">Public Key</p>
+                            <button
+                              onClick={() => copyToClipboard(user?.publicKey || '')}
+                              className="text-purple-400 hover:text-purple-300 transition-colors"
+                            >
+                              <FaExternalLinkAlt className="w-4 h-4" />
+                            </button>
+                          </div>
+                          <div className="flex items-center mt-1">
+                            <p className="text-sm text-gray-300 mr-2 font-mono">
+                              {user?.publicKey ? truncateAddress(user.publicKey) : 'Not connected'}
+                            </p>
+                            <button
+                              onClick={() => copyToClipboard(user?.publicKey || '')}
+                              className="text-purple-400 hover:text-purple-300 text-xs underline transition-colors"
+                            >
+                              Copy
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="bg-black/40 backdrop-blur-xl rounded-lg p-3 border border-purple-500/20">
+                          <div className="flex justify-between items-center">
+                            <p className="text-sm font-medium text-gray-300">Tiplink URL</p>
+                            <button
+                              onClick={() => copyToClipboard(user?.tiplinkUrl || '')}
+                              className="text-purple-400 hover:text-purple-300 transition-colors"
+                            >
+                              <FaExternalLinkAlt className="w-4 h-4" />
+                            </button>
+                          </div>
+                          <div className="flex items-center mt-1">
+                            <p className="text-sm text-gray-300 mr-2 font-mono">
+                              {user?.tiplinkUrl ? truncateAddress(user.tiplinkUrl) : 'Not available'}
+                            </p>
+                            <button
+                              onClick={() => copyToClipboard(user?.tiplinkUrl || '')}
+                              className="text-purple-400 hover:text-purple-300 text-xs underline transition-colors"
+                            >
+                              Copy
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Info card */}
+                      <div className="bg-black/40 backdrop-blur-xl rounded-lg p-3 border-l-4 border-purple-500/20">
+                        <p className="text-sm text-gray-300">Payments will be automatically deposited to this wallet when you win bounties.</p>
+                      </div>
+
+                      {/* Action buttons */}
+                      <div className="space-y-2 pt-2">
+                        <button
+                          disabled
+                          className="w-full bg-black/40 backdrop-blur-xl text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed flex items-center justify-center border border-purple-500/20 text-sm"
+                        >
+                          <FaHistory className="mr-2" />
+                          View Transaction History
+                        </button>
+
+                        <button
+                          onClick={handleWithdrawFunds}
+                          disabled
+                          className="w-full bg-black/40 backdrop-blur-xl text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed flex items-center justify-center border border-purple-500/20 text-sm"
+                        >
+                          <FaMoneyBillWave className="mr-2" />
+                          Withdraw Funds
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </button>
 
               {/* Profile Dropdown */}
@@ -145,15 +256,15 @@ const Navbar: React.FC = () => {
                   onClick={toggleProfileDropdown}
                   className="flex items-center space-x-2 focus:outline-none group"
                 >
-                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                    <FaUserCircle className="text-gray-500 group-hover:text-gray-700 w-8 h-8" />
+                  <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
+                    <FaUserCircle className="text-purple-400 group-hover:text-purple-300 w-8 h-8 transition-colors" />
                   </div>
                 </button>
 
                 {isProfileDropdownOpen && (
-                  <div className="absolute right-0 top-full mt-3 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
-                    <div className="px-4 py-3 border-b border-gray-100 flex items-center space-x-3">
-                      <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                  <div className="absolute right-0 top-full mt-3 w-64 bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-lg shadow-lg z-50 overflow-hidden">
+                    <div className="px-4 py-3 border-b border-purple-500/30 flex items-center space-x-3">
+                      <div className="w-12 h-12 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center overflow-hidden">
                         {user.profileImage ? (
                           <img
                             src={getImageUrl(user.profileImage) || undefined}
@@ -165,35 +276,35 @@ const Navbar: React.FC = () => {
                             }}
                           />
                         ) : (
-                          <span className="text-2xl font-bold text-blue-600">
+                          <span className="text-2xl font-bold text-purple-400">
                             {user.name.charAt(0).toUpperCase()}
                           </span>
                         )}
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-800">{user.name}</div>
-                        <div className="text-sm text-gray-500">{user.email}</div>
+                        <div className="font-semibold text-white">{user.name}</div>
+                        <div className="text-sm text-gray-400">{user.email}</div>
                       </div>
                     </div>
 
                     <div className="py-1">
                       <Link
                         to="/profile"
-                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 space-x-3"
+                        className="flex items-center px-4 py-2 text-gray-300 hover:bg-purple-500/20 space-x-3 transition-colors"
                       >
-                        <FaUser className="text-gray-400" />
+                        <FaUser className="text-purple-400" />
                         <span>My Profile</span>
                       </Link>
                       <Link
                         to="/update-profile"
-                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 space-x-3"
+                        className="flex items-center px-4 py-2 text-gray-300 hover:bg-purple-500/20 space-x-3 transition-colors"
                       >
-                        <FaCog className="text-gray-400" />
+                        <FaCog className="text-purple-400" />
                         <span>Account Settings</span>
                       </Link>
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left flex items-center px-4 py-2 text-red-600 hover:bg-red-50 space-x-3"
+                        className="w-full text-left flex items-center px-4 py-2 text-red-400 hover:bg-red-500/20 space-x-3 transition-colors"
                       >
                         <FaSignOutAlt className="text-red-400" />
                         <span>Logout</span>
@@ -205,70 +316,74 @@ const Navbar: React.FC = () => {
             </>
           ) : (
             <>
-              <Link to="/signup" className="text-gray-700 hover:text-black">Sign Up</Link>
-              <Link to="/" className="text-gray-700 hover:text-black">Login</Link>
+              <Link to="/signup" className="text-gray-300 hover:text-purple-400 transition-colors">Sign Up</Link>
+              <Link to="/" className="text-gray-300 hover:text-purple-400 transition-colors">Login</Link>
             </>
           )}
         </div>
 
         {/* Mobile Menu Toggle Button */}
-        <button onClick={toggleMenu} className="md:hidden text-gray-800 focus:outline-none">
+        <button onClick={toggleMenu} className="md:hidden text-gray-300 hover:text-purple-400 focus:outline-none transition-colors">
           {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </button>
       </div>
 
       {/* Mobile Dropdown Menu */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg z-50">
+        <div className="md:hidden absolute top-full left-0 w-full bg-black/40 backdrop-blur-xl border-b border-purple-500/20 shadow-lg z-50">
           <div className="flex flex-col space-y-4 p-4">
             <Link
               to="/bounties"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-gray-300 hover:text-purple-400 transition-colors"
               onClick={toggleMenu}
             >
-              <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Earn</span>
+              <span className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full border border-purple-500/30">Earn</span>
             </Link>
             <Link
               to="/serviceList"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-gray-300 hover:text-purple-400 transition-colors"
               onClick={toggleMenu}
             >
               Services
             </Link>
-
-            <Link to="/view-forum" className="text-gray-600 hover:text-gray-900 transition-colors">View Forum</Link>
-
+            <Link 
+              to="/view-forum" 
+              className="text-gray-300 hover:text-purple-400 transition-colors"
+              onClick={toggleMenu}
+            >
+              View Forum
+            </Link>
 
             {/* Mobile Profile and Wallet Section */}
             {user ? (
               <>
                 <button
                   onClick={toggleWalletDrawer}
-                  className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                  className="flex items-center space-x-2 text-gray-300 hover:text-purple-400 transition-colors"
                 >
-                  <FaWallet className="text-gray-400" />
+                  <FaWallet className="text-purple-400" />
                   <span>Wallet</span>
                 </button>
                 <div className="flex flex-col space-y-2">
                   <Link
                     to="/profile"
-                    className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                    className="flex items-center space-x-2 text-gray-300 hover:text-purple-400 transition-colors"
                     onClick={toggleMenu}
                   >
-                    <FaUser className="text-gray-400" />
+                    <FaUser className="text-purple-400" />
                     <span>My Profile</span>
                   </Link>
                   <Link
                     to="/update-profile"
-                    className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                    className="flex items-center space-x-2 text-gray-300 hover:text-purple-400 transition-colors"
                     onClick={toggleMenu}
                   >
-                    <FaCog className="text-gray-400" />
+                    <FaCog className="text-purple-400" />
                     <span>Account Settings</span>
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center space-x-2 text-red-600 hover:text-red-800"
+                    className="flex items-center space-x-2 text-red-400 hover:text-red-300 transition-colors"
                   >
                     <FaSignOutAlt className="text-red-400" />
                     <span>Logout</span>
@@ -279,144 +394,20 @@ const Navbar: React.FC = () => {
               <>
                 <Link
                   to="/signup"
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                  className="text-gray-300 hover:text-purple-400 transition-colors"
                   onClick={toggleMenu}
                 >
                   Sign Up
                 </Link>
                 <Link
                   to="/"
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                  className="text-gray-300 hover:text-purple-400 transition-colors"
                   onClick={toggleMenu}
                 >
                   Login
                 </Link>
               </>
             )}
-          </div>
-        </div>
-      )}
-
-      {/* Wallet Drawer */}
-      {isWalletDrawerOpen && (
-        <div className="fixed inset-0 bg-opacity-40 z-50 transition-all" onClick={toggleWalletDrawer}>
-          <div
-            className="fixed right-0 top-0 h-full w-full sm:w-96 bg-white shadow-xl p-0 transition-all transform"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Header with gradient */}
-            <div className="text-gray-700 p-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl text-gray-600 font-bold">My Wallet</h2>
-                <button
-                  onClick={toggleWalletDrawer}
-                  className="text-gray-700 hover:text-gray-700 focus:outline-none transition-transform transform hover:rotate-90"
-                >
-                  <FaTimes className="w-6 h-6" />
-                </button>
-              </div>
-
-              {/* Balance card */}
-              <div className="mt-6 bg-white bg-opacity-10 rounded-lg p-4">
-                <p className="text-sm text-gray-500">Available Balance</p>
-                <div className="flex items-baseline mt-1">
-                  {isWalletLoading ? (
-                    <p className="text-3xl font-bold">Loading...</p>
-                  ) : (
-                    <p className="text-3xl font-bold">{usdcBalance}</p>
-                  )}
-                  <p className="ml-2 text-sm text-gray-500">USDC</p>
-                  <button
-                    onClick={fetchUsdcBalance}
-                    className="ml-2 text-xs text-gray-500 hover:text-gray-700 underline"
-                    disabled={isWalletLoading}
-                  >
-                    Refresh
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Wallet content */}
-            <div className="p-6 space-y-6">
-              {/* Wallet keys section */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-gray-700">Your Wallet Details</h3>
-
-                <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-                  <div className="flex justify-between items-center">
-                    <p className="text-sm font-medium text-gray-600">Public Key</p>
-                    <button
-                      onClick={() => copyToClipboard(user?.publicKey || '')}
-                      className="text-gray-400 hover:text-gray-700"
-                    >
-                      <FaExternalLinkAlt className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <div className="flex items-center mt-1">
-                    <p className="text-sm text-gray-800 mr-2 font-mono">
-                      {user?.publicKey ? truncateAddress(user.publicKey) : 'Not connected'}
-                    </p>
-                    <button
-                      onClick={() => copyToClipboard(user?.publicKey || '')}
-                      className="text-gray-500 hover:text-gray-700 text-xs underline"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                </div>
-
-                <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-                  <div className="flex justify-between items-center">
-                    <p className="text-sm font-medium text-gray-600">Tiplink URL</p>
-                    <button
-                      onClick={() => copyToClipboard(user?.tiplinkUrl || '')}
-                      className="text-gray-400 hover:text-gray-700"
-                    >
-                      <FaExternalLinkAlt className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <div className="flex items-center mt-1">
-                    <p className="text-sm text-gray-800 mr-2 font-mono">
-                      {user?.tiplinkUrl ? truncateAddress(user.tiplinkUrl) : 'Not available'}
-                    </p>
-                    <button
-                      onClick={() => copyToClipboard(user?.tiplinkUrl || '')}
-                      className="text-gray-500 hover:text-gray-700 text-xs underline"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Info card */}
-              <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-gray-700">
-                <p className="text-sm text-gray-600">Payments will be automatically deposited to this wallet when you win bounties.</p>
-              </div>
-
-              {/* Action buttons */}
-              <div className="space-y-3 pt-2">
-                {/* Disabled "View Transaction History" button */}
-                <button
-                  disabled
-                  className="w-full bg-gray-300 text-gray-500 py-3 px-4 rounded-lg cursor-not-allowed flex items-center justify-center"
-                >
-                  <FaHistory className="mr-2" />
-                  View Transaction History
-                </button>
-
-                {/* Disabled "Withdraw Funds" button */}
-                <button
-                  onClick={handleWithdrawFunds}
-                  disabled
-                  className="w-full bg-gray-100 text-gray-400 py-3 px-4 rounded-lg cursor-not-allowed flex items-center justify-center"
-                >
-                  <FaMoneyBillWave className="mr-2" />
-                  Withdraw Funds
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       )}

@@ -121,13 +121,13 @@ const SubmissionsLeaderboard = ({ bountyId }: SubmissionsLeaderboardProps) => {
 
   if (loading) {
     return (
-      <div className="mt-6 bg-gradient-to-r from-gray-50 to-white rounded-xl shadow-lg p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-          <Trophy className="mr-2 text-blue-600" size={24} />
+      <div className="mt-6 bg-gray-900/30 backdrop-blur-xl rounded-xl border border-purple-500/20 p-6">
+        <h2 className="text-xl font-bold text-purple-400 mb-4 flex items-center">
+          <Trophy className="mr-2 text-purple-400" size={24} />
           Leaderboard
         </h2>
         <div className="flex justify-center p-6">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-600"></div>
+          <div className="animate-pulse w-16 h-16 bg-purple-500/20 rounded-full border border-purple-500/20"></div>
         </div>
       </div>
     );
@@ -135,12 +135,12 @@ const SubmissionsLeaderboard = ({ bountyId }: SubmissionsLeaderboardProps) => {
 
   if (error) {
     return (
-      <div className="mt-6 bg-gradient-to-r from-gray-50 to-white rounded-xl shadow-lg p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-          <Trophy className="mr-2 text-blue-600" size={24} />
+      <div className="mt-6 bg-gray-900/30 backdrop-blur-xl rounded-xl border border-purple-500/20 p-6">
+        <h2 className="text-xl font-bold text-purple-400 mb-4 flex items-center">
+          <Trophy className="mr-2 text-purple-400" size={24} />
           Leaderboard
         </h2>
-        <div className="bg-red-50 text-red-500 p-4 rounded-lg border border-red-100">
+        <div className="bg-red-500/10 text-red-400 p-4 rounded-lg border border-red-500/20">
           <p>{error}</p>
         </div>
       </div>
@@ -148,12 +148,12 @@ const SubmissionsLeaderboard = ({ bountyId }: SubmissionsLeaderboardProps) => {
   }
 
   return (
-    <div className="mt-6 bg-gradient-to-r from-gray-50 to-white rounded-xl shadow-lg overflow-hidden">
-      <div className="p-6 border-b border-gray-100">
-        <h2 className="text-xl font-bold text-gray-800 flex items-center">
-          <Trophy className="mr-2 text-blue-600" size={24} />
+    <div className="mt-6 bg-gray-900/30 backdrop-blur-xl rounded-xl border border-purple-500/20 overflow-hidden">
+      <div className="p-6 border-b border-purple-500/20">
+        <h2 className="text-xl font-bold text-purple-400 flex items-center">
+          <Trophy className="mr-2 text-purple-400" size={24} />
           Leaderboard
-          <span className="ml-2 text-gray-500 text-base font-normal">
+          <span className="ml-2 text-purple-300 text-base font-normal">
             ({submissions.length} submissions)
           </span>
         </h2>
@@ -161,18 +161,18 @@ const SubmissionsLeaderboard = ({ bountyId }: SubmissionsLeaderboardProps) => {
 
       {submissions.length === 0 ? (
         <div className="p-12 text-center">
-          <div className="text-gray-400 mb-3">
+          <div className="text-purple-300 mb-3">
             <Trophy size={48} className="mx-auto mb-4 opacity-30" />
             <p className="text-lg font-medium">No submissions yet</p>
           </div>
-          <p className="text-gray-500">Be the first to compete and claim your spot!</p>
+          <p className="text-purple-300/70">Be the first to compete and claim your spot!</p>
         </div>
       ) : (
         <>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-gray-50 text-gray-600">
+                <tr className="bg-purple-500/10 text-purple-300">
                   <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
                     Rank
                   </th>
@@ -196,35 +196,35 @@ const SubmissionsLeaderboard = ({ bountyId }: SubmissionsLeaderboardProps) => {
                     key={submission._id}
                     className={`
                       ${index < 3 ? 'bg-opacity-10' : ''}
-                      ${index === 0 ? 'bg-yellow-50' : ''}
-                      ${index === 1 ? 'bg-gray-50' : ''}
-                      ${index === 2 ? 'bg-amber-50' : ''}
-                      hover:bg-blue-50 transition-colors
+                      ${index === 0 ? 'bg-yellow-500/10' : ''}
+                      ${index === 1 ? 'bg-purple-500/10' : ''}
+                      ${index === 2 ? 'bg-amber-500/10' : ''}
+                      hover:bg-purple-500/5 transition-colors
                     `}
                   >
                     <td className="px-6 py-5 whitespace-nowrap">
                       <div className="flex items-center justify-center w-8 h-8 rounded-full">
                         {index === 0 ? (
-                          <div className="flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-full">
-                            <Award size={18} className="text-yellow-500" />
+                          <div className="flex items-center justify-center w-8 h-8 bg-yellow-500/20 rounded-full">
+                            <Award size={18} className="text-yellow-400" />
                           </div>
                         ) : index === 1 ? (
-                          <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full">
-                            <Award size={18} className="text-gray-500" />
+                          <div className="flex items-center justify-center w-8 h-8 bg-purple-500/20 rounded-full">
+                            <Award size={18} className="text-purple-400" />
                           </div>
                         ) : index === 2 ? (
-                          <div className="flex items-center justify-center w-8 h-8 bg-amber-100 rounded-full">
-                            <Award size={18} className="text-amber-600" />
+                          <div className="flex items-center justify-center w-8 h-8 bg-amber-500/20 rounded-full">
+                            <Award size={18} className="text-amber-400" />
                           </div>
                         ) : (
-                          <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full">
-                            <span className="text-gray-700 font-medium text-sm">{index + 1}</span>
+                          <div className="flex items-center justify-center w-8 h-8 bg-purple-500/10 rounded-full">
+                            <span className="text-purple-300 font-medium text-sm">{index + 1}</span>
                           </div>
                         )}
                       </div>
                     </td>
                     <td className="px-6 py-5 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">
+                      <div className="font-medium text-purple-300">
                         {submission.user?.name || "Anonymous"}
                       </div>
                     </td>
@@ -234,7 +234,7 @@ const SubmissionsLeaderboard = ({ bountyId }: SubmissionsLeaderboardProps) => {
                           href={submission.submission_link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm"
+                          className="flex items-center text-purple-400 hover:text-purple-300 font-medium text-sm transition-colors"
                         >
                           <span>Submission</span>
                           <ExternalLink size={14} className="ml-1" />
@@ -243,20 +243,20 @@ const SubmissionsLeaderboard = ({ bountyId }: SubmissionsLeaderboardProps) => {
                           href={submission.tweet_link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm"
+                          className="flex items-center text-purple-400 hover:text-purple-300 font-medium text-sm transition-colors"
                         >
                           <span>Tweet</span>
                           <ExternalLink size={14} className="ml-1" />
                         </a>
                       </div>
                     </td>
-                    <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-5 whitespace-nowrap text-sm text-purple-300">
                       {new Date(submission.submittedAt).toLocaleDateString(undefined, {
                         month: 'short',
                         day: 'numeric',
                         year: 'numeric'
                       })}
-                      <span className="text-gray-400 ml-2">
+                      <span className="text-purple-300/70 ml-2">
                         {new Date(submission.submittedAt).toLocaleTimeString(undefined, {
                           hour: '2-digit',
                           minute: '2-digit'
@@ -268,14 +268,15 @@ const SubmissionsLeaderboard = ({ bountyId }: SubmissionsLeaderboardProps) => {
                         <button
                           onClick={() => handleUpvote(submission._id)}
                           disabled={user ? submission.upvotedBy.includes(user._id) : false}
-                          className={`flex items-center ${user && submission.upvotedBy.includes(user._id)
-                              ? "text-gray-400 cursor-not-allowed"
-                              : "text-gray-500 hover:text-blue-600"
-                            } transition-colors`}
+                          className={`flex items-center ${
+                            user && submission.upvotedBy.includes(user._id)
+                              ? "text-purple-500/50 cursor-not-allowed"
+                              : "text-purple-400 hover:text-purple-300"
+                          } transition-colors`}
                         >
                           <ChevronUp size={18} />
                         </button>
-                        <span className="text-sm text-gray-700">{submission.upvotes}</span>
+                        <span className="text-sm text-purple-300">{submission.upvotes}</span>
                       </div>
                     </td>
                   </tr>
@@ -285,10 +286,10 @@ const SubmissionsLeaderboard = ({ bountyId }: SubmissionsLeaderboardProps) => {
           </div>
 
           {submissions.length > displayLimit && (
-            <div className="p-4 border-t border-gray-100 bg-gray-50">
+            <div className="p-4 border-t border-purple-500/20 bg-purple-500/5">
               <button
                 onClick={toggleExpanded}
-                className="flex items-center justify-center w-full py-2 text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                className="flex items-center justify-center w-full py-2 text-purple-400 hover:text-purple-300 font-medium transition-colors"
               >
                 {expanded ? (
                   <>

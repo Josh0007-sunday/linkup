@@ -103,58 +103,36 @@ const CreateService = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-black bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black flex items-center justify-center p-4">
       {/* Toast Notifications */}
       <Toaster
-        position="top-center"
+        position="bottom-right"
         reverseOrder={false}
         toastOptions={{
           duration: 3000,
-          success: {
-            style: {
-              background: '#E8F5E9',
-              color: '#2E7D32',
-              border: '1px solid #C8E6C9',
-              padding: '16px',
-              borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-            },
-            iconTheme: {
-              primary: '#2E7D32',
-              secondary: '#E8F5E9',
-            },
-          },
-          error: {
-            style: {
-              background: '#FFEBEE',
-              color: '#D32F2F',
-              border: '1px solid #FFCDD2',
-              padding: '16px',
-              borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-            },
-            iconTheme: {
-              primary: '#D32F2F',
-              secondary: '#FFEBEE',
-            },
+          style: {
+            background: '#1a1a1a',
+            color: '#fff',
+            border: '1px solid rgba(168, 85, 247, 0.2)',
+            backdropFilter: 'blur(8px)',
           },
         }}
       />
 
       {/* Form Container */}
-      <div className="w-full max-w-2xl"> {/* Increased max-width to max-w-2xl */}
+      <div className="w-full max-w-2xl">
         {/* Logo/Brand Section */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Create Service</h1>
-          <p className="text-gray-600 mt-2">Add a new service to your portfolio</p>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 bg-clip-text text-transparent animate-gradient-x">Create Service</h1>
+          <p className="text-purple-300 mt-2">Add a new service to your portfolio</p>
         </div>
 
         {/* Service Creation Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8">
+        <div className="bg-gray-900/30 backdrop-blur-xl rounded-xl border border-purple-500/20 p-6 md:p-8">
           <form onSubmit={createService} className="space-y-6">
             {/* Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="title" className="block text-sm font-medium text-purple-300 mb-2">
                 Title
               </label>
               <input
@@ -164,14 +142,14 @@ const CreateService = () => {
                 required
                 value={data.title}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter service title"
               />
             </div>
 
             {/* Overview */}
             <div>
-              <label htmlFor="overview" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="overview" className="block text-sm font-medium text-purple-300 mb-2">
                 Overview
               </label>
               <textarea
@@ -180,14 +158,14 @@ const CreateService = () => {
                 required
                 value={data.overview}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter service overview"
               />
             </div>
 
             {/* Proof Image URL */}
             <div>
-              <label htmlFor="proof_img" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="proof_img" className="block text-sm font-medium text-purple-300 mb-2">
                 Proof Image URL
               </label>
               <input
@@ -196,14 +174,14 @@ const CreateService = () => {
                 type="text"
                 value={data.proof_img}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter proof image URL"
               />
             </div>
 
             {/* Category */}
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="category" className="block text-sm font-medium text-purple-300 mb-2">
                 Category
               </label>
               <input
@@ -213,14 +191,14 @@ const CreateService = () => {
                 required
                 value={data.category}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter service category"
               />
             </div>
 
             {/* Amount */}
             <div>
-              <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="amount" className="block text-sm font-medium text-purple-300 mb-2">
                 Amount
               </label>
               <input
@@ -230,14 +208,14 @@ const CreateService = () => {
                 required
                 value={data.amount}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter service amount"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-purple-300 mb-2">
                 Email
               </label>
               <input
@@ -247,14 +225,14 @@ const CreateService = () => {
                 required
                 value={data.email}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter your email"
               />
             </div>
 
             {/* Mobile Number */}
             <div>
-              <label htmlFor="mobile" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="mobile" className="block text-sm font-medium text-purple-300 mb-2">
                 Mobile Number
               </label>
               <input
@@ -264,7 +242,7 @@ const CreateService = () => {
                 required
                 value={data.mobile}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter your mobile number"
               />
             </div>
@@ -275,8 +253,8 @@ const CreateService = () => {
               disabled={loading}
               className={`w-full py-3 px-4 rounded-lg text-white font-medium
                 ${loading 
-                  ? 'bg-gray-400 cursor-not-allowed' 
-                  : 'bg-gray-700 hover:bg-gray-800 active:bg-gray-800'} 
+                  ? 'bg-purple-500/50 cursor-not-allowed' 
+                  : 'bg-purple-500 hover:bg-purple-600 active:bg-purple-700'} 
                 transition-colors duration-200`}
             >
               {loading ? (

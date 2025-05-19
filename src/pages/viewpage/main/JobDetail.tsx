@@ -36,8 +36,8 @@ const Spinner = () => {
   return (
     <div className="flex justify-center items-center h-64">
       <div className="relative">
-        <div className="w-12 h-12 rounded-full absolute border-4 border-solid border-gray-100"></div>
-        <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-solid border-gray-400 border-t-transparent"></div>
+        <div className="w-12 h-12 rounded-full absolute border-4 border-solid border-purple-500/20"></div>
+        <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-solid border-purple-500 border-t-transparent"></div>
       </div>
     </div>
   );
@@ -191,17 +191,20 @@ const JobDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4 md:p-8">
+    <div className="min-h-screen bg-black p-4 sm:p-8">
       <div className="max-w-4xl mx-auto">
         <button
           onClick={() => navigate(-1)}
-          className="mb-6 px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition duration-200 flex items-center"
+          className="mb-6 px-4 py-2 text-sm text-purple-400 bg-black/40 backdrop-blur-xl rounded-lg hover:bg-purple-500/20 border border-purple-500/20 flex items-center transition-all duration-300"
         >
-          <span className="mr-1">←</span> Back to Jobs
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Jobs
         </button>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+          <div className="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg mb-6">
             {error}
           </div>
         )}
@@ -210,7 +213,7 @@ const JobDetail = () => {
           <Spinner />
         ) : job ? (
           <>
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+            <div className="bg-black/40 backdrop-blur-xl rounded-xl border border-purple-500/20 overflow-hidden mb-6">
               <div className="relative">
                 <img
                   src={job.imageUri}
@@ -224,13 +227,13 @@ const JobDetail = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                  <h1 className="text-2xl md:text-4xl font-bold text-white mb-2">{job.title}</h1>
+                  <h1 className="text-2xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">{job.title}</h1>
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm">
+                    <span className="bg-purple-500/20 backdrop-blur-sm text-purple-400 px-3 py-1 rounded-full text-sm border border-purple-500/20">
                       {job.projectname}
                     </span>
                     {job.method && (
-                      <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm">
+                      <span className="bg-purple-500/20 backdrop-blur-sm text-purple-400 px-3 py-1 rounded-full text-sm border border-purple-500/20">
                         {job.method}
                       </span>
                     )}
@@ -240,23 +243,23 @@ const JobDetail = () => {
 
               <div className="p-6 md:p-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                  <div className="bg-blue-50 rounded-lg p-6 border border-blue-100">
+                  <div className="bg-black/40 backdrop-blur-xl rounded-lg p-6 border border-purple-500/20">
                     <div className="flex items-center mb-4">
-                      <span className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white mr-4">
+                      <span className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 mr-4 border border-purple-500/20">
                         $
                       </span>
-                      <h2 className="text-xl font-bold text-blue-800">Salary Range</h2>
+                      <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Salary Range</h2>
                     </div>
-                    <p className="text-3xl font-bold text-blue-900">
+                    <p className="text-3xl font-bold text-purple-400">
                       ${job.price_minimum.toLocaleString()}
-                      <span className="text-blue-400 mx-2">—</span>
+                      <span className="text-purple-500/50 mx-2">—</span>
                       ${job.price_maximum.toLocaleString()}
                     </p>
                   </div>
 
-                  <div className="bg-purple-50 rounded-lg p-6 border border-purple-100">
+                  <div className="bg-black/40 backdrop-blur-xl rounded-lg p-6 border border-purple-500/20">
                     <div className="flex items-center mb-4">
-                      <span className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white mr-4">
+                      <span className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 mr-4 border border-purple-500/20">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-5 w-5"
@@ -271,11 +274,11 @@ const JobDetail = () => {
                           <path d="M10 4a1 1 0 011 1v4.586l2.707 2.707a1 1 0 01-1.414 1.414l-3-3a1 1 0 01-.293-.707V5a1 1 0 011-1z" />
                         </svg>
                       </span>
-                      <h2 className="text-xl font-bold text-purple-800">Work Method</h2>
+                      <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Work Method</h2>
                     </div>
                     <div className="mt-2">
                       {renderWorkMethod(job.method)}
-                      <p className="mt-2 text-purple-700">
+                      <p className="mt-2 text-gray-400">
                         {job.method === 'Remote'
                           ? 'Work from anywhere in the world'
                           : job.method === 'Hybrid'
@@ -287,10 +290,10 @@ const JobDetail = () => {
                 </div>
 
                 <div className="mb-8">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4">About the Project</h2>
-                  <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">{job.projectname}</h3>
-                    <p className="text-gray-600">
+                  <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">About the Project</h2>
+                  <div className="bg-black/40 backdrop-blur-xl rounded-lg p-6 border border-purple-500/20">
+                    <h3 className="text-lg font-medium text-white mb-2">{job.projectname}</h3>
+                    <p className="text-gray-400">
                       This exciting project requires a skilled {job.title} to join our team.
                       {job.method === 'Remote'
                         ? " You'll be working remotely,"
@@ -304,13 +307,13 @@ const JobDetail = () => {
                 </div>
 
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900 mb-4">Tech Stack</h2>
-                  <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
+                  <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">Tech Stack</h2>
+                  <div className="bg-black/40 backdrop-blur-xl rounded-lg p-6 border border-purple-500/20">
                     <div className="flex flex-wrap gap-2">
                       {job.stack.map((tech, index) => (
                         <span
                           key={index}
-                          className={`px-4 py-2 rounded-full text-sm font-medium ${getTechColor(tech)}`}
+                          className="px-4 py-2 rounded-full text-sm font-medium bg-purple-500/20 text-purple-400 border border-purple-500/20"
                         >
                           {tech}
                         </span>
@@ -321,31 +324,31 @@ const JobDetail = () => {
               </div>
             </div>
 
-            {/* Application section moved under job card */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+            {/* Application section */}
+            <div className="bg-black/40 backdrop-blur-xl rounded-xl border border-purple-500/20 overflow-hidden mb-6">
               <div className="p-6 md:p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Apply for this Position</h2>
+                <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-6">Apply for this Position</h2>
                 
                 {successMessage && (
-                  <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-6">
+                  <div className="bg-green-500/20 border border-green-500/30 text-green-400 px-4 py-3 rounded-lg mb-6">
                     {successMessage}
                   </div>
                 )}
 
                 {applyError && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+                  <div className="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg mb-6">
                     {applyError}
                   </div>
                 )}
 
                 {hasApplied ? (
-                  <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded text-center">
+                  <div className="bg-purple-500/20 border border-purple-500/30 text-purple-400 px-4 py-3 rounded-lg text-center">
                     You've already applied for this position!
                   </div>
                 ) : (
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-400">
                         Name
                       </label>
                       <input
@@ -354,13 +357,13 @@ const JobDetail = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Your full name"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-2 bg-black/40 border border-purple-500/20 rounded-lg focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 text-gray-400 placeholder-gray-500"
                       />
                     </div>
                     <div className="space-y-2">
                       <label
                         htmlFor="description"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-gray-400"
                       >
                         Description
                       </label>
@@ -369,14 +372,14 @@ const JobDetail = () => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Briefly describe your experience and interest"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-2 bg-black/40 border border-purple-500/20 rounded-lg focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 text-gray-400 placeholder-gray-500"
                         rows={4}
                       />
                     </div>
                     <div className="space-y-2">
                       <label
                         htmlFor="telegramUsername"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-gray-400"
                       >
                         Telegram Username
                       </label>
@@ -386,13 +389,13 @@ const JobDetail = () => {
                         value={telegramUsername}
                         onChange={(e) => setTelegramUsername(e.target.value)}
                         placeholder="@YourTelegramUsername"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-2 bg-black/40 border border-purple-500/20 rounded-lg focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 text-gray-400 placeholder-gray-500"
                       />
                     </div>
                     <div className="space-y-2">
                       <label
                         htmlFor="resumeUrl"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-gray-400"
                       >
                         Resume/CV URL
                       </label>
@@ -402,7 +405,7 @@ const JobDetail = () => {
                         value={resumeUrl}
                         onChange={(e) => setResumeUrl(e.target.value)}
                         placeholder="https://example.com/your-resume.pdf"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-2 bg-black/40 border border-purple-500/20 rounded-lg focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 text-gray-400 placeholder-gray-500"
                       />
                       <p className="text-xs text-gray-500">
                         Make sure your resume is publicly accessible at this URL
@@ -412,16 +415,16 @@ const JobDetail = () => {
                     <button
                       onClick={handleApply}
                       disabled={applyLoading}
-                      className={`w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-lg shadow-lg transition duration-300 flex items-center justify-center ${
+                      className={`w-full py-4 bg-purple-500/20 text-purple-400 font-bold rounded-lg border border-purple-500/20 transition-all duration-300 flex items-center justify-center ${
                         applyLoading
                           ? 'opacity-70 cursor-not-allowed'
-                          : 'hover:from-indigo-700 hover:to-purple-700'
+                          : 'hover:bg-purple-500/30'
                       }`}
                     >
                       {applyLoading ? (
                         <>
                           <svg
-                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-purple-400"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -466,51 +469,55 @@ const JobDetail = () => {
             </div>
 
             {applicationData && (
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Your Application</h2>
-                <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <div className="bg-black/40 backdrop-blur-xl rounded-xl border border-purple-500/20 p-6">
+                <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">Your Application</h2>
+                <div className="bg-black/40 backdrop-blur-xl rounded-lg p-6 border border-purple-500/20">
+                  <h3 className="text-lg font-medium text-white mb-2">
                     Applied for: {applicationData.application.jobTitle}
                   </h3>
                   {applicationData.application.name && (
-                    <p className="text-gray-600 mb-2">
-                      <strong>Name:</strong> {applicationData.application.name}
+                    <p className="text-gray-400 mb-2">
+                      <strong className="text-white">Name:</strong> {applicationData.application.name}
                     </p>
                   )}
                   {applicationData.application.description && (
-                    <p className="text-gray-600 mb-2">
-                      <strong>Description:</strong> {applicationData.application.description}
+                    <p className="text-gray-400 mb-2">
+                      <strong className="text-white">Description:</strong> {applicationData.application.description}
                     </p>
                   )}
                   {applicationData.application.telegramUsername && (
-                    <p className="text-gray-600 mb-2">
-                      <strong>Telegram Username:</strong> {applicationData.application.telegramUsername}
+                    <p className="text-gray-400 mb-2">
+                      <strong className="text-white">Telegram Username:</strong> {applicationData.application.telegramUsername}
                     </p>
                   )}
                   {applicationData.application.resumeUrl && (
-                    <p className="text-gray-600 mb-2">
-                      <strong>Resume URL:</strong>{' '}
+                    <p className="text-gray-400 mb-2">
+                      <strong className="text-white">Resume URL:</strong>{' '}
                       <a
                         href={applicationData.application.resumeUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-indigo-600 hover:underline"
+                        className="text-purple-400 hover:text-purple-300 transition-colors duration-200"
                       >
                         {applicationData.application.resumeUrl}
                       </a>
                     </p>
                   )}
-                  <p className="text-gray-600">
-                    <strong>Application Status:</strong>{' '}
-                    <span className="capitalize">{applicationData.application.status}</span>
+                  <p className="text-gray-400">
+                    <strong className="text-white">Application Status:</strong>{' '}
+                    <span className="capitalize text-purple-400">{applicationData.application.status}</span>
                   </p>
                 </div>
               </div>
             )}
           </>
         ) : (
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-            <p className="text-gray-600">Job not found.</p>
+          <div className="bg-black/40 backdrop-blur-xl p-6 rounded-xl border border-purple-500/20 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="mt-2 text-sm font-medium text-white">Job not found</h3>
+            <p className="mt-1 text-xs text-gray-400">The job you're looking for doesn't exist or may have been removed.</p>
           </div>
         )}
       </div>

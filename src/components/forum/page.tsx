@@ -129,40 +129,18 @@ const CreateForum = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-black bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black flex items-center justify-center p-4">
       {/* Toast Notifications */}
       <Toaster
-        position="top-center"
+        position="bottom-right"
         reverseOrder={false}
         toastOptions={{
           duration: 3000,
-          success: {
-            style: {
-              background: '#E8F5E9',
-              color: '#2E7D32',
-              border: '1px solid #C8E6C9',
-              padding: '16px',
-              borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-            },
-            iconTheme: {
-              primary: '#2E7D32',
-              secondary: '#E8F5E9',
-            },
-          },
-          error: {
-            style: {
-              background: '#FFEBEE',
-              color: '#D32F2F',
-              border: '1px solid #FFCDD2',
-              padding: '16px',
-              borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-            },
-            iconTheme: {
-              primary: '#D32F2F',
-              secondary: '#FFEBEE',
-            },
+          style: {
+            background: '#1a1a1a',
+            color: '#fff',
+            border: '1px solid rgba(168, 85, 247, 0.2)',
+            backdropFilter: 'blur(8px)',
           },
         }}
       />
@@ -171,16 +149,16 @@ const CreateForum = () => {
       <div className="w-full max-w-2xl">
         {/* Logo/Brand Section */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Create Forum</h1>
-          <p className="text-gray-600 mt-2">Start a new discussion with your community</p>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 bg-clip-text text-transparent animate-gradient-x">Create Forum</h1>
+          <p className="text-purple-300 mt-2">Start a new discussion with your community</p>
         </div>
 
         {/* Forum Creation Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8">
+        <div className="bg-gray-900/30 backdrop-blur-xl rounded-xl border border-purple-500/20 p-6 md:p-8">
           <form onSubmit={createForum} className="space-y-6">
             {/* Forum Name */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="name" className="block text-sm font-medium text-purple-300 mb-2">
                 Forum Name
               </label>
               <input
@@ -190,14 +168,14 @@ const CreateForum = () => {
                 required
                 value={data.name}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter forum name"
               />
             </div>
 
             {/* Description */}
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="description" className="block text-sm font-medium text-purple-300 mb-2">
                 Description
               </label>
               <textarea
@@ -206,14 +184,14 @@ const CreateForum = () => {
                 required
                 value={data.description}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter forum description"
               />
             </div>
 
             {/* Passcode */}
             <div>
-              <label htmlFor="passcode" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="passcode" className="block text-sm font-medium text-purple-300 mb-2">
                 Passcode
               </label>
               <input
@@ -222,14 +200,14 @@ const CreateForum = () => {
                 type="text"
                 value={data.passcode}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter passcode for private forum"
               />
             </div>
 
             {/* Forum Image URI */}
             <div>
-              <label htmlFor="imageUri" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="imageUri" className="block text-sm font-medium text-purple-300 mb-2">
                 Forum Image URI
               </label>
               <input
@@ -238,7 +216,7 @@ const CreateForum = () => {
                 type="text"
                 value={data.imageUri}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors duration-200"
+                className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-purple-500/20 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-colors duration-200"
                 placeholder="Enter image URI"
               />
               {data.imageUri && (
@@ -246,7 +224,7 @@ const CreateForum = () => {
                   <img
                     src={data.imageUri}
                     alt="Forum Preview"
-                    className="w-32 h-32 rounded-lg object-cover"
+                    className="w-32 h-32 rounded-lg object-cover border border-purple-500/20"
                   />
                 </div>
               )}
@@ -260,9 +238,9 @@ const CreateForum = () => {
                 type="checkbox"
                 checked={data.isPublic}
                 onChange={handleInputChange}
-                className="w-4 h-4 text-blue-600 border-gray-200 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-purple-500 border-purple-500/20 rounded focus:ring-purple-500 bg-gray-800/50"
               />
-              <label htmlFor="isPublic" className="ml-2 text-sm text-gray-700">
+              <label htmlFor="isPublic" className="ml-2 text-sm text-purple-300">
                 Make this forum public
               </label>
             </div>
@@ -273,8 +251,8 @@ const CreateForum = () => {
               disabled={loading}
               className={`w-full py-3 px-4 rounded-lg text-white font-medium
                 ${loading 
-                  ? 'bg-gray-400 cursor-not-allowed' 
-                  : 'bg-gray-700 hover:bg-gray-800 active:bg-gray-800'} 
+                  ? 'bg-purple-500/50 cursor-not-allowed' 
+                  : 'bg-purple-500 hover:bg-purple-600 active:bg-purple-700'} 
                 transition-colors duration-200`}
             >
               {loading ? (

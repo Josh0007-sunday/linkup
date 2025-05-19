@@ -19,8 +19,8 @@ const Spinner = () => {
   return (
     <div className="flex justify-center items-center h-64">
       <div className="relative">
-        <div className="w-12 h-12 rounded-full absolute border-4 border-solid border-gray-100"></div>
-        <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-solid border-gray-400 border-t-transparent"></div>
+        <div className="w-12 h-12 rounded-full absolute border-4 border-solid border-purple-500/20"></div>
+        <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-solid border-purple-500 border-t-transparent"></div>
       </div>
     </div>
   );
@@ -58,17 +58,20 @@ const MarketingPitchDetail = () => {
   }, [id]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8">
+    <div className="min-h-screen bg-black p-4 sm:p-8">
       <div className="max-w-5xl mx-auto">
         <button 
           onClick={() => navigate(-1)}
-          className="mb-6 px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition duration-200 flex items-center"
+          className="mb-6 px-4 py-2 text-sm text-purple-400 bg-black/40 backdrop-blur-xl rounded-lg hover:bg-purple-500/20 border border-purple-500/20 flex items-center transition-all duration-300"
         >
-          <span className="mr-1">←</span> Back
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back
         </button>
         
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+          <div className="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg mb-6">
             {error}
           </div>
         )}
@@ -76,7 +79,7 @@ const MarketingPitchDetail = () => {
         {loading ? (
           <Spinner />
         ) : pitch ? (
-          <div className="bg-white rounded-xl shadow-md overflow-hidden">
+          <div className="bg-black/40 backdrop-blur-xl rounded-xl border border-purple-500/20 overflow-hidden">
             {/* Hero Banner */}
             <div className="relative h-64 w-full">
               <img
@@ -84,7 +87,7 @@ const MarketingPitchDetail = () => {
                 alt="Hero Banner"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent"></div>
             </div>
             
             {/* Profile section */}
@@ -92,7 +95,7 @@ const MarketingPitchDetail = () => {
               {/* Profile and name */}
               <div className="flex flex-col md:flex-row items-center md:items-end">
                 <div className="relative">
-                  <div className="w-32 h-32 bg-white p-2 rounded-full shadow-md">
+                  <div className="w-32 h-32 bg-black/40 backdrop-blur-xl p-2 rounded-full border border-purple-500/20">
                     <img
                       src={pitch.profileImage}
                       alt={pitch.nameOrCompany}
@@ -107,60 +110,60 @@ const MarketingPitchDetail = () => {
                 
                 {/* Name */}
                 <div className="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
-                  <h1 className="text-3xl font-bold text-gray-900">{pitch.nameOrCompany}</h1>
+                  <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">{pitch.nameOrCompany}</h1>
                 </div>
               </div>
               
               {/* Bio */}
-              <div className="mt-8 pb-6 border-b border-gray-100">
-                <h2 className="text-xl font-semibold text-gray-900 mb-3">About</h2>
-                <p className="text-gray-700 leading-relaxed">
+              <div className="mt-8 pb-6 border-b border-purple-500/20">
+                <h2 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-3">About</h2>
+                <p className="text-gray-400 leading-relaxed">
                   {pitch.briefBio}
                 </p>
               </div>
               
               {/* Solution */}
-              <div className="py-6 border-b border-gray-100">
-                <h2 className="text-xl font-semibold text-gray-900 mb-3">Solution</h2>
-                <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+              <div className="py-6 border-b border-purple-500/20">
+                <h2 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-3">Solution</h2>
+                <p className="text-gray-400 leading-relaxed whitespace-pre-line">
                   {pitch.solutionLongText}
                 </p>
               </div>
               
               {/* YouTube Video */}
               {pitch.youtubeCode && (
-                <div className="py-6 border-b border-gray-100">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Watch Our Video</h2>
+                <div className="py-6 border-b border-purple-500/20">
+                  <h2 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">Watch Our Video</h2>
                   <div className="aspect-w-16 aspect-h-9">
                     <iframe
                       src={`https://www.youtube.com/embed/${pitch.youtubeCode}`}
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
-                      className="w-full h-64 md:h-96 rounded-lg"
+                      className="w-full h-64 md:h-96 rounded-lg border border-purple-500/20"
                     ></iframe>
                   </div>
                 </div>
               )}
               
               {/* Proof of Impact */}
-              <div className="py-6 border-b border-gray-100">
-                <h2 className="text-xl font-semibold text-gray-900 mb-3">Proof of Impact</h2>
-                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+              <div className="py-6 border-b border-purple-500/20">
+                <h2 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-3">Proof of Impact</h2>
+                <div className="bg-purple-500/20 border-l-4 border-purple-500 p-4 rounded">
+                  <p className="text-gray-400 leading-relaxed whitespace-pre-line">
                     {pitch.proofOfImpact}
                   </p>
                 </div>
               </div>
               
               {/* Partnership Tags */}
-              <div className="py-6 border-b border-gray-100">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Partnership Opportunities</h2>
+              <div className="py-6 border-b border-purple-500/20">
+                <h2 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">Partnership Opportunities</h2>
                 <div className="flex flex-wrap gap-2">
                   {pitch.partnershipTags.map((tag, index) => (
                     <span
                       key={index}
-                      className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition duration-200"
+                      className="px-4 py-2 bg-purple-500/20 text-purple-400 rounded-full text-sm font-medium border border-purple-500/20 hover:bg-purple-500/30 transition-all duration-300"
                     >
                       {tag}
                     </span>
@@ -170,16 +173,16 @@ const MarketingPitchDetail = () => {
               
               {/* Connect section */}
               <div className="py-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Connect</h2>
+                <h2 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">Connect</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {pitch.ctaUrl && (
                     <a 
                       href={pitch.ctaUrl} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="flex items-center p-4 bg-gradient-to-r from-gray-700 to-gray-800 text-white rounded-lg transition-transform hover:scale-102 hover:shadow-md"
+                      className="flex items-center p-4 bg-purple-500/20 text-purple-400 rounded-lg border border-purple-500/20 transition-all duration-300 hover:bg-purple-500/30"
                     >
-                      <span className="w-8 h-8 flex items-center justify-center bg-white/20 rounded-full text-white">
+                      <span className="w-8 h-8 flex items-center justify-center bg-purple-500/20 rounded-full text-purple-400 border border-purple-500/20">
                         🔗
                       </span>
                       <span className="ml-3 font-medium">Visit Website</span>
@@ -190,9 +193,9 @@ const MarketingPitchDetail = () => {
                       href={pitch.twitterUrl} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="flex items-center p-4 bg-gradient-to-r from-gray-700 to-gray-800 text-white rounded-lg transition-transform hover:scale-102 hover:shadow-md"
+                      className="flex items-center p-4 bg-purple-500/20 text-purple-400 rounded-lg border border-purple-500/20 transition-all duration-300 hover:bg-purple-500/30"
                     >
-                      <span className="w-8 h-8 flex items-center justify-center bg-white/20 rounded-full text-white text-sm">
+                      <span className="w-8 h-8 flex items-center justify-center bg-purple-500/20 rounded-full text-purple-400 border border-purple-500/20 text-sm">
                         X
                       </span>
                       <span className="ml-3 font-medium">Follow on Twitter</span>
@@ -203,8 +206,12 @@ const MarketingPitchDetail = () => {
             </div>
           </div>
         ) : (
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-            <p className="text-gray-600">Marketing pitch not found.</p>
+          <div className="bg-black/40 backdrop-blur-xl p-6 rounded-xl border border-purple-500/20 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="mt-2 text-sm font-medium text-white">Marketing pitch not found</h3>
+            <p className="mt-1 text-xs text-gray-400">The pitch you're looking for doesn't exist or may have been removed.</p>
           </div>
         )}
       </div>

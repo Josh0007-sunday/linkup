@@ -38,39 +38,17 @@ const ServiceList = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black py-12 px-4 sm:px-6 lg:px-8">
       <Toaster
         position="top-center"
         reverseOrder={false}
         toastOptions={{
           duration: 3000,
-          success: {
-            style: {
-              background: "#E8F5E9",
-              color: "#2E7D32",
-              border: "1px solid #C8E6C9",
-              padding: "16px",
-              borderRadius: "8px",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-            },
-            iconTheme: {
-              primary: "#2E7D32",
-              secondary: "#E8F5E9",
-            },
-          },
-          error: {
-            style: {
-              background: "#FFEBEE",
-              color: "#D32F2F",
-              border: "1px solid #FFCDD2",
-              padding: "16px",
-              borderRadius: "8px",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-            },
-            iconTheme: {
-              primary: "#D32F2F",
-              secondary: "#FFEBEE",
-            },
+          style: {
+            background: '#1a1a1a',
+            color: '#fff',
+            border: '1px solid rgba(168, 85, 247, 0.2)',
+            backdropFilter: 'blur(8px)',
           },
         }}
       />
@@ -78,34 +56,35 @@ const ServiceList = () => {
       <LinkUpCarousel />
 
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">All Services</h1>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 bg-clip-text text-transparent animate-gradient-x mb-8 text-center">
+          All Services
+        </h1>
 
         {loading ? (
           // Show skeleton loaders while loading
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div className="animate-pulse bg-gray-200 h-48 w-full"></div>
+              <div key={index} className="bg-gray-900/30 backdrop-blur-xl rounded-xl border border-purple-500/20 overflow-hidden">
+                <div className="animate-pulse bg-gray-800/50 h-48 w-full"></div>
                 <div className="p-6 space-y-4">
-                  <div className="animate-pulse bg-gray-200 h-6 w-3/4 rounded"></div>
-                  <div className="animate-pulse bg-gray-200 h-4 w-full rounded"></div>
-                  <div className="animate-pulse bg-gray-200 h-4 w-5/6 rounded"></div>
+                  <div className="animate-pulse bg-gray-800/50 h-6 w-3/4 rounded"></div>
+                  <div className="animate-pulse bg-gray-800/50 h-4 w-full rounded"></div>
+                  <div className="animate-pulse bg-gray-800/50 h-4 w-5/6 rounded"></div>
                   <div className="flex justify-between pt-2">
-                    <div className="animate-pulse bg-gray-200 h-4 w-1/3 rounded"></div>
-                    <div className="animate-pulse bg-gray-200 h-4 w-1/4 rounded"></div>
+                    <div className="animate-pulse bg-gray-800/50 h-4 w-1/3 rounded"></div>
+                    <div className="animate-pulse bg-gray-800/50 h-4 w-1/4 rounded"></div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-
         ) : (
           // Show actual content when loaded
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
               <div
                 key={service._id}
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                className="bg-gray-900/30 backdrop-blur-xl rounded-xl border border-purple-500/20 overflow-hidden hover:border-purple-500/40 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)] transition-all duration-300"
               >
                 {service.proof_img && (
                   <img
@@ -115,17 +94,17 @@ const ServiceList = () => {
                   />
                 )}
                 <div className="p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-2">{service.title}</h2>
-                  <p className="text-gray-600 mb-4">{service.overview}</p>
+                  <h2 className="text-xl font-semibold text-purple-400 mb-2">{service.title}</h2>
+                  <p className="text-gray-300 mb-4">{service.overview}</p>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium text-gray-500">{service.category}</span>
-                    <span className="text-lg font-bold text-gray-900">${service.amount}</span>
+                    <span className="text-sm font-medium text-purple-300">{service.category}</span>
+                    <span className="text-lg font-bold text-purple-400">${service.amount}</span>
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-400">
                     <p>Email: {service.email}</p>
                     <p>Mobile: {service.mobile}</p>
                   </div>
-                  <p className="text-xs text-gray-400 mt-4">
+                  <p className="text-xs text-gray-500 mt-4">
                     Created on: {new Date(service.createdAt).toLocaleDateString()}
                   </p>
                 </div>

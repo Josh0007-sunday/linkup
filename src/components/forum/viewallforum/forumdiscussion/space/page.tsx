@@ -247,11 +247,11 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
 
   return (
     <HuddleProvider client={huddleClient}>
-      <div className="p-4 bg-white rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+      <div className="p-4 bg-gray-900/30 backdrop-blur-xl rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+        <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-purple-400">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-blue-500"
+            className="h-5 w-5 text-purple-500"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -266,10 +266,10 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
 
         {loading ? (
           <div className="flex justify-center py-4">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500"></div>
           </div>
         ) : error ? (
-          <div className="p-3 bg-red-50 text-red-600 rounded mb-4">{error}</div>
+          <div className="p-3 bg-red-500/10 text-red-400 rounded-lg border border-red-500/20 mb-4">{error}</div>
         ) : (
           <div className="space-y-4">
             <div className="flex flex-wrap gap-2">
@@ -277,10 +277,10 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
                 <button
                   onClick={() => handleJoinRoom()}
                   disabled={roomState === "connected" || loading}
-                  className={`px-4 py-2 rounded-md transition-colors ${
+                  className={`px-4 py-2 rounded-full transition-all ${
                     roomState === "connected" || loading
-                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                      : "bg-blue-600 text-white hover:bg-blue-700"
+                      ? "bg-gray-700 text-gray-500 cursor-not-allowed"
+                      : "bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-md hover:shadow-lg transform hover:-translate-y-1"
                   }`}
                 >
                   Start Audio Space
@@ -290,7 +290,7 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
                 <button
                   onClick={() => handleJoinRoom()}
                   disabled={loading}
-                  className="px-4 py-2 rounded-md transition-colors bg-blue-600 text-white hover:bg-blue-700"
+                  className="px-4 py-2 rounded-full transition-all bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-md hover:shadow-lg transform hover:-translate-y-1"
                 >
                   Join Audio Space
                 </button>
@@ -299,17 +299,17 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
                 <>
                   <button
                     onClick={handleLeaveRoom}
-                    className="px-4 py-2 rounded-md transition-colors bg-red-600 text-white hover:bg-red-700"
+                    className="px-4 py-2 rounded-full transition-all bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600 shadow-md hover:shadow-lg transform hover:-translate-y-1"
                   >
                     {isCreator ? "End Space" : "Leave Space"}
                   </button>
                   <button
                     onClick={toggleAudio}
-                    className={`px-4 py-2 rounded-md transition-colors ${
+                    className={`px-4 py-2 rounded-full transition-all ${
                       isAudioOn
-                        ? "bg-yellow-500 text-white hover:bg-yellow-600"
-                        : "bg-green-600 text-white hover:bg-green-700"
-                    }`}
+                        ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600"
+                        : "bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600"
+                    } shadow-md hover:shadow-lg transform hover:-translate-y-1`}
                   >
                     {isAudioOn ? "Mute Mic" : "Unmute Mic"}
                   </button>
@@ -318,16 +318,16 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
             </div>
 
             {!spaceActive && !isCreator && (
-              <div className="p-3 bg-gray-50 rounded">
-                <p className="text-gray-600">Waiting for the creator to start an audio space.</p>
+              <div className="p-4 bg-gray-800/50 rounded-xl border border-purple-500/20">
+                <p className="text-purple-300/80">Waiting for the creator to start an audio space.</p>
               </div>
             )}
 
             {roomState === "connected" && (
               <div className="space-y-4">
                 {peerIds.length > 0 && (
-                  <div className="bg-gray-50 p-3 rounded">
-                    <p className="text-sm font-medium text-gray-700 mb-2">
+                  <div className="bg-gray-800/50 p-4 rounded-xl border border-purple-500/20">
+                    <p className="text-sm font-medium text-purple-400 mb-3">
                       Participants ({peerIds.length})
                     </p>
                     <div className="space-y-3">
@@ -338,8 +338,8 @@ const AudioSpace = ({ forumId, isCreator, token }: AudioSpaceProps) => {
                   </div>
                 )}
                 {peerIds.length === 0 && (
-                  <div className="bg-gray-50 p-3 rounded">
-                    <p className="text-sm text-gray-600">No other participants yet.</p>
+                  <div className="bg-gray-800/50 p-4 rounded-xl border border-purple-500/20">
+                    <p className="text-sm text-purple-300/80">No other participants yet.</p>
                   </div>
                 )}
               </div>
@@ -355,11 +355,11 @@ const RemotePeerAudio = ({ peerId }: { peerId: string }) => {
   const { stream: remoteAudioStream } = useRemoteAudio({ peerId });
 
   return remoteAudioStream ? (
-    <div className="flex items-center gap-3 bg-white p-2 rounded border">
-      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+    <div className="flex items-center gap-3 bg-gray-900/30 p-3 rounded-xl border border-purple-500/20">
+      <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center border border-purple-500/20">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4 text-blue-600"
+          className="h-4 w-4 text-purple-400"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
