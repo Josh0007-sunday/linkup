@@ -131,7 +131,6 @@ const Home = () => {
     articles: true
   });
 
-
   const API_BASE_URL = import.meta.env.VITE_CONNECTION;
 
   const getImageUrl = (imgPath: string | undefined | null): string | null => {
@@ -139,6 +138,25 @@ const Home = () => {
     if (typeof imgPath !== 'string') return null;
     if (imgPath.startsWith('http')) return imgPath;
     return `${API_BASE_URL}${imgPath.startsWith('/') ? '' : '/'}${imgPath}`;
+  };
+
+  // Add getTechColor function inside the component
+  const getTechColor = (tech: string) => {
+    const techColors: Record<string, string> = {
+      react: 'bg-purple-500/20 text-purple-300',
+      angular: 'bg-pink-500/20 text-pink-300',
+      vue: 'bg-green-500/20 text-green-300',
+      node: 'bg-blue-500/20 text-blue-300',
+      python: 'bg-yellow-500/20 text-yellow-300',
+      javascript: 'bg-orange-500/20 text-orange-300',
+      typescript: 'bg-indigo-500/20 text-indigo-300',
+      aws: 'bg-red-500/20 text-red-300',
+      docker: 'bg-cyan-500/20 text-cyan-300',
+      kubernetes: 'bg-teal-500/20 text-teal-300',
+    };
+
+    const matchingTech = Object.keys(techColors).find((key) => tech.toLowerCase().includes(key));
+    return matchingTech ? techColors[matchingTech] : 'bg-purple-500/20 text-purple-300';
   };
 
   // Fetch users from the backend
@@ -307,9 +325,6 @@ const Home = () => {
     }
   }, [jobs]);
 
-  const handleExploreClick = () => {
-    navigate("/viewpage/marketing-pitches");
-  };
 
   const handleViewTalentClick = () => {
     navigate(`/viewpage/users`);
@@ -493,7 +508,7 @@ const Home = () => {
                         {job.stack.slice(0, 3).map((tech, index) => (
                           <span
                             key={index}
-                            className="px-1.5 py-0.5 bg-purple-500/20 text-purple-300 rounded-full text-xs"
+                            className={`px-1.5 py-0.5 rounded-full text-xs ${getTechColor(tech)}`}
                           >
                             {tech}
                           </span>

@@ -153,23 +153,6 @@ const JobDetail = () => {
     }
   };
 
-  const getTechColor = (tech: string) => {
-    const techColors: Record<string, string> = {
-      react: 'bg-blue-100 text-blue-700',
-      angular: 'bg-red-100 text-red-700',
-      vue: 'bg-green-100 text-green-700',
-      node: 'bg-green-100 text-green-700',
-      python: 'bg-blue-100 text-blue-700',
-      javascript: 'bg-yellow-100 text-yellow-800',
-      typescript: 'bg-blue-100 text-blue-700',
-      aws: 'bg-orange-100 text-orange-700',
-      docker: 'bg-blue-100 text-blue-700',
-      kubernetes: 'bg-blue-100 text-blue-700',
-    };
-
-    const matchingTech = Object.keys(techColors).find((key) => tech.toLowerCase().includes(key));
-    return matchingTech ? techColors[matchingTech] : 'bg-gray-100 text-gray-700';
-  };
 
   const renderWorkMethod = (method: string) => {
     const methodClasses = {

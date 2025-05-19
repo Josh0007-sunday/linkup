@@ -210,6 +210,8 @@ const ViewAllUsers = () => {
           ← Back
         </button>
 
+        <LinkUpCarousel />
+
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Column - Filters (30%) */}
           <div className="w-full lg:w-[30%]">
