@@ -223,8 +223,14 @@ const BountyDetails = () => {
 
           {/* About the Bounty */}
           <div className="mb-4 sm:mb-6">
-            <h2 className="text-lg sm:text-xl font-semibold text-purple-400 mb-2">About the Bounty</h2>
-            <p className="text-gray-300 leading-relaxed">{bounty.details}</p>
+            <h2 className="text-lg sm:text-xl font-semibold text-purple-400 mb-4">About the Bounty</h2>
+            <div className="bg-gray-800/30 rounded-lg p-4 sm:p-6 border border-purple-500/20">
+              <div className="prose prose-invert max-w-none">
+                <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
+                  {bounty.details}
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Additional Details */}

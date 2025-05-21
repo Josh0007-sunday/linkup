@@ -121,7 +121,7 @@ const CreateArticle = () => {
                 loading
                   ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
                   : 'bg-purple-500/20 text-purple-300 hover:bg-purple-500/30'
-              }`}
+                }`}
               type="button"
             >
               {loading ? 'Saving...' : 'Save Draft'}
@@ -133,7 +133,7 @@ const CreateArticle = () => {
                 publishing || !data.title || !data.content
                   ? 'bg-purple-500/30 cursor-not-allowed'
                   : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
-              }`}
+                }`}
               type="button"
             >
               {publishing ? 'Publishing...' : 'Publish'}

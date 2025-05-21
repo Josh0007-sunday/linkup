@@ -75,9 +75,6 @@ const BountyCarousel: React.FC<BountyCarouselProps> = ({ bounties }) => {
                       {bounty.tag}
                     </span>
                   </div>
-                  <p className="text-base text-gray-800 mb-3 line-clamp-3 font-medium">
-                    {bounty.details}
-                  </p>
                   <div className="flex items-center space-x-3 text-sm font-semibold text-gray-900">
                     <span>💰 {bounty.total_prizes} USDC</span>
                     <span>•</span>
